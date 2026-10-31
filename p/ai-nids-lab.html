@@ -21,6 +21,8 @@
 <meta name="google-site-verification" content="9FHzK0T2MlxLEmw8k1gnPzawKyXvbkJhKm1MKYsDFh4" />
 <meta name="msvalidate.01" content="071B769B591B43B1773023FFFF98515D" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="../img/icon-180.png">
+<link rel="manifest" href="../site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -28,10 +30,11 @@
 document.documentElement.classList.add('js');
 setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loading');b.classList.add('ready');var l=document.getElementById('loader');if(l)l.classList.add('done','gone');document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});},5000);
 </script>
-<link rel="stylesheet" href="../assets/site.css?v=23">
-<link rel="stylesheet" href="../assets/project.css?v=23">
+<link rel="stylesheet" href="../assets/site.css?v=24">
+<link rel="stylesheet" href="../assets/project.css?v=24">
 </head>
 <body class="proj" style="--c1:#ff7a45;--c2:#34f5b0">
+<a class="skip" href="#main"><span lang="az">Məzmuna keç</span><span lang="en">Skip to content</span></a>
 <div id="curtain" aria-hidden="true"><b>ayfar</b></div>
 <canvas id="net" aria-hidden="true"></canvas>
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -48,16 +51,24 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
       <a href="../#about" data-nav><span lang="az">Haqqımda</span><span lang="en">About</span></a>
       <a href="../#contact" data-nav><span lang="az">Əlaqə</span><span lang="en">Contact</span></a>
     </nav>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="mnav"><span class="sr"><span lang="az">Menyu</span><span lang="en">Menu</span></span><i></i><i></i></button>
     <div class="lang" role="group" aria-label="Language">
       <span class="pill"></span>
       <button type="button" data-set-lang="az" aria-pressed="true">AZ</button>
       <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
     </div>
   </div>
+  <nav class="mnav" id="mnav" aria-label="Mobile">
+    <a href="../#projects" data-nav><span lang="az">Layihələr</span><span lang="en">Projects</span></a>
+    <a href="../#services" data-nav><span lang="az">Xidmətlər</span><span lang="en">Services</span></a>
+    <a href="../#about" data-nav><span lang="az">Haqqımda</span><span lang="en">About</span></a>
+    <a href="../#contact" data-nav><span lang="az">Əlaqə</span><span lang="en">Contact</span></a>
+    <a class="mnav-wa" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span>WhatsApp · +994 77 217 23 58</span></a>
+  </nav>
 </header>
-<a class="wa-float" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span><span lang="az">Yazın</span><span lang="en">Message</span></span></a>
+<aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span><span lang="az">Yazın</span><span lang="en">Message</span></span></a></aside>
 
-<main>
+<main id="main">
   <section class="p-hero wrap">
     <a class="back" href="../#projects" data-nav>← <span lang="az">Bütün layihələr</span><span lang="en">All projects</span></a>
     <div class="p-tags reveal-hero"><span class="tag research"><span lang="az">Tədqiqat · Şəbəkə</span><span lang="en">Research · Network</span></span><span class="tag on"><span lang="az">canlı</span><span lang="en">live</span></span><span class="p-num">05 / 10</span></div>
@@ -82,7 +93,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
       <div lang="az"><p>Neyron şəbəkə şəbəkə hücumlarını 99.9% dəqiqliklə tanıya bilər. Bəs hücumçu öz trafikini bir az dəyişsə, nə olur? Bu tədqiqat məhz bunu ölçür.</p><p>MLP və 1D-CNN modelləri iki datasetdə öyrədilib: köhnə KDD Cup 1999 və daha müasir UNSW-NB15. Sonra FGSM və PGD hücumları ilə iki təhlükə modeli altında yoxlanılıb. Adversarial təlim müdafiə kimi sınanıb, hücumların gradient boosted ağaclara keçib-keçmədiyi ölçülüb, qərarlar Integrated Gradients ilə izah olunub.</p><p>Əsas nəticə: KDD-də davamlı görünən detektorlar UNSW-NB15-də çökür, standart müdafiə isə orada iflasa uğrayır.</p></div><div lang="en"><p>A neural network can detect network intrusions with 99.9% accuracy. But what happens when the attacker slightly reshapes its own traffic? That is what this study measures.</p><p>MLP and 1D-CNN models were trained on two datasets, the old KDD Cup 1999 and the newer UNSW-NB15, then attacked with FGSM and PGD under two threat models. Adversarial training is tested as a defence, transfer to gradient-boosted trees is measured, and decisions are explained with Integrated Gradients.</p><p>The headline: detectors that look robust on KDD break on UNSW-NB15, and the standard defence collapses there.</p></div>
       <div class="note" lang="az">Streamlit tətbiqi boş qalanda yatır, ilk açılış bir neçə saniyə çəkə bilər.</div><div class="note" lang="en">The Streamlit app sleeps when idle, so the first load can take a few seconds.</div>
     </div>
-    <aside class="p-side reveal">
+    <div class="p-side reveal">
       <div class="metric big"><div class="v">3.7×</div><div class="d" lang="az">UNSW-NB15-də hücumlar normal trafikə 3.7 dəfə yaxındır, ona görə detektorlar orada çökür.</div><div class="d" lang="en">UNSW-NB15 attacks sit 3.7× closer to benign traffic, so detectors break there.</div></div>
       <div class="p-box">
         <div class="sec-num"><span lang="az">ƏSAS XÜSUSİYYƏTLƏR</span><span lang="en">HIGHLIGHTS</span></div>
@@ -93,7 +104,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
         <div class="chips"><span class="chip">PyTorch</span><span class="chip">1D-CNN</span><span class="chip">PGD / FGSM</span><span class="chip">Streamlit</span></div>
         <div class="p-url"><span>URL</span><a href="https://ai-nids-robustness.streamlit.app" target="_blank" rel="noopener">ai-nids-robustness.streamlit.app ↗</a></div>
       </div>
-    </aside>
+    </div>
   </section>
 
   <section class="wrap p-next">
@@ -101,7 +112,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
     <a class="next" href="agent-audit.html" data-nav style="--c1:#5b8cff;--c2:#ff4fd8"><small><span lang="az">Növbəti layihə</span><span lang="en">Next project</span> →</small><b><span lang="az">Agent Audit</span><span lang="en">Agent Audit</span></b></a>
   </section>
 </main>
-<footer><div class="wrap">© 2026 ayfar · <span lang="az">Ziya Əzizov</span><span lang="en">Ziya Azizov</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span lang="az">Bakıda hazırlanıb</span><span lang="en">Made in Baku</span></div></footer>
-<script src="../assets/site.js?v=23"></script>
+<footer><div class="wrap">© 2026 ayfar · <span lang="az">Ziya Əzizov</span><span lang="en">Ziya Azizov</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span lang="az">Bakıda hazırlanıb</span><span lang="en">Made in Baku</span></div></footer>
+<script src="../assets/site.js?v=24"></script>
 </body>
 </html>

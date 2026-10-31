@@ -209,3 +209,30 @@ section{padding:90px 0}
 .rev blockquote p::before{content:"“";color:var(--g);font:900 30px/0 var(--display);margin-right:4px;vertical-align:-.3em}
 .rev figcaption{display:flex;flex-direction:column;font-size:14px}
 .rev figcaption span{color:var(--muted)}
+
+/* long Azerbaijani words ("soruşulanlar") must fit 320px phones */
+.sec-head h2,.hs-head h2{font-size:clamp(32px,7vw,96px);overflow-wrap:anywhere}
+
+/* phones: the two "LIVE" labels under a preview overlapped */
+@media (max-width:600px){
+  .media .rec{display:none}
+  .media .badge{left:10px;bottom:10px;gap:6px}
+  .media .badge .tag{font-size:9.5px;padding:5px 8px}
+}
+
+/* phones and tablets: projects slide in as you scroll (desktop uses the pinned horizontal gallery) */
+.js .hs:not(.hs-on) .slide-media{opacity:0;transform:translateX(-14%) rotate(-3deg) scale(.92);transition:opacity .8s,transform 1s cubic-bezier(.2,.9,.2,1)}
+.js .hs:not(.hs-on) .slide:nth-child(even) .slide-media{transform:translateX(14%) rotate(3deg) scale(.92)}
+.js .hs:not(.hs-on) .slide-body > *{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .8s cubic-bezier(.2,.9,.2,1)}
+.js .hs:not(.hs-on) .slide.seen .slide-media,.js .hs:not(.hs-on) .slide.seen .slide-body > *{opacity:1;transform:none}
+.hs:not(.hs-on) .slide.seen .slide-body > :nth-child(2){transition-delay:.08s}
+.hs:not(.hs-on) .slide.seen .slide-body > :nth-child(3){transition-delay:.14s}
+.hs:not(.hs-on) .slide.seen .slide-body > :nth-child(4){transition-delay:.2s}
+.hs:not(.hs-on) .slide.seen .slide-body > :nth-child(5){transition-delay:.26s}
+.hs:not(.hs-on) .slide.seen .slide-body > :nth-child(6){transition-delay:.32s}
+.hs:not(.hs-on) .slide:not(.seen) .strip,.hs:not(.hs-on) .slide:not(.seen) .scene *{animation-play-state:paused!important}
+.hs:not(.hs-on) .slide.seen .media{animation:glow 1.6s .3s ease-out both}
+@keyframes glow{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--c1) 60%,transparent)}100%{box-shadow:0 30px 80px -20px rgba(0,0,0,.7),0 0 0 14px transparent}}
+
+/* keep the slide-in offset from widening the page on phones */
+.hs:not(.hs-on){overflow:hidden;overflow:clip}

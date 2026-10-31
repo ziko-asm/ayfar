@@ -8,11 +8,11 @@ import os
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "23"  # cache-busting for assets
+V = "24"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
-PHONE_SHOW = "+994 77 217 23 58"
+PHONE_SHOW = "+994\u00a077\u00a0217\u00a023\u00a058"
 WA = "https://wa.me/994772172358"
 WA_ORDER = WA + "?text=" + "Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram."
 EMAIL = "ziyaazizov9@gmail.com"
@@ -54,7 +54,7 @@ REVIEWS = []
 CATS = {
     "game": ("Oyunlar", "Games"),
     "research": ("Tədqiqat", "Research"),
-    "service": ("Xidmət və alətlər", "Services & tools"),
+    "service": ("Xidmət və alətlər", "Services &amp; tools"),
     "web": ("Biznes saytları", "Business websites"),
 }
 
@@ -232,7 +232,7 @@ P = [
                   "<b>Sürət, mobil və Google:</b> cavab müddəti, HTML ölçüsü, viewport, başlıq, təsvir."],
                  ["<b>Security:</b> HTTPS, certificate expiry, HSTS, CSP, clickjacking protection, version disclosure.",
                   "<b>E-mail:</b> SPF and DMARC records.",
-                  "<b>Speed, mobile & Google:</b> response time, HTML size, viewport, title, description."]),
+                  "<b>Speed, mobile &amp; Google:</b> response time, HTML size, viewport, title, description."]),
         chips=["Python", "FastAPI", "Vercel"],
         github="https://github.com/ziko-asm/saytyoxla",
         note=None,
@@ -253,7 +253,7 @@ P = [
                   "<b>Səbət və sifariş:</b> səbətə at, sifarişi təsdiq et.",
                   "<b>Dillər:</b> Azərbaycan, ingilis, rus."],
                  ["<b>Catalogue:</b> category filters, prices, product pages.",
-                  "<b>Cart & checkout:</b> add to cart and confirm the order.",
+                  "<b>Cart &amp; checkout:</b> add to cart and confirm the order.",
                   "<b>Languages:</b> Azerbaijani, English, Russian."]),
         chips=["JavaScript", "Backend API", "AZ · EN · RU", "Vercel"],
         github=None, note=None,
@@ -340,6 +340,8 @@ def head(title_az, title_en, desc, url, og, depth=""):
 <meta name="google-site-verification" content="9FHzK0T2MlxLEmw8k1gnPzawKyXvbkJhKm1MKYsDFh4" />
 <meta name="msvalidate.01" content="071B769B591B43B1773023FFFF98515D" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="{depth}img/icon-180.png">
+<link rel="manifest" href="{depth}site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -352,7 +354,8 @@ setTimeout(function(){{var b=document.body;if(!b)return;b.classList.remove('load
 
 
 def chrome_bits(home_href):
-    return f"""<div id="curtain" aria-hidden="true"><b>ayfar</b></div>
+    return f"""<a class="skip" href="#main">{T("Məzmuna keç", "Skip to content")}</a>
+<div id="curtain" aria-hidden="true"><b>ayfar</b></div>
 <canvas id="net" aria-hidden="true"></canvas>
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 <div class="grain" aria-hidden="true"></div>
@@ -368,14 +371,22 @@ def chrome_bits(home_href):
       <a href="{home_href}#about" data-nav>{T("Haqqımda", "About")}</a>
       <a href="{home_href}#contact" data-nav>{T("Əlaqə", "Contact")}</a>
     </nav>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="mnav"><span class="sr">{T("Menyu", "Menu")}</span><i></i><i></i></button>
     <div class="lang" role="group" aria-label="Language">
       <span class="pill"></span>
       <button type="button" data-set-lang="az" aria-pressed="true">AZ</button>
       <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
     </div>
   </div>
+  <nav class="mnav" id="mnav" aria-label="Mobile">
+    <a href="{home_href}#projects" data-nav>{T("Layihələr", "Projects")}</a>
+    <a href="{home_href}#services" data-nav>{T("Xidmətlər", "Services")}</a>
+    <a href="{home_href}#about" data-nav>{T("Haqqımda", "About")}</a>
+    <a href="{home_href}#contact" data-nav>{T("Əlaqə", "Contact")}</a>
+    <a class="mnav-wa" href="{WA_ORDER}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp · {PHONE_SHOW}</span></a>
+  </nav>
 </header>
-<a class="wa-float" href="{WA_ORDER}" target="_blank" rel="noopener" aria-label="WhatsApp">{WA_SVG}<span>{T("Yazın", "Message")}</span></a>
+<aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="{WA_ORDER}" target="_blank" rel="noopener" aria-label="WhatsApp">{WA_SVG}<span>{T("Yazın", "Message")}</span></a></aside>
 """
 
 
@@ -503,7 +514,7 @@ def llms_txt():
         "ayfar — Bakıdan olan mühəndis Ziya Əzizovun brendidir. Bizneslər üçün saytlar (landing page, korporativ sayt, "
         "onlayn mağaza), oyunlar və kibertəhlükəsizlik layihələri hazırlayır.",
         "",
-        f"Contact / Əlaqə: WhatsApp and phone {PHONE_SHOW}, e-mail {EMAIL}",
+        f"Contact / Əlaqə: WhatsApp and phone {PHONE}, e-mail {EMAIL}",
         "",
         "## Services / Xidmətlər",
         "",
@@ -592,7 +603,7 @@ def build_index():
         gh = f'<a class="btn small" href="{p["github"]}" target="_blank" rel="noopener">GitHub</a>' if p["github"] else ""
         slides.append(f"""
       <article class="slide" data-cat="{p['cat']}" style="--c1:{p['c1']};--c2:{p['c2']}">
-        <a class="slide-media tiltable" data-tilt="5" href="p/{p['slug']}.html" data-nav aria-label="{E(p['name'][0])}">{media_fixed(p, '')}</a>
+        <a class="slide-media tiltable" data-tilt="5" href="p/{p['slug']}.html" data-nav aria-label="{E(p['name'][0])}">{media_fixed(p, '', sizes="(min-width: 900px) 620px, 92vw")}</a>
         <div class="slide-body">
           <div class="slide-idx"><b>{i + 1:02d}</b> / {n:02d} · {T(*CATS[p['cat']])}</div>
           <h3>{T(*p['name'])}</h3>
@@ -623,15 +634,15 @@ def build_index():
 """
     page += chrome_bits("./")
     page += f"""
-<main id="top">
+<main id="main">
   <div class="wrap hero">
     <div class="eyebrow reveal-hero"><span class="live"></span>{T(f"Ziya Əzizov · Bakı · {n} canlı layihə", f"Ziya Azizov · Baku · {n} live projects")}</div>
-    <h1 class="word"><span>a</span><span>y</span><span>f</span><span>a</span><span>r</span></h1>
+    <h1 class="word" aria-label="ayfar"><span aria-hidden="true">a</span><span aria-hidden="true">y</span><span aria-hidden="true">f</span><span aria-hidden="true">a</span><span aria-hidden="true">r</span></h1>
     <p class="tagline reveal-hero d1">{T('Mən <span class="rot" data-words="saytlar|oyunlar|alətlər|layihələr">saytlar</span> yaradıram.', 'I build <span class="rot" data-words="websites|games|tools|projects">websites</span>.')}</p>
-    {T("Hazırladığım bütün saytlar, alətlər, oyunlar və layihələr bu səhifədədir. Aşağıdakı metroda qatarı özün sür, sonra layihələrə keç.", "Every site, tool, game and project I've built is on this page. Drive the metro below yourself, then scroll on to the projects.", "p", "lead reveal-hero d2")}
+    {T("Hazırladığım bütün saytlar, alətlər, oyunlar və layihələr bu səhifədədir. Aşağıdakı metroda qatarı özünüz sürün, sonra layihələrə keçin.", "Every site, tool, game and project I've built is on this page. Drive the metro below yourself, then scroll on to the projects.", "p", "lead reveal-hero d2")}
 
     <div class="mgame reveal-hero d3" id="gameWrap">
-      <canvas id="game" aria-label="Mini metro game"></canvas>
+      <canvas id="game" role="img" aria-label="Mini metro game"></canvas>
       <div class="g-hud">
         <div class="cash">₼ <b id="gCash">0</b></div>
         <div><b id="gSpd">0</b> KM/S</div>
@@ -774,7 +785,7 @@ def build_project(i, p):
     chips = "".join(f'<span class="chip">{E(c)}</span>' for c in p["chips"])
     st = T("canlı", "live") if p["status"] == "on" else T("müvəqqəti dayanıb", "offline for now")
     page += f"""
-<main>
+<main id="main">
   <section class="p-hero wrap">
     <a class="back" href="../#projects" data-nav>← {T("Bütün layihələr", "All projects")}</a>
     <div class="p-tags reveal-hero"><span class="tag {p['cat']}">{T(*p['tag'])}</span><span class="tag {p['status']}">{st}</span><span class="p-num">{i + 1:02d} / {len(P):02d}</span></div>
@@ -793,7 +804,7 @@ def build_project(i, p):
       <div lang="az">{body_az}</div><div lang="en">{body_en}</div>
       {note}
     </div>
-    <aside class="p-side reveal">
+    <div class="p-side reveal">
       <div class="metric big"><div class="v">{E(p['metric'][0])}</div>{T(p['metric'][1], p['metric'][2], 'div', 'd')}</div>
       <div class="p-box">
         <div class="sec-num">{T("ƏSAS XÜSUSİYYƏTLƏR", "HIGHLIGHTS")}</div>
@@ -804,7 +815,7 @@ def build_project(i, p):
         <div class="chips">{chips}</div>
         <div class="p-url"><span>URL</span><a href="{p['url']}" target="_blank" rel="noopener">{E(p['show'])} ↗</a></div>
       </div>
-    </aside>
+    </div>
   </section>
 
   <section class="wrap p-next">
@@ -817,6 +828,30 @@ def build_project(i, p):
     page += f'\n<script src="../assets/site.js?v={V}"></script>\n</body>\n</html>\n'
     os.makedirs(os.path.join(ROOT, "p"), exist_ok=True)
     with open(os.path.join(ROOT, "p", f"{p['slug']}.html"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(page)
+
+
+def build_404():
+    page = head("Səhifə tapılmadı — ayfar", "Page not found — ayfar", "Bu səhifə mövcud deyil.", CANON + "/", "img/og/home.png", "/")
+    page = page.replace('<link rel="canonical"', '<meta name="robots" content="noindex">\n<link rel="canonical"')
+    page += '</head>\n<body>\n' + chrome_bits("/")
+    page += f"""
+<main id="main">
+  <section class="nf wrap">
+    <div class="nf-code" aria-hidden="true">404</div>
+    {T("Bu stansiya hələ açılmayıb", "This station isn't open yet", "h1")}
+    {T("Axtardığınız səhifə yoxdur və ya yeri dəyişib. Ana səhifəyə qayıdın və ya birbaşa yazın.", "The page you're looking for doesn't exist or has moved. Go back home or message me directly.", "p")}
+    <div class="nf-go">
+      <a class="btn primary magnet" href="/">{T("Ana səhifə", "Home")} <span class="arr">→</span></a>
+      <a class="btn magnet" href="/#projects">{T("Layihələr", "Projects")} <span class="arr">→</span></a>
+      <a class="btn magnet" href="{WA_ORDER}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp</span></a>
+    </div>
+  </section>
+</main>
+"""
+    page += footer()
+    page += f'\n<script src="/assets/site.js?v={V}"></script>\n</body>\n</html>\n'
+    with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(page)
 
 
@@ -857,5 +892,6 @@ if __name__ == "__main__":
     build_seo_files()
     for i, p in enumerate(P):
         build_project(i, p)
+    build_404()
     build_vercel_json()
     print("built index.html and", len(P), "project pages")

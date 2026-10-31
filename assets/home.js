@@ -275,6 +275,13 @@
       if(!on || !s) return;
       scrollTo({top:targetFor(slides.indexOf(s))});
     });
+    /* phones/tablets: no pinned gallery, so reveal each project as it scrolls into view */
+    if('IntersectionObserver' in window && !reduce){
+      var sio = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); sio.unobserve(e.target); } });
+      }, {threshold:.18, rootMargin:'0px 0px -8% 0px'});
+      slides.forEach(function(s){ sio.observe(s); });
+    } else slides.forEach(function(s){ s.classList.add('seen'); });
     addEventListener('scroll', onScroll, {passive:true});
     var rz; addEventListener('resize', function(){ clearTimeout(rz); rz = setTimeout(layout, 150); });
     addEventListener('load', layout);
@@ -283,6 +290,7 @@
     /* fetch and decode every preview up front, while the visitor is still in the hero */
     var imgs = [].slice.call(hs.querySelectorAll('img'));
     function warm(){
+      if(!on) return;
       imgs.forEach(function(im, i){
         setTimeout(function(){
           im.loading = 'eager';
