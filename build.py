@@ -8,7 +8,7 @@ import os
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "25"  # cache-busting for assets
+V = "26"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -51,7 +51,11 @@ STEPS = [
 
 # Client reviews: (quote_az, quote_en, name, business). The section stays hidden while this is empty.
 # Add only real quotes from real clients.
-REVIEWS = []
+REVIEWS = [
+    ("Ziya MANSIA üçün çox gözəl və sürətli onlayn mağaza hazırladı. Brendimizin ruhunu tam başa düşdü, sifarişlər birbaşa WhatsApp-a gəlir. Hər mərhələdə bizimlə məsləhətləşdi. Tövsiyə edirəm!",
+     "Ziya built a beautiful, fast online shop for MANSIA. He fully understood the spirit of our brand, and orders come straight to WhatsApp. He consulted us at every stage. I recommend him!",
+     "Kamal", "MANSIA"),  # approved by the client on WhatsApp, 31.10.2026
+]
 
 CATS = {
     "game": ("Oyunlar", "Games"),

@@ -202,7 +202,7 @@ section{padding:90px 0}
 .btn svg{position:relative;flex:none}
 
 /* reviews */
-.rev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.rev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:16px}
 .rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--line2);background:rgba(8,11,17,.8)}
 .rev blockquote{margin:0 0 18px;font-size:17px;color:var(--soft)}
 .rev blockquote p{margin:0}
