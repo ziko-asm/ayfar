@@ -30,8 +30,8 @@
 document.documentElement.classList.add('js');
 setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loading');b.classList.add('ready');var l=document.getElementById('loader');if(l)l.classList.add('done','gone');document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});},5000);
 </script>
-<link rel="stylesheet" href="assets/site.css?v=24">
-<link rel="stylesheet" href="assets/home.css?v=24">
+<link rel="stylesheet" href="assets/site.css?v=25">
+<link rel="stylesheet" href="assets/home.css?v=25">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "@id": "https://ayfar.vercel.app/#ziya", "name": "Ziya Əzizov", "alternateName": ["ayfar", "Ziya Azizov", "Ziya Ezizov"], "url": "https://ayfar.vercel.app/", "image": "https://ayfar.vercel.app/img/ziya.jpg", "telephone": "+994772172358", "email": "ziyaazizov9@gmail.com", "jobTitle": "Proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisi", "address": {"@type": "PostalAddress", "addressLocality": "Bakı", "addressCountry": "AZ"}, "alumniOf": {"@type": "CollegeOrUniversity", "name": "Azərbaycan Dövlət Neft və Sənaye Universiteti"}, "affiliation": {"@type": "CollegeOrUniversity", "name": "Bakı Ali Neft Məktəbi"}, "knowsAbout": ["Proqramlaşdırma", "Kibertəhlükəsizlik", "Süni intellekt", "Veb saytlar", "Oyun hazırlama"], "sameAs": ["https://www.linkedin.com/in/ziya-azizov-91bba638a", "https://www.instagram.com/ziiyaa.a_/", "https://github.com/ziko-asm", "https://siloveu.itch.io"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": "https://ayfar.vercel.app/", "inLanguage": ["az", "en"], "publisher": {"@id": "https://ayfar.vercel.app/#ziya"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "@id": "https://ayfar.vercel.app/#ayfar", "name": "ayfar", "alternateName": "ayfar — veb sayt hazırlanması", "description": "Bakıda bizneslər üçün landing page, korporativ sayt və onlayn mağaza hazırlanması. Ziya Əzizov.", "url": "https://ayfar.vercel.app/#services", "logo": "https://ayfar.vercel.app/img/og/home.png", "image": "https://ayfar.vercel.app/img/og/home.png", "telephone": "+994772172358", "email": "ziyaazizov9@gmail.com", "founder": {"@id": "https://ayfar.vercel.app/#ziya"}, "areaServed": {"@type": "City", "name": "Bakı"}, "address": {"@type": "PostalAddress", "addressLocality": "Bakı", "addressCountry": "AZ"}, "knowsLanguage": ["az", "en", "ru"], "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Xidmətlər", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Landing page", "description": "Bir səhifəlik, sürətli sayt: biznesinizi, xidmətlərinizi və əlaqə məlumatlarınızı bir yerdə göstərir."}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Biznes saytı", "description": "Çoxsəhifəli korporativ sayt: xidmətlər, işlərinizdən şəkillər, haqqınızda və əlaqə səhifələri."}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Onlayn mağaza", "description": "Məhsul kataloqu, səbət və sifariş sistemi olan mağaza. Sifarişlər birbaşa WhatsApp-a gəlir."}}]}, "sameAs": ["https://www.instagram.com/ziiyaa.a_/", "https://www.linkedin.com/in/ziya-azizov-91bba638a", "https://github.com/ziko-asm"]}</script>
@@ -329,6 +329,19 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
     <div class="wrap">
       <div class="sec-head reveal"><div><div class="sec-num">02 — <span lang="az">XİDMƏTLƏR</span><span lang="en">SERVICES</span></div><h2><span lang="az">Sizə sayt</span><span lang="en">A site for you</span></h2></div></div>
       <p class="svc-lead reveal" lang="az">Bizneslər üçün sürətli, müasir və mobilə uyğun saytlar hazırlayıram. Yuxarıdakı bathshop.az, MANSIA və torna sexi saytları bu işlərdəndir.</p><p class="svc-lead reveal" lang="en">I build fast, modern, mobile-friendly websites for businesses. bathshop.az, MANSIA and the lathe workshop site above are examples.</p>
+      <div class="scan reveal" id="scan">
+        <div class="scan-intro">
+          <div class="sec-num"><span lang="az">PULSUZ YOXLAMA</span><span lang="en">FREE CHECK</span></div>
+          <h3 lang="az">Saytınız neçə bal alır?</h3><h3 lang="en">How does your site score?</h3>
+          <p lang="az">Ünvanı yazın: təhlükəsizlik, sürət, mobil uyğunluq və Google görünüşü bir neçə saniyəyə yoxlanılır. Yoxlamanı mənim hazırladığım <a href="https://saytyoxla.vercel.app" target="_blank" rel="noopener">SaytYoxla</a> aparır.</p><p lang="en">Enter an address: security, speed, mobile readiness and Google visibility are checked in seconds. The check runs on <a href="https://saytyoxla.vercel.app" target="_blank" rel="noopener">SaytYoxla</a>, a tool I built.</p>
+        </div>
+        <form class="scan-form" id="scanForm" data-api="https://saytyoxla.vercel.app/api/scan" data-site="https://saytyoxla.vercel.app" data-wa="https://wa.me/994772172358" novalidate>
+          <label class="sr" for="scanUrl"><span lang="az">Saytın ünvanı</span><span lang="en">Website address</span></label>
+          <input id="scanUrl" name="url" type="text" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" maxlength="300" placeholder="example.az" required>
+          <button class="btn primary" type="submit"><span class="scan-go"><span lang="az">Yoxla</span><span lang="en">Check</span></span><span class="scan-wait"><span lang="az">Yoxlanılır…</span><span lang="en">Checking…</span></span></button>
+        </form>
+        <div class="scan-out" id="scanOut" aria-live="polite"></div>
+      </div>
       <div class="svc-grid">
         <article class="svc reveal">
           <div class="svc-ic" aria-hidden="true">⚡</div>
@@ -449,7 +462,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
   </section>
 </main>
 <footer><div class="wrap">© 2026 ayfar · <span lang="az">Ziya Əzizov</span><span lang="en">Ziya Azizov</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span lang="az">Bakıda hazırlanıb</span><span lang="en">Made in Baku</span></div></footer>
-<script src="assets/site.js?v=24"></script>
-<script src="assets/home.js?v=24"></script>
+<script src="assets/site.js?v=25"></script>
+<script src="assets/home.js?v=25"></script>
 </body>
 </html>

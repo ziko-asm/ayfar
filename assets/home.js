@@ -211,6 +211,77 @@
     addEventListener('keyup', function(e){ if(/^(Space|ArrowUp|KeyW)$/.test(e.code)) up(); });
   }
 
+  /* =================== SITE CHECK (SaytYoxla API) =================== */
+  var sf = document.getElementById('scanForm');
+  if(sf){
+    var out = document.getElementById('scanOut'), inp = document.getElementById('scanUrl'), btn = sf.querySelector('button');
+    var API = sf.dataset.api, SITE = sf.dataset.site, WA = sf.dataset.wa;
+    var T = function(az, en){ return lang() === 'en' ? en : az; };
+    var el = function(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; };
+    var gradeColor = function(g){ return {A:'#34f5b0', B:'#7ee081', C:'#ffc94d', D:'#ff9a4d', F:'#ff4f6d'}[g] || '#8d99a8'; };
+    var host = function(u){ try{ return new URL(/^https?:\/\//i.test(u) ? u : 'https://' + u).hostname; }catch(e){ return u; } };
+    var busy = function(on){ sf.classList.toggle('busy', on); btn.disabled = on; inp.readOnly = on; };
+    var showError = function(msg){
+      out.textContent = ''; var e = el('div', 'scan-err', msg); e.setAttribute('role', 'alert'); out.appendChild(e);
+    };
+    var render = function(r){
+      out.textContent = '';
+      var card = el('div', 'scan-card'), col = gradeColor(r.grade), h = host(r.final_url || r.url);
+      card.style.setProperty('--gc', col);
+      // score ring
+      var ring = el('div', 'scan-ring');
+      ring.innerHTML = '<svg viewBox="0 0 120 120" aria-hidden="true"><circle class="t" cx="60" cy="60" r="52"/><circle class="v" cx="60" cy="60" r="52"/></svg>';
+      var mid = el('div', 'scan-mid'); mid.appendChild(el('b', null, r.grade)); mid.appendChild(el('small', null, r.score + ' / 100'));
+      ring.appendChild(mid); card.appendChild(ring);
+      var body = el('div', 'scan-body');
+      body.appendChild(el('div', 'scan-host', h));
+      body.appendChild(el('p', 'scan-sum', r.summary));
+      var probs = (r.findings || []).filter(function(f){ return f.status === 'fail' || f.status === 'warn'; })
+        .sort(function(a, b){ return (b.status === 'fail') - (a.status === 'fail') || (b.weight || 0) - (a.weight || 0); });
+      if(probs.length){
+        var ul = el('ul', 'scan-list');
+        probs.slice(0, 3).forEach(function(f){
+          var li = el('li', f.status);
+          li.appendChild(el('b', null, f.title));
+          if(f.fix) li.appendChild(el('span', null, f.fix));
+          ul.appendChild(li);
+        });
+        body.appendChild(ul);
+        if(probs.length > 3) body.appendChild(el('p', 'scan-more', T('və daha ' + (probs.length - 3) + ' tövsiyə tam hesabatda.', 'plus ' + (probs.length - 3) + ' more in the full report.')));
+      }
+      if(lang() === 'en') body.appendChild(el('p', 'scan-note', 'Findings are written in Azerbaijani.'));
+      var go = el('div', 'scan-go-row');
+      var msg = probs.length
+        ? 'Salam Ziya! Saytım (' + h + ') SaytYoxla-da ' + r.score + '/100 (' + r.grade + ') aldı. Problemləri düzəltmək istəyirəm.'
+        : 'Salam Ziya! Saytım (' + h + ') SaytYoxla-da ' + r.score + '/100 aldı. Sizinlə sayt barədə danışmaq istəyirəm.';
+      var wa = el('a', 'btn primary small', probs.length ? T('Bunları düzəldək', 'Fix these with me') : T('Yazın, danışaq', 'Message me'));
+      wa.href = WA + '?text=' + encodeURIComponent(msg); wa.target = '_blank'; wa.rel = 'noopener';
+      var full = el('a', 'btn small', T('Tam hesabat ↗', 'Full report ↗'));
+      full.href = SITE + '/?url=' + encodeURIComponent(h); full.target = '_blank'; full.rel = 'noopener';
+      go.appendChild(wa); go.appendChild(full); body.appendChild(go);
+      card.appendChild(body); out.appendChild(card);
+      // animate the ring after it is in the DOM
+      var v = ring.querySelector('.v'), C = 2 * Math.PI * 52;
+      v.style.strokeDasharray = C; v.style.strokeDashoffset = C;
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ v.style.strokeDashoffset = C * (1 - r.score / 100); }); });
+    };
+    sf.addEventListener('submit', function(e){
+      e.preventDefault();
+      var u = inp.value.trim();
+      if(!u){ showError(T('Saytın ünvanını yazın, məsələn: example.az', 'Enter a website address, e.g. example.az')); inp.focus(); return; }
+      busy(true); out.textContent = ''; out.appendChild(el('div', 'scan-load', T('Sayt yoxlanılır…', 'Checking the site…')));
+      var ctl = 'AbortController' in window ? new AbortController() : null, to = setTimeout(function(){ ctl && ctl.abort(); }, 60000);
+      fetch(API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({url:u}), signal:ctl ? ctl.signal : undefined})
+        .then(function(res){ return res.json().catch(function(){ return {}; }).then(function(d){ return {ok:res.ok, d:d}; }); })
+        .then(function(x){
+          if(x.ok && typeof x.d.score === 'number') render(x.d);
+          else showError(x.d && x.d.detail ? String(x.d.detail) : T('Yoxlamaq alınmadı. Bir az sonra yenidən cəhd edin.', 'The check failed. Please try again shortly.'));
+        })
+        .catch(function(){ showError(T('Bağlantı alınmadı. İnterneti yoxlayıb yenidən cəhd edin.', 'Could not connect. Check your connection and try again.')); })
+        .then(function(){ clearTimeout(to); busy(false); });
+    });
+  }
+
   /* =================== HORIZONTAL GALLERY =================== */
   var hs = document.querySelector('section.hs');
   if(hs){

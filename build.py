@@ -8,7 +8,7 @@ import os
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "24"  # cache-busting for assets
+V = "25"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -16,6 +16,8 @@ PHONE_SHOW = "+994\u00a077\u00a0217\u00a023\u00a058"
 WA = "https://wa.me/994772172358"
 WA_ORDER = WA + "?text=" + "Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram."
 EMAIL = "ziyaazizov9@gmail.com"
+SCAN_SITE = "https://saytyoxla.vercel.app"
+SCAN_API = SCAN_SITE + "/api/scan"
 INSTAGRAM = "https://www.instagram.com/ziiyaa.a_/"  # change after renaming the Instagram account
 
 # Services. price: None shows "price on request"; set e.g. ("150 ₼-dan", "from 150 ₼") to show a number.
@@ -566,6 +568,7 @@ def services_html():
     <div class="wrap">
       <div class="sec-head reveal"><div><div class="sec-num">02 — {T("XİDMƏTLƏR", "SERVICES")}</div><h2>{T("Sizə sayt", "A site for you")}</h2></div></div>
       {T("Bizneslər üçün sürətli, müasir və mobilə uyğun saytlar hazırlayıram. Yuxarıdakı bathshop.az, MANSIA və torna sexi saytları bu işlərdəndir.", "I build fast, modern, mobile-friendly websites for businesses. bathshop.az, MANSIA and the lathe workshop site above are examples.", "p", "svc-lead reveal")}
+      {scan_html()}
       <div class="svc-grid">{''.join(cards)}
       </div>
       <div class="sec-num steps-h reveal">{T("NECƏ İŞLƏYİRİK", "HOW IT WORKS")}</div>
@@ -577,6 +580,24 @@ def services_html():
       </div>
     </div>
   </section>"""
+
+
+def scan_html():
+    """Live site check powered by SaytYoxla (results come from its API; see assets/home.js)."""
+    return f"""<div class="scan reveal" id="scan">
+        <div class="scan-intro">
+          <div class="sec-num">{T("PULSUZ YOXLAMA", "FREE CHECK")}</div>
+          {T("Saytınız neçə bal alır?", "How does your site score?", "h3")}
+          {T('Ünvanı yazın: təhlükəsizlik, sürət, mobil uyğunluq və Google görünüşü bir neçə saniyəyə yoxlanılır. Yoxlamanı mənim hazırladığım <a href="' + SCAN_SITE + '" target="_blank" rel="noopener">SaytYoxla</a> aparır.',
+             'Enter an address: security, speed, mobile readiness and Google visibility are checked in seconds. The check runs on <a href="' + SCAN_SITE + '" target="_blank" rel="noopener">SaytYoxla</a>, a tool I built.', "p")}
+        </div>
+        <form class="scan-form" id="scanForm" data-api="{SCAN_API}" data-site="{SCAN_SITE}" data-wa="{WA}" novalidate>
+          <label class="sr" for="scanUrl">{T("Saytın ünvanı", "Website address")}</label>
+          <input id="scanUrl" name="url" type="text" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" maxlength="300" placeholder="example.az" required>
+          <button class="btn primary" type="submit"><span class="scan-go">{T("Yoxla", "Check")}</span><span class="scan-wait">{T("Yoxlanılır…", "Checking…")}</span></button>
+        </form>
+        <div class="scan-out" id="scanOut" aria-live="polite"></div>
+      </div>"""
 
 
 def reviews_html():
@@ -872,7 +893,7 @@ def build_vercel_json():
            f"script-src 'self' {' '.join(sorted(hashes))}; "
            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
            "font-src 'self' https://fonts.gstatic.com; "
-           "img-src 'self' data:; connect-src 'self'; "
+           "img-src 'self' data:; connect-src 'self' " + SCAN_SITE + "; "
            "frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests")
     headers = [
         ("X-Frame-Options", "SAMEORIGIN"),

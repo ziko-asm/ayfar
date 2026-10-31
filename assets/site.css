@@ -248,3 +248,10 @@ main:focus{outline:none}
 .nf h1{font:900 clamp(30px,5vw,60px)/1.05 var(--display);letter-spacing:-.04em;margin:18px 0 14px}
 .nf p{color:var(--soft);font-size:18px;max-width:52ch;margin:0 0 28px}
 .nf-go{display:flex;flex-wrap:wrap;gap:12px}
+
+/* touch screens: a tapped button must not stay in its hover colours */
+@media (hover:none){
+  .btn:hover::before{transform:translateY(101%)}
+  .btn:hover{color:var(--text);border-color:var(--line2)}
+  .btn.primary:hover{color:#000;border-color:var(--g)}
+}
