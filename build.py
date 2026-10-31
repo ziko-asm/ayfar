@@ -773,9 +773,42 @@ def build_project(i, p):
         f.write(page)
 
 
+def build_vercel_json():
+    """Security headers for Vercel. The CSP allows the inline <script> in head() by its hash,
+    so it is recomputed on every build and stays in sync if that script changes."""
+    import base64
+    import glob
+    import hashlib
+    import json
+    import re
+    hashes = set()
+    for f in [os.path.join(ROOT, "index.html")] + glob.glob(os.path.join(ROOT, "p", "*.html")):
+        with open(f, encoding="utf-8") as fh:
+            for m in re.finditer(r"<script>(.*?)</script>", fh.read(), re.S):
+                hashes.add("'sha256-" + base64.b64encode(hashlib.sha256(m.group(1).encode()).digest()).decode() + "'")
+    csp = ("default-src 'self'; "
+           f"script-src 'self' {' '.join(sorted(hashes))}; "
+           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+           "font-src 'self' https://fonts.gstatic.com; "
+           "img-src 'self' data:; connect-src 'self'; "
+           "frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests")
+    headers = [
+        ("X-Frame-Options", "SAMEORIGIN"),
+        ("X-Content-Type-Options", "nosniff"),
+        ("Referrer-Policy", "strict-origin-when-cross-origin"),
+        ("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()"),
+        ("Strict-Transport-Security", "max-age=63072000; includeSubDomains"),
+        ("Content-Security-Policy", csp),
+    ]
+    cfg = {"headers": [{"source": "/(.*)", "headers": [{"key": k, "value": v} for k, v in headers]}]}
+    with open(os.path.join(ROOT, "vercel.json"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(json.dumps(cfg, indent=2) + "\n")
+
+
 if __name__ == "__main__":
     build_index()
     build_seo_files()
     for i, p in enumerate(P):
         build_project(i, p)
+    build_vercel_json()
     print("built index.html and", len(P), "project pages")
