@@ -5,10 +5,22 @@ Run:  python build.py
 import html
 import os
 
+from ru import RU
+
+MISSING = []
+
+
+def R(en):
+    """Russian text for an English string (ru.py). Missing ones are collected and fail the build."""
+    if en in RU:
+        return RU[en]
+    MISSING.append(en)
+    return en
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "28"  # cache-busting for assets
+V = "29"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -316,10 +328,21 @@ P = [
 
 E = html.escape
 
+# Metric values and chips written in Azerbaijani get their own English text; Russian comes from ru.py.
+LOCAL_EN = {"₼ 2 mlrd": "₼ 2 bn", "30 san": "30 sec", "3 dil": "3 languages", "11 növ": "11 kinds",
+            "WhatsApp sifariş": "WhatsApp orders", "Mobil uyğun": "Mobile-friendly", ".az domen": ".az domain"}
+
+
+def L(text, tag="span", cls=""):
+    """A short label in all three languages, or as-is when it reads the same everywhere."""
+    if text in LOCAL_EN:
+        return T(E(text), E(LOCAL_EN[text]), tag, cls)
+    return f'<{tag} class="{cls}">{E(text)}</{tag}>' if cls else E(text)
+
 
 def T(az, en, tag="span", cls=""):
     c = f' class="{cls}"' if cls else ""
-    return f'<{tag}{c} lang="az">{az}</{tag}><{tag}{c} lang="en">{en}</{tag}>'
+    return f'<{tag}{c} lang="az">{az}</{tag}><{tag}{c} lang="en">{en}</{tag}><{tag}{c} lang="ru">{R(en)}</{tag}>'
 
 
 def head(title_az, title_en, desc, url, og, depth=""):
@@ -331,6 +354,7 @@ def head(title_az, title_en, desc, url, og, depth=""):
 <title>{E(title_az)}</title>
 <meta name="title-az" content="{E(title_az)}">
 <meta name="title-en" content="{E(title_en)}">
+<meta name="title-ru" content="{E(R(title_en))}">
 <meta name="description" content="{E(desc)}">
 <link rel="canonical" href="{url}">
 <meta property="og:type" content="website">
@@ -382,6 +406,7 @@ def chrome_bits(home_href):
       <span class="pill"></span>
       <button type="button" data-set-lang="az" aria-pressed="true">AZ</button>
       <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-set-lang="ru" aria-pressed="false">RU</button>
     </div>
   </div>
   <nav class="mnav" id="mnav" aria-label="Mobile">
@@ -489,7 +514,7 @@ def schema():
         "sameAs": ["https://www.linkedin.com/in/ziya-azizov-91bba638a", INSTAGRAM, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
     }
     site = {"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": CANON + "/",
-            "inLanguage": ["az", "en"], "publisher": {"@id": CANON + "/#ziya"}}
+            "inLanguage": ["az", "en", "ru"], "publisher": {"@id": CANON + "/#ziya"}}
     service = {
         "@context": "https://schema.org", "@type": "ProfessionalService", "@id": CANON + "/#ayfar",
         "name": "ayfar", "alternateName": "ayfar — veb sayt hazırlanması",
@@ -560,12 +585,13 @@ def services_html():
         price = T(*s["price"]) if s["price"] else T("Qiymət layihəyə görə", "Price on request")
         fa = "".join(f"<li>{x}</li>" for x in s["feats"][0])
         fe = "".join(f"<li>{x}</li>" for x in s["feats"][1])
+        fr = "".join(f"<li>{R(x)}</li>" for x in s["feats"][1])
         cards.append(f"""
         <article class="svc reveal">
           <div class="svc-ic" aria-hidden="true">{s['icon']}</div>
           <h3>{T(*s['name'])}</h3>
           {T(s['desc'][0], s['desc'][1], 'p')}
-          <ul lang="az">{fa}</ul><ul lang="en">{fe}</ul>
+          <ul lang="az">{fa}</ul><ul lang="en">{fe}</ul><ul lang="ru">{fr}</ul>
           <div class="svc-price">{price}</div>
           <a class="btn small magnet" href="{WA_ORDER}" target="_blank" rel="noopener">{T("Təklif al", "Get a quote")} <span class="arr">→</span></a>
         </article>""")
@@ -638,7 +664,7 @@ def build_index():
           <h3>{T(*p['name'])}</h3>
           <div class="url">{E(p['show'])}</div>
           {T(p['summary'][0], p['summary'][1], 'p', 'sum')}
-          <div class="metric"><div class="v">{E(p['metric'][0])}</div>{T(p['metric'][1], p['metric'][2], 'div', 'd')}</div>
+          <div class="metric"><div class="v">{L(p['metric'][0])}</div>{T(p['metric'][1], p['metric'][2], 'div', 'd')}</div>
           <div class="slide-go">
             <a class="btn primary small magnet" href="p/{p['slug']}.html" data-nav>{T('Ətraflı', 'Details')}<span class="arr">→</span></a>
             <a class="btn small magnet" href="{p['url']}" target="_blank" rel="noopener">{T(*p['go'])} <span>↗</span></a>
@@ -742,6 +768,7 @@ def build_index():
         <div class="reveal">
           <p class="big" lang="az">Salam, mən <em>Ziya Əzizovam</em>. İnternetdə <em>ayfar</em> kimi tanınıram.</p>
           <p class="big" lang="en">Hi, I'm <em>Ziya Azizov</em>, known online as <em>ayfar</em>.</p>
+          <p class="big" lang="ru">Привет, я <em>Зия Азизов</em>, в сети известен как <em>ayfar</em>.</p>
           {T("2005-ci ildə Bakı şəhərində anadan olmuşam və Bakıda yaşayıram. Proqramlaşdırma, kibertəhlükəsizlik və süni intellekt ilə məşğul olan mühəndisəm.", "I was born in Baku in 2005 and still live there. I'm an engineer working in programming, cybersecurity and artificial intelligence.", "p")}
           {T("Bakalavr təhsilimi Azərbaycan Dövlət Neft və Sənaye Universitetində (ADNSU) Mexatronika və Robototexnika ixtisası üzrə almışam. Hazırda Bakı Ali Neft Məktəbində (BHOS) texniki sistemlərdə idarəetmə üzrə magistr təhsili alıram.", "I earned my bachelor's degree in Mechatronics and Robotics at Azerbaijan State Oil and Industry University (ASOIU). I'm now studying for a master's degree in control of technical systems at Baku Higher Oil School (BHOS).", "p")}
           {T("Bu dünyanı mənə bakalavrın 1-ci kursunda keçdiyimiz <b>Fundamentals of Programming</b> fənni tanıtdı. 2023-cü ildə, hələ 2-ci kursda ikən proqramlaşdırma və kibertəhlükəsizliyə ciddi maraq saldım və işə öz kompüterimə <b>Kali Linux</b> əməliyyat sistemini quraşdırmaqla, özüm başladım.", "This world was opened to me by the <b>Fundamentals of Programming</b> course in my first year. In 2023, in my second year, I got seriously into programming and cybersecurity and started on my own by installing <b>Kali Linux</b> on my computer.", "p")}
@@ -807,11 +834,13 @@ def build_project(i, p):
     page += chrome_bits("../")
     body_az = "".join(f"<p>{x}</p>" for x in p["body"][0])
     body_en = "".join(f"<p>{x}</p>" for x in p["body"][1])
+    body_ru = "".join(f"<p>{R(x)}</p>" for x in p["body"][1])
     bul_az = "".join(f"<li>{x}</li>" for x in p["bullets"][0])
     bul_en = "".join(f"<li>{x}</li>" for x in p["bullets"][1])
+    bul_ru = "".join(f"<li>{R(x)}</li>" for x in p["bullets"][1])
     note = f'{T(p["note"][0], p["note"][1], "div", "note")}' if p["note"] else ""
     gh = f'<a class="btn magnet" href="{p["github"]}" target="_blank" rel="noopener">GitHub <span class="arr">→</span></a>' if p["github"] else ""
-    chips = "".join(f'<span class="chip">{E(c)}</span>' for c in p["chips"])
+    chips = "".join(L(c, "span", "chip") for c in p["chips"])
     st = T("canlı", "live") if p["status"] == "on" else T("müvəqqəti dayanıb", "offline for now")
     page += f"""
 <main id="main">
@@ -830,14 +859,14 @@ def build_project(i, p):
   <section class="wrap p-grid">
     <div class="p-text reveal">
       <div class="sec-num">{T("NƏ EDİR", "WHAT IT DOES")}</div>
-      <div lang="az">{body_az}</div><div lang="en">{body_en}</div>
+      <div lang="az">{body_az}</div><div lang="en">{body_en}</div><div lang="ru">{body_ru}</div>
       {note}
     </div>
     <div class="p-side reveal">
-      <div class="metric big"><div class="v">{E(p['metric'][0])}</div>{T(p['metric'][1], p['metric'][2], 'div', 'd')}</div>
+      <div class="metric big"><div class="v">{L(p['metric'][0])}</div>{T(p['metric'][1], p['metric'][2], 'div', 'd')}</div>
       <div class="p-box">
         <div class="sec-num">{T("ƏSAS XÜSUSİYYƏTLƏR", "HIGHLIGHTS")}</div>
-        <ul lang="az">{bul_az}</ul><ul lang="en">{bul_en}</ul>
+        <ul lang="az">{bul_az}</ul><ul lang="en">{bul_en}</ul><ul lang="ru">{bul_ru}</ul>
       </div>
       <div class="p-box">
         <div class="sec-num">{T("TEXNOLOGİYALAR", "BUILT WITH")}</div>
@@ -923,4 +952,10 @@ if __name__ == "__main__":
         build_project(i, p)
     build_404()
     build_vercel_json()
+    if MISSING:
+        import sys
+        miss = sorted(set(MISSING))
+        with open(os.path.join(ROOT, "ru_missing.txt"), "w", encoding="utf-8") as f:
+            f.write("\n".join(miss))
+        sys.exit(f"{len(miss)} strings have no Russian translation in ru.py (listed in ru_missing.txt)")
     print("built index.html and", len(P), "project pages")

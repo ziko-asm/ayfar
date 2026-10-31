@@ -6,6 +6,7 @@
 <title>ProvGuard — ayfar</title>
 <meta name="title-az" content="ProvGuard — ayfar">
 <meta name="title-en" content="ProvGuard — ayfar">
+<meta name="title-ru" content="ProvGuard — ayfar">
 <meta name="description" content="AI agentlərini prompt injection hücumlarından qoruyan açıq mənbəli Python kitabxanası. Mətnin zərərli olub-olmadığını təxmin etmir, hər həssas arqumentin hansı mənbədən gəldiyini yoxlayır.">
 <link rel="canonical" href="https://ayfar.vercel.app/p/provguard.html">
 <meta property="og:type" content="website">
@@ -30,11 +31,11 @@
 document.documentElement.classList.add('js');
 setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loading');b.classList.add('ready');var l=document.getElementById('loader');if(l)l.classList.add('done','gone');document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});},5000);
 </script>
-<link rel="stylesheet" href="../assets/site.css?v=28">
-<link rel="stylesheet" href="../assets/project.css?v=28">
+<link rel="stylesheet" href="../assets/site.css?v=29">
+<link rel="stylesheet" href="../assets/project.css?v=29">
 </head>
 <body class="proj" style="--c1:#34f5b0;--c2:#5b8cff">
-<a class="skip" href="#main"><span lang="az">Məzmuna keç</span><span lang="en">Skip to content</span></a>
+<a class="skip" href="#main"><span lang="az">Məzmuna keç</span><span lang="en">Skip to content</span><span lang="ru">Перейти к содержанию</span></a>
 <div id="curtain" aria-hidden="true"><b>ayfar</b></div>
 <canvas id="net" aria-hidden="true"></canvas>
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -46,36 +47,37 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
   <div class="bar">
     <a class="logo" href="../" data-nav><span class="dot"></span>ayfar</a>
     <nav class="links">
-      <a href="../#projects" data-nav><span lang="az">Layihələr</span><span lang="en">Projects</span></a>
-      <a href="../#services" data-nav><span lang="az">Xidmətlər</span><span lang="en">Services</span></a>
-      <a href="../#about" data-nav><span lang="az">Haqqımda</span><span lang="en">About</span></a>
-      <a href="../#contact" data-nav><span lang="az">Əlaqə</span><span lang="en">Contact</span></a>
+      <a href="../#projects" data-nav><span lang="az">Layihələr</span><span lang="en">Projects</span><span lang="ru">Проекты</span></a>
+      <a href="../#services" data-nav><span lang="az">Xidmətlər</span><span lang="en">Services</span><span lang="ru">Услуги</span></a>
+      <a href="../#about" data-nav><span lang="az">Haqqımda</span><span lang="en">About</span><span lang="ru">Обо мне</span></a>
+      <a href="../#contact" data-nav><span lang="az">Əlaqə</span><span lang="en">Contact</span><span lang="ru">Контакты</span></a>
     </nav>
-    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="mnav"><span class="sr"><span lang="az">Menyu</span><span lang="en">Menu</span></span><i></i><i></i></button>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="mnav"><span class="sr"><span lang="az">Menyu</span><span lang="en">Menu</span><span lang="ru">Меню</span></span><i></i><i></i></button>
     <div class="lang" role="group" aria-label="Language">
       <span class="pill"></span>
       <button type="button" data-set-lang="az" aria-pressed="true">AZ</button>
       <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-set-lang="ru" aria-pressed="false">RU</button>
     </div>
   </div>
   <nav class="mnav" id="mnav" aria-label="Mobile">
-    <a href="../#projects" data-nav><span lang="az">Layihələr</span><span lang="en">Projects</span></a>
-    <a href="../#services" data-nav><span lang="az">Xidmətlər</span><span lang="en">Services</span></a>
-    <a href="../#about" data-nav><span lang="az">Haqqımda</span><span lang="en">About</span></a>
-    <a href="../#contact" data-nav><span lang="az">Əlaqə</span><span lang="en">Contact</span></a>
+    <a href="../#projects" data-nav><span lang="az">Layihələr</span><span lang="en">Projects</span><span lang="ru">Проекты</span></a>
+    <a href="../#services" data-nav><span lang="az">Xidmətlər</span><span lang="en">Services</span><span lang="ru">Услуги</span></a>
+    <a href="../#about" data-nav><span lang="az">Haqqımda</span><span lang="en">About</span><span lang="ru">Обо мне</span></a>
+    <a href="../#contact" data-nav><span lang="az">Əlaqə</span><span lang="en">Contact</span><span lang="ru">Контакты</span></a>
     <a class="mnav-wa" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span>WhatsApp · +994 77 217 23 58</span></a>
   </nav>
 </header>
-<aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span><span lang="az">Yazın</span><span lang="en">Message</span></span></a></aside>
+<aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span><span lang="az">Yazın</span><span lang="en">Message</span><span lang="ru">Написать</span></span></a></aside>
 
 <main id="main">
   <section class="p-hero wrap">
-    <a class="back" href="../#projects" data-nav>← <span lang="az">Bütün layihələr</span><span lang="en">All projects</span></a>
-    <div class="p-tags reveal-hero"><span class="tag research"><span lang="az">Tədqiqat · Alət</span><span lang="en">Research · Tool</span></span><span class="tag on"><span lang="az">canlı</span><span lang="en">live</span></span><span class="p-num">02 / 10</span></div>
-    <h1 class="reveal-hero d1"><span lang="az">ProvGuard</span><span lang="en">ProvGuard</span></h1>
-    <p class="p-lead reveal-hero d2" lang="az">AI agentlərini prompt injection hücumlarından qoruyan açıq mənbəli Python kitabxanası. Mətnin zərərli olub-olmadığını təxmin etmir, hər həssas arqumentin hansı mənbədən gəldiyini yoxlayır.</p><p class="p-lead reveal-hero d2" lang="en">An open-source Python library that protects AI agents from prompt injection. It doesn't guess whether text is malicious; it checks which source supplied each sensitive argument.</p>
+    <a class="back" href="../#projects" data-nav>← <span lang="az">Bütün layihələr</span><span lang="en">All projects</span><span lang="ru">Все проекты</span></a>
+    <div class="p-tags reveal-hero"><span class="tag research"><span lang="az">Tədqiqat · Alət</span><span lang="en">Research · Tool</span><span lang="ru">Исследование · Инструмент</span></span><span class="tag on"><span lang="az">canlı</span><span lang="en">live</span><span lang="ru">работает</span></span><span class="p-num">02 / 10</span></div>
+    <h1 class="reveal-hero d1"><span lang="az">ProvGuard</span><span lang="en">ProvGuard</span><span lang="ru">ProvGuard</span></h1>
+    <p class="p-lead reveal-hero d2" lang="az">AI agentlərini prompt injection hücumlarından qoruyan açıq mənbəli Python kitabxanası. Mətnin zərərli olub-olmadığını təxmin etmir, hər həssas arqumentin hansı mənbədən gəldiyini yoxlayır.</p><p class="p-lead reveal-hero d2" lang="en">An open-source Python library that protects AI agents from prompt injection. It doesn't guess whether text is malicious; it checks which source supplied each sensitive argument.</p><p class="p-lead reveal-hero d2" lang="ru">Python-библиотека с открытым кодом, которая защищает AI-агентов от prompt injection. Она не гадает, вредоносен ли текст, а проверяет, из какого источника пришёл каждый чувствительный аргумент.</p>
     <div class="p-cta reveal-hero d3">
-      <a class="btn primary magnet" href="https://provguard.vercel.app" target="_blank" rel="noopener"><span lang="az">Sayta keç</span><span lang="en">Open site</span> <span class="arr">↗</span></a>
+      <a class="btn primary magnet" href="https://provguard.vercel.app" target="_blank" rel="noopener"><span lang="az">Sayta keç</span><span lang="en">Open site</span><span lang="ru">Открыть сайт</span> <span class="arr">↗</span></a>
       <a class="btn magnet" href="https://github.com/ziko-asm/provguard" target="_blank" rel="noopener">GitHub <span class="arr">→</span></a>
     </div>
     <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="https://provguard.vercel.app" target="_blank" rel="noopener" aria-label="ProvGuard: provguard.vercel.app"><div class="media" style="--c1:#34f5b0;--c2:#5b8cff"><div class="chrome"><i></i><i></i><i></i><b>provguard.vercel.app</b></div><div class="reel n4"><div class="strip"><img src="../img/provguard-1-s.webp" srcset="../img/provguard-1-s.webp 960w, ../img/provguard-1.webp 1920w" sizes="min(1170px, 100vw)" width="1920" height="1200" alt="ProvGuard — screenshot 1" loading="lazy" decoding="async"><img src="../img/provguard-2-s.webp" srcset="../img/provguard-2-s.webp 960w, ../img/provguard-2.webp 1920w" sizes="min(1170px, 100vw)" width="1920" height="1200" alt="ProvGuard — screenshot 2" loading="lazy" decoding="async"><img src="../img/provguard-3-s.webp" srcset="../img/provguard-3-s.webp 960w, ../img/provguard-3.webp 1920w" sizes="min(1170px, 100vw)" width="1920" height="1200" alt="ProvGuard — screenshot 3" loading="lazy" decoding="async"><img src="../img/provguard-4-s.webp" srcset="../img/provguard-4-s.webp 960w, ../img/provguard-4.webp 1920w" sizes="min(1170px, 100vw)" width="1920" height="1200" alt="ProvGuard — screenshot 4" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span></div></a>
@@ -83,18 +85,18 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
 
   <section class="wrap p-grid">
     <div class="p-text reveal">
-      <div class="sec-num"><span lang="az">NƏ EDİR</span><span lang="en">WHAT IT DOES</span></div>
-      <div lang="az"><p>AI agentləri yad adamların yazdığı e-poçtları, veb səhifələri və sənədləri oxuyur, sonra pul köçürmə, məktub göndərmə kimi real əməliyyatlar edir. Hücumçu mətnin içinə gizli əmr yazıb agenti idarə edə bilər.</p><p>ProvGuard bu problemi fərqli yolla həll edir. Agentin gördüyü hər mətni etiketləyir (etibarlı və ya etibarsız), alət çağırılmazdan əvvəl isə hər arqumentin (alıcı, IBAN, məbləğ) haradan gəldiyini yoxlayır. Yalnız e-poçtda görünən IBAN, e-poçt necə yazılmasından asılı olmayaraq, pul köçürə bilməz.</p><p>Saytda brauzerdə işləyən playground var: agenti "hijack" edib ProvGuard-ın necə qərar verdiyini canlı görmək olar. Nəticələr AgentDojo (ETH Zürich) benchmark-ında ölçülüb.</p></div><div lang="en"><p>AI agents read e-mails, web pages and documents written by strangers, then take real actions like sending money or e-mail. An attacker can hide an instruction in that text and steer the agent.</p><p>ProvGuard takes a different approach. It labels everything the agent sees as trusted or untrusted, and before a tool runs it checks where each argument (recipient, IBAN, amount) came from. An IBAN that only appears in an e-mail cannot move money, however the e-mail is worded.</p><p>The site has an in-browser playground where you can hijack an agent and watch ProvGuard decide. Results are measured on the AgentDojo benchmark from ETH Zürich.</p></div>
+      <div class="sec-num"><span lang="az">NƏ EDİR</span><span lang="en">WHAT IT DOES</span><span lang="ru">ЧТО ДЕЛАЕТ</span></div>
+      <div lang="az"><p>AI agentləri yad adamların yazdığı e-poçtları, veb səhifələri və sənədləri oxuyur, sonra pul köçürmə, məktub göndərmə kimi real əməliyyatlar edir. Hücumçu mətnin içinə gizli əmr yazıb agenti idarə edə bilər.</p><p>ProvGuard bu problemi fərqli yolla həll edir. Agentin gördüyü hər mətni etiketləyir (etibarlı və ya etibarsız), alət çağırılmazdan əvvəl isə hər arqumentin (alıcı, IBAN, məbləğ) haradan gəldiyini yoxlayır. Yalnız e-poçtda görünən IBAN, e-poçt necə yazılmasından asılı olmayaraq, pul köçürə bilməz.</p><p>Saytda brauzerdə işləyən playground var: agenti "hijack" edib ProvGuard-ın necə qərar verdiyini canlı görmək olar. Nəticələr AgentDojo (ETH Zürich) benchmark-ında ölçülüb.</p></div><div lang="en"><p>AI agents read e-mails, web pages and documents written by strangers, then take real actions like sending money or e-mail. An attacker can hide an instruction in that text and steer the agent.</p><p>ProvGuard takes a different approach. It labels everything the agent sees as trusted or untrusted, and before a tool runs it checks where each argument (recipient, IBAN, amount) came from. An IBAN that only appears in an e-mail cannot move money, however the e-mail is worded.</p><p>The site has an in-browser playground where you can hijack an agent and watch ProvGuard decide. Results are measured on the AgentDojo benchmark from ETH Zürich.</p></div><div lang="ru"><p>AI-агенты читают письма, веб-страницы и документы, написанные посторонними, а затем выполняют реальные действия: переводят деньги или отправляют письма. Злоумышленник может спрятать в таком тексте инструкцию и управлять агентом.</p><p>ProvGuard идёт другим путём. Он помечает всё, что видит агент, как доверенное или недоверенное, а перед вызовом инструмента проверяет, откуда пришёл каждый аргумент (получатель, IBAN, сумма). IBAN, который встречается только в письме, не может перевести деньги, как бы это письмо ни было сформулировано.</p><p>На сайте есть песочница прямо в браузере: можно «перехватить» агента и посмотреть, как ProvGuard принимает решение. Результаты измерены на бенчмарке AgentDojo от ETH Zürich.</p></div>
       
     </div>
     <div class="p-side reveal">
-      <div class="metric big"><div class="v">33%→0%</div><div class="d" lang="az">Canlı Qwen3 8B agentində hücum uğuru ProvGuard ilə belə düşdü. AgentDojo bank hücumlarının 144/144-ü dayandırıldı.</div><div class="d" lang="en">Attack success on a live Qwen3 8B agent with ProvGuard. All 144 of 144 AgentDojo banking attacks were stopped.</div></div>
+      <div class="metric big"><div class="v">33%→0%</div><div class="d" lang="az">Canlı Qwen3 8B agentində hücum uğuru ProvGuard ilə belə düşdü. AgentDojo bank hücumlarının 144/144-ü dayandırıldı.</div><div class="d" lang="en">Attack success on a live Qwen3 8B agent with ProvGuard. All 144 of 144 AgentDojo banking attacks were stopped.</div><div class="d" lang="ru">Успех атак на живого агента Qwen3 8B с ProvGuard. Остановлены все 144 из 144 банковских атак AgentDojo.</div></div>
       <div class="p-box">
-        <div class="sec-num"><span lang="az">ƏSAS XÜSUSİYYƏTLƏR</span><span lang="en">HIGHLIGHTS</span></div>
-        <ul lang="az"><li><b>AgentDojo, modelsiz:</b> bank 144/144 (100%), Slack 97/105 (92%), workspace 200/240 (83%), travel 79/120 (66%).</li><li><b>Canlı agent:</b> Qwen3 8B-də hücum uğuru 16/48-dən 0/48-ə düşdü, faydalılıq ölçülə biləcək qədər azalmadı.</li><li><b>Açıq məhdudiyyətlər:</b> nəyi tuta bilmədiyi README-də açıq yazılıb.</li></ul><ul lang="en"><li><b>AgentDojo, model-free:</b> banking 144/144 (100%), Slack 97/105 (92%), workspace 200/240 (83%), travel 79/120 (66%).</li><li><b>Live agent:</b> on Qwen3 8B, attack success fell from 16/48 to 0/48 with no measurable utility drop.</li><li><b>Honest limits:</b> what it can't catch is written up front in the README.</li></ul>
+        <div class="sec-num"><span lang="az">ƏSAS XÜSUSİYYƏTLƏR</span><span lang="en">HIGHLIGHTS</span><span lang="ru">ОСНОВНОЕ</span></div>
+        <ul lang="az"><li><b>AgentDojo, modelsiz:</b> bank 144/144 (100%), Slack 97/105 (92%), workspace 200/240 (83%), travel 79/120 (66%).</li><li><b>Canlı agent:</b> Qwen3 8B-də hücum uğuru 16/48-dən 0/48-ə düşdü, faydalılıq ölçülə biləcək qədər azalmadı.</li><li><b>Açıq məhdudiyyətlər:</b> nəyi tuta bilmədiyi README-də açıq yazılıb.</li></ul><ul lang="en"><li><b>AgentDojo, model-free:</b> banking 144/144 (100%), Slack 97/105 (92%), workspace 200/240 (83%), travel 79/120 (66%).</li><li><b>Live agent:</b> on Qwen3 8B, attack success fell from 16/48 to 0/48 with no measurable utility drop.</li><li><b>Honest limits:</b> what it can't catch is written up front in the README.</li></ul><ul lang="ru"><li><b>AgentDojo, без модели:</b> банкинг 144/144 (100%), Slack 97/105 (92%), workspace 200/240 (83%), travel 79/120 (66%).</li><li><b>Живой агент:</b> на Qwen3 8B успех атак упал с 16/48 до 0/48 без заметной потери полезности.</li><li><b>Честные ограничения:</b> что библиотека не ловит, прямо написано в README.</li></ul>
       </div>
       <div class="p-box">
-        <div class="sec-num"><span lang="az">TEXNOLOGİYALAR</span><span lang="en">BUILT WITH</span></div>
+        <div class="sec-num"><span lang="az">TEXNOLOGİYALAR</span><span lang="en">BUILT WITH</span><span lang="ru">ТЕХНОЛОГИИ</span></div>
         <div class="chips"><span class="chip">Python</span><span class="chip">LLM agents</span><span class="chip">AgentDojo</span><span class="chip">Ollama</span></div>
         <div class="p-url"><span>URL</span><a href="https://provguard.vercel.app" target="_blank" rel="noopener">provguard.vercel.app ↗</a></div>
       </div>
@@ -102,11 +104,11 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
   </section>
 
   <section class="wrap p-next">
-    <a class="prev" href="metro-tycoon.html" data-nav><small>← <span lang="az">Əvvəlki</span><span lang="en">Previous</span></small><b><span lang="az">Metro Tycoon</span><span lang="en">Metro Tycoon</span></b></a>
-    <a class="next" href="prompt-injection-detector.html" data-nav style="--c1:#5b8cff;--c2:#34f5b0"><small><span lang="az">Növbəti layihə</span><span lang="en">Next project</span> →</small><b><span lang="az">Prompt Injection Detector Benchmark</span><span lang="en">Prompt Injection Detector Benchmark</span></b></a>
+    <a class="prev" href="metro-tycoon.html" data-nav><small>← <span lang="az">Əvvəlki</span><span lang="en">Previous</span><span lang="ru">Назад</span></small><b><span lang="az">Metro Tycoon</span><span lang="en">Metro Tycoon</span><span lang="ru">Metro Tycoon</span></b></a>
+    <a class="next" href="prompt-injection-detector.html" data-nav style="--c1:#5b8cff;--c2:#34f5b0"><small><span lang="az">Növbəti layihə</span><span lang="en">Next project</span><span lang="ru">Следующий проект</span> →</small><b><span lang="az">Prompt Injection Detector Benchmark</span><span lang="en">Prompt Injection Detector Benchmark</span><span lang="ru">Prompt Injection Detector Benchmark</span></b></a>
   </section>
 </main>
-<footer><div class="wrap">© 2026 ayfar · <span lang="az">Ziya Əzizov</span><span lang="en">Ziya Azizov</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span lang="az">Bakıda hazırlanıb</span><span lang="en">Made in Baku</span></div></footer>
-<script src="../assets/site.js?v=28"></script>
+<footer><div class="wrap">© 2026 ayfar · <span lang="az">Ziya Əzizov</span><span lang="en">Ziya Azizov</span><span lang="ru">Зия Азизов</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span lang="az">Bakıda hazırlanıb</span><span lang="en">Made in Baku</span><span lang="ru">Сделано в Баку</span></div></footer>
+<script src="../assets/site.js?v=29"></script>
 </body>
 </html>

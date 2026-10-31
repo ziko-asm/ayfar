@@ -12,12 +12,13 @@
     var t = document.querySelector('meta[name="title-' + l + '"]');
     if(t) document.title = t.content;
     var lbl = document.querySelector('.cur-ring .lbl');
-    if(lbl) lbl.textContent = l === 'az' ? 'AÇ' : 'OPEN';
+    if(lbl) lbl.textContent = l === 'az' ? 'AÇ' : l === 'ru' ? 'ОТКР' : 'OPEN';
     store('lang', l);
     document.dispatchEvent(new CustomEvent('ayfar:lang', {detail:l}));
   }
   var saved = store('lang');
-  setLang(saved === 'az' || saved === 'en' ? saved : ((navigator.language || 'az').slice(0,2) === 'en' ? 'en' : 'az'));
+  var nav = (navigator.language || 'az').slice(0,2);
+  setLang(['az','en','ru'].indexOf(saved) >= 0 ? saved : (nav === 'ru' ? 'ru' : nav === 'en' ? 'en' : 'az'));
   document.querySelectorAll('[data-set-lang]').forEach(function(b){ b.addEventListener('click', function(){ setLang(b.dataset.setLang); }); });
 
   /* ---------- preloader (home) ---------- */

@@ -15,8 +15,9 @@ a{color:inherit}
 img{display:block;max-width:100%}
 ::selection{background:var(--g);color:#000}
 .wrap{max-width:1200px;margin:0 auto;padding:0 16px}
-html[data-lang="az"] [lang="en"]{display:none!important}
-html[data-lang="en"] [lang="az"]{display:none!important}
+html[data-lang="az"] [lang="en"],html[data-lang="az"] [lang="ru"]{display:none!important}
+html[data-lang="en"] [lang="az"],html[data-lang="en"] [lang="ru"]{display:none!important}
+html[data-lang="ru"] [lang="az"],html[data-lang="ru"] [lang="en"]{display:none!important}
 main,header,footer,section{position:relative;z-index:2}
 
 /* background */
@@ -82,8 +83,9 @@ nav.links a:hover{color:var(--text);background:var(--glass2)}
 .lang{position:relative;display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--glass)}
 .lang button{position:relative;z-index:1;border:0;background:transparent;color:var(--muted);font:600 12px var(--mono);padding:7px 13px;border-radius:999px;cursor:pointer;transition:color .3s}
 .lang button[aria-pressed="true"]{color:#000}
-.lang .pill{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;background:var(--g);transition:transform .45s cubic-bezier(.5,1.6,.4,1)}
+.lang .pill{position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px) / 3);border-radius:999px;background:var(--g);transition:transform .45s cubic-bezier(.5,1.6,.4,1)}
 html[data-lang="en"] .lang .pill{transform:translateX(100%)}
+html[data-lang="ru"] .lang .pill{transform:translateX(200%)}
 @media (max-width:760px){nav.links{display:none}}
 
 /* buttons */
@@ -255,3 +257,6 @@ main:focus{outline:none}
   .btn:hover{color:var(--text);border-color:var(--line2)}
   .btn.primary:hover{color:#000;border-color:var(--g)}
 }
+
+/* three language buttons: keep the header on one line on small phones */
+@media (max-width:380px){.lang button{padding:7px 9px}}

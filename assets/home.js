@@ -66,7 +66,7 @@
     }
     function play(){
       reset(); mode = 'play'; over.classList.remove('show'); start.classList.add('hide'); wrap.classList.add('playing');
-      say(lang() === 'az' ? 'Basılı saxla: qaz · burax: tormoz' : 'Hold: go · release: brake');
+      say({az:'Basılı saxla: qaz · burax: tormoz', ru:'Держите: газ · отпустите: тормоз'}[lang()] || 'Hold: go · release: brake');
     }
 
     function step(dt){
@@ -90,7 +90,7 @@
       if(mode === 'play'){
         S.objs.forEach(function(o){
           if(o.type === 'coin' && !o.got && o.x <= front && o.x >= S.x){ o.got = true; S.cash += 10; o.fx = 1; }
-          if(o.type === 'sig' && prevFront < o.x && front >= o.x && sigState(o) === 'r'){ crash(); say(lang() === 'az' ? 'Qırmızı işıq! Qəza' : 'Red signal! Crash', 'bad'); }
+          if(o.type === 'sig' && prevFront < o.x && front >= o.x && sigState(o) === 'r'){ crash(); say({az:'Qırmızı işıq! Qəza', ru:'Красный свет! Авария'}[lang()] || 'Red signal! Crash', 'bad'); }
           if(o.type === 'st' && !o.done && S.v < .25 && S.x >= o.x - 4 && front <= o.x + o.len + 4){
             o.done = true; var bonus = 120 + Math.floor(Math.random() * 180) + Math.floor(S.dist / 400);
             S.cash += bonus; say(o.name + ' · +' + bonus + ' ₼', 'good');
@@ -216,7 +216,7 @@
   if(sf){
     var out = document.getElementById('scanOut'), inp = document.getElementById('scanUrl'), btn = sf.querySelector('button');
     var API = sf.dataset.api, SITE = sf.dataset.site, WA = sf.dataset.wa;
-    var T = function(az, en){ return lang() === 'en' ? en : az; };
+    var T = function(az, en, ru){ var l = lang(); return l === 'en' ? en : l === 'ru' ? (ru || en) : az; };
     var el = function(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; };
     var gradeColor = function(g){ return {A:'#34f5b0', B:'#7ee081', C:'#ffc94d', D:'#ff9a4d', F:'#ff4f6d'}[g] || '#8d99a8'; };
     var host = function(u){ try{ return new URL(/^https?:\/\//i.test(u) ? u : 'https://' + u).hostname; }catch(e){ return u; } };
@@ -247,16 +247,16 @@
           ul.appendChild(li);
         });
         body.appendChild(ul);
-        if(probs.length > 3) body.appendChild(el('p', 'scan-more', T('və daha ' + (probs.length - 3) + ' tövsiyə tam hesabatda.', 'plus ' + (probs.length - 3) + ' more in the full report.')));
+        if(probs.length > 3) body.appendChild(el('p', 'scan-more', T('və daha ' + (probs.length - 3) + ' tövsiyə tam hesabatda.', 'plus ' + (probs.length - 3) + ' more in the full report.', 'и ещё ' + (probs.length - 3) + ' рекомендаций в полном отчёте.')));
       }
-      if(lang() === 'en') body.appendChild(el('p', 'scan-note', 'Findings are written in Azerbaijani.'));
+      if(lang() !== 'az') body.appendChild(el('p', 'scan-note', T('', 'Findings are written in Azerbaijani.', 'Результаты проверки написаны на азербайджанском.')));
       var go = el('div', 'scan-go-row');
       var msg = probs.length
         ? 'Salam Ziya! Saytım (' + h + ') SaytYoxla-da ' + r.score + '/100 (' + r.grade + ') aldı. Problemləri düzəltmək istəyirəm.'
         : 'Salam Ziya! Saytım (' + h + ') SaytYoxla-da ' + r.score + '/100 aldı. Sizinlə sayt barədə danışmaq istəyirəm.';
-      var wa = el('a', 'btn primary small', probs.length ? T('Bunları düzəldək', 'Fix these with me') : T('Yazın, danışaq', 'Message me'));
+      var wa = el('a', 'btn primary small', probs.length ? T('Bunları düzəldək', 'Fix these with me', 'Исправим это') : T('Yazın, danışaq', 'Message me', 'Напишите мне'));
       wa.href = WA + '?text=' + encodeURIComponent(msg); wa.target = '_blank'; wa.rel = 'noopener';
-      var full = el('a', 'btn small', T('Tam hesabat ↗', 'Full report ↗'));
+      var full = el('a', 'btn small', T('Tam hesabat ↗', 'Full report ↗', 'Полный отчёт ↗'));
       full.href = SITE + '/?url=' + encodeURIComponent(h); full.target = '_blank'; full.rel = 'noopener';
       go.appendChild(wa); go.appendChild(full); body.appendChild(go);
       card.appendChild(body); out.appendChild(card);
@@ -268,16 +268,16 @@
     sf.addEventListener('submit', function(e){
       e.preventDefault();
       var u = inp.value.trim();
-      if(!u){ showError(T('Saytın ünvanını yazın, məsələn: example.az', 'Enter a website address, e.g. example.az')); inp.focus(); return; }
-      busy(true); out.textContent = ''; out.appendChild(el('div', 'scan-load', T('Sayt yoxlanılır…', 'Checking the site…')));
+      if(!u){ showError(T('Saytın ünvanını yazın, məsələn: example.az', 'Enter a website address, e.g. example.az', 'Введите адрес сайта, например: example.az')); inp.focus(); return; }
+      busy(true); out.textContent = ''; out.appendChild(el('div', 'scan-load', T('Sayt yoxlanılır…', 'Checking the site…', 'Проверяем сайт…')));
       var ctl = 'AbortController' in window ? new AbortController() : null, to = setTimeout(function(){ ctl && ctl.abort(); }, 60000);
       fetch(API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({url:u}), signal:ctl ? ctl.signal : undefined})
         .then(function(res){ return res.json().catch(function(){ return {}; }).then(function(d){ return {ok:res.ok, d:d}; }); })
         .then(function(x){
           if(x.ok && typeof x.d.score === 'number') render(x.d);
-          else showError(x.d && x.d.detail ? String(x.d.detail) : T('Yoxlamaq alınmadı. Bir az sonra yenidən cəhd edin.', 'The check failed. Please try again shortly.'));
+          else showError(x.d && x.d.detail ? String(x.d.detail) : T('Yoxlamaq alınmadı. Bir az sonra yenidən cəhd edin.', 'The check failed. Please try again shortly.', 'Проверка не удалась. Попробуйте чуть позже.'));
         })
-        .catch(function(){ showError(T('Bağlantı alınmadı. İnterneti yoxlayıb yenidən cəhd edin.', 'Could not connect. Check your connection and try again.')); })
+        .catch(function(){ showError(T('Bağlantı alınmadı. İnterneti yoxlayıb yenidən cəhd edin.', 'Could not connect. Check your connection and try again.', 'Не удалось подключиться. Проверьте интернет и попробуйте снова.')); })
         .then(function(){ clearTimeout(to); busy(false); });
     });
   }
