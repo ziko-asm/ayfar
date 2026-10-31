@@ -119,10 +119,14 @@ def scene_art(kind, c1):
         d.arc((60, 90, 260, 290), -90, 230, fill=(52, 245, 176), width=16)
         d.text((160, 180), "A", font=font("Unbounded.ttf", 76, 900), fill=(52, 245, 176), anchor="mm")
         d.text((160, 240), "87 / 100", font=mono, fill=(141, 153, 168), anchor="mm")
+        mark = ImageFont.truetype(os.getenv("MARK_FONT", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"), mono.size)
         for i, (t, ok) in enumerate([("HTTPS", 1), ("SSL", 1), ("HSTS", 1), ("DMARC", 0), ("Mobile", 1)]):
             y = 80 + i * 48
             d.rounded_rectangle((300, y, 520, y + 36), 10, fill=(20, 26, 36), outline=(40, 48, 60))
-            d.text((320, y + 18), ("✓ " if ok else "! ") + t, font=mono, fill=(52, 245, 176) if ok else (255, 201, 77), anchor="lm")
+            col = (52, 245, 176) if ok else (255, 201, 77)
+            # the web font has no check mark glyph, so draw the mark with a system font
+            d.text((320, y + 18), "✓" if ok else "!", font=mark if ok else mono, fill=col, anchor="lm")
+            d.text((320 + mono.getlength("! "), y + 18), t, font=mono, fill=col, anchor="lm")
     return art
 
 
@@ -143,7 +147,7 @@ def wrap_text(text, fnt, maxw, draw):
 def brand(d):
     d.ellipse((60, 52, 84, 76), outline=(52, 245, 176), width=4)
     d.ellipse((67, 59, 77, 69), fill=(255, 79, 216))
-    d.text((96, 64), "ayfar.az", font=font("Unbounded.ttf", 24, 900), fill=(238, 243, 248), anchor="lm")
+    d.text((96, 64), "ayfar", font=font("Unbounded.ttf", 24, 900), fill=(238, 243, 248), anchor="lm")
 
 
 def home():
