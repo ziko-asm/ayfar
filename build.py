@@ -8,7 +8,7 @@ import os
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "22"  # cache-busting for assets
+V = "23"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -213,9 +213,9 @@ P = [
         github=None, note=None,
     ),
     dict(
-        slug="saytyoxla", cat="service", status="off", c1="#34f5b0", c2="#5b8cff",
+        slug="saytyoxla", cat="service", status="on", c1="#34f5b0", c2="#5b8cff",
         name=("SaytYoxla", "SaytYoxla"),
-        url="https://saytyoxla.onrender.com", show="saytyoxla.onrender.com",
+        url="https://saytyoxla.vercel.app", show="saytyoxla.vercel.app",
         tag=("Pulsuz alət", "Free tool"), go=("Sayta keç", "Open site"), media=("scene", "yox"),
         metric=("30 san", "ərzində saytın təhlükəsizliyi, sürəti, mobil uyğunluğu və Google görünüşü yoxlanır.",
                 "to check a site's security, speed, mobile readiness and Google visibility."),
@@ -233,10 +233,9 @@ P = [
                  ["<b>Security:</b> HTTPS, certificate expiry, HSTS, CSP, clickjacking protection, version disclosure.",
                   "<b>E-mail:</b> SPF and DMARC records.",
                   "<b>Speed, mobile & Google:</b> response time, HTML size, viewport, title, description."]),
-        chips=["Python", "FastAPI", "Render"],
+        chips=["Python", "FastAPI", "Vercel"],
         github="https://github.com/ziko-asm/saytyoxla",
-        note=("Server hazırda müvəqqəti dayandırılıb, tezliklə yenidən açılacaq.",
-              "The server is temporarily suspended and will be back soon."),
+        note=None,
     ),
     dict(
         slug="bathshop", cat="web", status="on", c1="#ffc94d", c2="#5b8cff",
@@ -410,7 +409,7 @@ def scene(kind):
   <div class="lbls"><span>MLP</span><span>CNN</span><span>MLP·U</span><span>CNN·U</span></div>
   <div class="legend"><span><i></i>clean</span><span><i class="o"></i>attacked</span></div>
 </div>"""
-    return """<div class="chrome"><i></i><i></i><i></i><b>saytyoxla.onrender.com</b></div>
+    return """<div class="chrome"><i></i><i></i><i></i><b>saytyoxla.vercel.app</b></div>
 <div class="scene yox" aria-hidden="true">
   <div class="gauge"><svg viewBox="0 0 140 140"><defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#34f5b0"/><stop offset="1" stop-color="#5b8cff"/></linearGradient></defs><circle class="trk" cx="70" cy="70" r="60"/><circle class="val" cx="70" cy="70" r="60"/></svg>
     <div class="g"><div><b>A</b><small>87 / 100</small></div></div></div>
