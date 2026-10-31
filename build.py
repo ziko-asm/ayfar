@@ -8,7 +8,7 @@ import os
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "27"  # cache-busting for assets
+V = "28"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -476,7 +476,10 @@ def schema():
     person = {
         "@context": "https://schema.org", "@type": "Person", "@id": CANON + "/#ziya",
         "name": "Ziya Əzizov", "alternateName": ["ayfar", "Ziya Azizov", "Ziya Ezizov"],
-        "url": CANON + "/", "image": SITE + "/img/ziya.jpg",
+        "url": CANON + "/",
+        "image": {"@type": "ImageObject", "url": SITE + "/img/ziya-azizov-ayfar.jpg", "width": 720, "height": 720,
+                  "caption": "Ziya Əzizov (ayfar), veb developer və kibertəhlükəsizlik mühəndisi, Bakı",
+                  "creditText": "Ziya Əzizov", "creator": {"@id": CANON + "/#ziya"}, "copyrightNotice": "© Ziya Əzizov"},
         "telephone": PHONE, "email": EMAIL,
         "jobTitle": "Proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisi",
         "address": {"@type": "PostalAddress", "addressLocality": "Bakı", "addressCountry": "AZ"},
@@ -536,11 +539,12 @@ def llms_txt():
 
 def build_seo_files():
     urls = [CANON + "/"] + [f"{CANON}/p/{p['slug']}.html" for p in P]
-    xml = "\n".join(f"  <url><loc>{u}</loc><lastmod>{LASTMOD}</lastmod></url>" for u in urls)
+    photo = (f"<image:image><image:loc>{SITE}/img/ziya-azizov-ayfar.jpg</image:loc></image:image>")
+    xml = "\n".join(f"  <url><loc>{u}</loc><lastmod>{LASTMOD}</lastmod>{photo if u == CANON + '/' else ''}</url>" for u in urls)
     with open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8", newline="\n") as f:
         f.write(llms_txt())
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
-        f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{xml}\n</urlset>\n')
+        f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n{xml}\n</urlset>\n')
     with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8", newline="\n") as f:
         f.write(f"User-agent: *\nAllow: /\n\nSitemap: {CANON}/sitemap.xml\n")
 
@@ -745,7 +749,7 @@ def build_index():
           <div class="skills" aria-hidden="true"><div class="mq"><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span></div></div>
         </div>
         <div class="idcard reveal tiltable">
-          <div class="photo"><img src="img/ziya-s.webp" srcset="img/ziya-s.webp 360w, img/ziya.webp 720w" sizes="(min-width: 900px) 440px, 92vw" width="720" height="720" alt="Ziya Əzizov (ayfar)" loading="lazy" decoding="async"><span class="photo-badge"><i></i>Bakı · 2005</span></div>
+          <div class="photo"><img src="img/ziya-azizov-ayfar-s.webp" srcset="img/ziya-azizov-ayfar-s.webp 360w, img/ziya-azizov-ayfar.webp 720w" sizes="(min-width: 900px) 440px, 92vw" width="720" height="720" alt="Ziya Əzizov (ayfar), Bakıdan veb developer və kibertəhlükəsizlik mühəndisi" loading="lazy" decoding="async"><span class="photo-badge"><i></i>Bakı · 2005</span></div>
           <h3>{T("Ziya Əzizov", "Ziya Azizov")}</h3>
           <div class="handle">@ayfar</div>
           <dl>
