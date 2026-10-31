@@ -1,0 +1,34 @@
+# ayfar
+
+> ayfar is the online name and personal brand of Ziya Azizov (Ziya Əzizov), an engineer from Baku, Azerbaijan (born 2005) working in programming, cybersecurity and AI. He builds websites for businesses, games and security research tools. Not related to Ayfar Otomotiv (Turkey).
+
+ayfar — Bakıdan olan mühəndis Ziya Əzizovun brendidir. Bizneslər üçün saytlar (landing page, korporativ sayt, onlayn mağaza), oyunlar və kibertəhlükəsizlik layihələri hazırlayır.
+
+Contact / Əlaqə: WhatsApp and phone +994 77 217 23 58, e-mail ziyaazizov9@gmail.com
+
+## Services / Xidmətlər
+
+- Landing page (Landing page): A fast one-page site that shows your business, services and contacts in one place.
+- Business website (Biznes saytı): A multi-page company site: services, photos of your work, about and contact pages.
+- Online shop (Onlayn mağaza): A shop with a product catalog, cart and ordering. Orders come straight to your WhatsApp.
+
+## Projects / Layihələr
+
+- [Metro Tycoon](https://ayfar.vercel.app/p/metro-tycoon.html): A train-driving tycoon game on the Baku metro: build the metro, drive the train, become a millionaire. Open stations from İçərişəhər to Həzi Aslanov, collect coins, beat obstacles and find hidden codes. Live: https://siloveu.itch.io/metro-tycoon
+- [ProvGuard](https://ayfar.vercel.app/p/provguard.html): An open-source Python library that protects AI agents from prompt injection. It doesn't guess whether text is malicious; it checks which source supplied each sensitive argument. Live: https://provguard.vercel.app
+- [Prompt Injection Detector Benchmark](https://ayfar.vercel.app/p/prompt-injection-detector.html): A study of how reliable prompt injection detectors really are. Five kinds of detector were trained on two public datasets and tested on each other's data. Live: https://prompt-injection-detector-snowy.vercel.app/
+- [GraphGuard IoT](https://ayfar.vercel.app/p/graphguard-iot.html): An interactive benchmark of how well graph neural networks that find compromised IoT devices (botnets) hold up under attack. Live: https://graphguard-iot.vercel.app/
+- [AI-NIDS Robustness Lab](https://ayfar.vercel.app/p/ai-nids-lab.html): A study of how easily neural network intrusion detectors are fooled when an attacker slightly shapes its own traffic, with an interactive Streamlit dashboard. Live: https://ai-nids-robustness.streamlit.app
+- [Agent Audit](https://ayfar.vercel.app/p/agent-audit.html): A security audit service for companies' AI chatbots and agents: it runs real attacks and delivers a report with evidence and concrete fixes. Live: https://agent-audit-ten.vercel.app/
+- [SaytYoxla](https://ayfar.vercel.app/p/saytyoxla.html): A free website check for small businesses in Azerbaijan. It explains the result in plain Azerbaijani with a 0–100 score and an A–F grade. Live: https://saytyoxla.vercel.app
+- [bathshop.az](https://ayfar.vercel.app/p/bathshop.html): An online store for bathroom and heating equipment in Baku: water heaters, gas boilers and water pumps, with a cart and ordering. Live: https://bathshop-az-selling-site.vercel.app/
+- [Vertical lathe machining](https://ayfar.vercel.app/p/mexaniki-emal.html): A website for engineer Telman Azizov's vertical lathe workshop in Baku, with a rotatable 3D flange, real workshop photos and direct WhatsApp ordering. Live: https://mexaniki-emal.vercel.app/
+- [MANSIA](https://ayfar.vercel.app/p/mansia.html): An online shop for MANSIA, a brand of natural handmade soaps inspired by saffron: the collection, gift boxes, the brand story and ordering through WhatsApp. Live: https://mansia.az/
+
+## Links
+
+- [Home](https://ayfar.vercel.app/)
+- [Services](https://ayfar.vercel.app/#services)
+- [About](https://ayfar.vercel.app/#about)
+- [GitHub](https://github.com/ziko-asm)
+- [LinkedIn](https://www.linkedin.com/in/ziya-azizov-91bba638a)

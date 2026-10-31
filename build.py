@@ -441,6 +441,7 @@ def media_fixed(p, depth, badges=True, sizes="(min-width: 900px) 560px, 100vw"):
 
 
 FAQ = [('Ayfar kimdir?', 'Who is ayfar?', 'Ayfar — Ziya Əzizovun internetdəki ləqəbidir. Ziya Bakıdan olan proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisidir; saytlar, oyunlar və tədqiqat layihələri hazırlayır.', 'Ayfar is the online name of Ziya Azizov, a programming, cybersecurity and AI engineer from Baku who builds websites, games and research projects.'), ('Ziya Əzizov nə ilə məşğuldur?', 'What does Ziya Azizov do?', 'Kibertəhlükəsizlik və süni intellekt üzrə tədqiqatlar aparır (ProvGuard, Prompt Injection Detector Benchmark, GraphGuard IoT), bizneslər üçün saytlar (bathshop.az, karusel torna emalı) və oyunlar (Metro Tycoon) hazırlayır.', 'He does cybersecurity and AI research (ProvGuard, Prompt Injection Detector Benchmark, GraphGuard IoT) and builds business websites (bathshop.az, a lathe workshop site) and games (Metro Tycoon).'), ('Ziya Əzizov harada təhsil alıb?', 'Where did Ziya Azizov study?', 'Bakalavr təhsilini ADNSU-da Mexatronika və Robototexnika üzrə alıb. Hazırda Bakı Ali Neft Məktəbində (BHOS) texniki sistemlərdə idarəetmə üzrə magistraturada oxuyur.', "He holds a bachelor's in Mechatronics and Robotics from ASOIU and is now a master's student in control of technical systems at Baku Higher Oil School (BHOS)."), ('Ziya Əzizovla necə əlaqə saxlamaq olar?', 'How can I contact Ziya Azizov?', 'WhatsApp və ya zəng (+994 77 217 23 58), e-poçt (ziyaazizov9@gmail.com), Instagram (@ziiyaa.a_), LinkedIn və ya GitHub vasitəsilə əlaqə saxlaya bilərsiniz.', 'By WhatsApp or phone (+994 77 217 23 58), e-mail (ziyaazizov9@gmail.com), Instagram (@ziiyaa.a_), LinkedIn or GitHub.'),
+       ('ayfar Ayfar Otomotiv ilə eyni şirkətdir?', 'Is ayfar the same as Ayfar Otomotiv?', 'Xeyr. ayfar — bakılı mühəndis Ziya Əzizovun şəxsi brendidir: saytlar, oyunlar və kibertəhlükəsizlik layihələri. Türkiyədəki avtomobil hissələri istehsalçısı Ayfar Otomotiv ilə heç bir əlaqəsi yoxdur.', 'No. ayfar is the personal brand of Ziya Azizov, an engineer from Baku who builds websites, games and cybersecurity projects. It has no connection to Ayfar Otomotiv, the Turkish auto parts manufacturer.'),
        ('Ziya Əzizovdan sayt sifariş etmək olar?', 'Can I order a website from Ziya Azizov?', 'Bəli. Landing page, biznes saytı və onlayn mağaza hazırlayır. WhatsApp-a (+994 77 217 23 58) yazın, pulsuz qiymət təklifi göndərsin.', 'Yes. He builds landing pages, business websites and online shops. Message him on WhatsApp (+994 77 217 23 58) for a free quote.')]
 
 
@@ -455,7 +456,7 @@ def faq_html():
 def schema():
     import json
     person = {
-        "@context": "https://schema.org", "@type": "Person",
+        "@context": "https://schema.org", "@type": "Person", "@id": CANON + "/#ziya",
         "name": "Ziya Əzizov", "alternateName": ["ayfar", "Ziya Azizov", "Ziya Ezizov"],
         "url": CANON + "/", "image": SITE + "/img/ziya.jpg",
         "telephone": PHONE, "email": EMAIL,
@@ -466,15 +467,60 @@ def schema():
         "knowsAbout": ["Proqramlaşdırma", "Kibertəhlükəsizlik", "Süni intellekt", "Veb saytlar", "Oyun hazırlama"],
         "sameAs": ["https://www.linkedin.com/in/ziya-azizov-91bba638a", INSTAGRAM, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
     }
-    site = {"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": CANON + "/"}
+    site = {"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": CANON + "/",
+            "inLanguage": ["az", "en"], "publisher": {"@id": CANON + "/#ziya"}}
+    service = {
+        "@context": "https://schema.org", "@type": "ProfessionalService", "@id": CANON + "/#ayfar",
+        "name": "ayfar", "alternateName": "ayfar — veb sayt hazırlanması",
+        "description": "Bakıda bizneslər üçün landing page, korporativ sayt və onlayn mağaza hazırlanması. Ziya Əzizov.",
+        "url": CANON + "/#services", "logo": SITE + "/img/og/home.png", "image": SITE + "/img/og/home.png",
+        "telephone": PHONE, "email": EMAIL, "founder": {"@id": CANON + "/#ziya"},
+        "areaServed": {"@type": "City", "name": "Bakı"},
+        "address": {"@type": "PostalAddress", "addressLocality": "Bakı", "addressCountry": "AZ"},
+        "knowsLanguage": ["az", "en", "ru"],
+        "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Xidmətlər", "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": s["name"][0], "description": s["desc"][0]}}
+            for s in SERVICES]},
+        "sameAs": [INSTAGRAM, "https://www.linkedin.com/in/ziya-azizov-91bba638a", "https://github.com/ziko-asm"],
+    }
     faqp = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, _, a, _ in FAQ]}
-    return "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in (person, site, faqp))
+    return "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in (person, site, service, faqp))
+
+
+LASTMOD = "2026-10-31"  # bump when content changes
+
+
+def llms_txt():
+    lines = [
+        "# ayfar",
+        "",
+        "> ayfar is the online name and personal brand of Ziya Azizov (Ziya Əzizov), an engineer from Baku, Azerbaijan "
+        "(born 2005) working in programming, cybersecurity and AI. He builds websites for businesses, games and security "
+        "research tools. Not related to Ayfar Otomotiv (Turkey).",
+        "",
+        "ayfar — Bakıdan olan mühəndis Ziya Əzizovun brendidir. Bizneslər üçün saytlar (landing page, korporativ sayt, "
+        "onlayn mağaza), oyunlar və kibertəhlükəsizlik layihələri hazırlayır.",
+        "",
+        f"Contact / Əlaqə: WhatsApp and phone {PHONE_SHOW}, e-mail {EMAIL}",
+        "",
+        "## Services / Xidmətlər",
+        "",
+    ]
+    lines += [f"- {s['name'][1]} ({s['name'][0]}): {s['desc'][1]}" for s in SERVICES]
+    lines += ["", "## Projects / Layihələr", ""]
+    lines += [f"- [{p['name'][1]}]({CANON}/p/{p['slug']}.html): {p['summary'][1]} Live: {p['url']}" for p in P]
+    lines += ["", "## Links", "",
+              f"- [Home]({CANON}/)", f"- [Services]({CANON}/#services)", f"- [About]({CANON}/#about)",
+              "- [GitHub](https://github.com/ziko-asm)", "- [LinkedIn](https://www.linkedin.com/in/ziya-azizov-91bba638a)", ""]
+    return "\n".join(lines)
 
 
 def build_seo_files():
     urls = [CANON + "/"] + [f"{CANON}/p/{p['slug']}.html" for p in P]
-    xml = "\n".join(f"  <url><loc>{u}</loc></url>" for u in urls)
+    xml = "\n".join(f"  <url><loc>{u}</loc><lastmod>{LASTMOD}</lastmod></url>" for u in urls)
+    with open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(llms_txt())
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
         f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{xml}\n</urlset>\n')
     with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8", newline="\n") as f:
