@@ -295,3 +295,9 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 /* never split a word in a project name; long names get a smaller size so each word fits */
 .slide h3{overflow-wrap:normal;word-break:normal;hyphens:none}
 .slide h3.long{font-size:clamp(28px,3.5vw,50px)}
+/* performance: no glow filter on the scaling slides; shimmer only on the slide in focus */
+.slide h3{filter:none;animation:none}
+.hs.hs-on .slide.active h3,.hs:not(.hs-on) .slide.seen h3{animation:nameshine 7s linear infinite}
+.slide.active h3{text-shadow:none}
+/* performance: a lighter shadow on the moving gallery previews (the big blur was repainted every frame) */
+.hs.hs-on .slide-media .media{box-shadow:0 18px 40px -18px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.04)}

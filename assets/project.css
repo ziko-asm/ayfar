@@ -51,3 +51,5 @@
 .p-side{grid-template-columns:minmax(0,1fr);min-width:0}
 .p-side .metric.big .v{white-space:normal;overflow-wrap:anywhere}
 .p-hero h1{overflow-wrap:normal;word-break:normal;hyphens:none;font-size:clamp(34px,7vw,100px)}
+/* performance: softer, cheaper glow and a slower shimmer on project titles */
+.p-hero h1{filter:drop-shadow(0 0 18px color-mix(in srgb,var(--c1) 30%,transparent));animation-duration:10s}

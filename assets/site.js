@@ -191,7 +191,7 @@
   function build(){
     DPR = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
     cv.width = W * DPR; cv.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    var count = Math.round(Math.min(70, Math.max(26, W * H / 26000)));
+    var count = Math.round(Math.min(56, Math.max(20, W * H / 32000)));
     nodes = []; edges = []; adj = [];
     for(var i = 0; i < count; i++){ nodes.push({x:Math.random() * W, y:Math.random() * H, vx:(Math.random() - .5) * .12, vy:(Math.random() - .5) * .12}); adj.push([]); }
     nodes.forEach(function(a, i){
@@ -246,5 +246,15 @@
     });
   }
   if(reduce) draw();
-  else (function frame(){ if(!document.hidden) draw(); requestAnimationFrame(frame); })();
+  else {
+    /* the background is decoration: draw it at ~30 fps and pause it while the page is being scrolled,
+       so scrolling (and the project gallery) gets the whole frame budget */
+    var scrolling = 0, lastDraw = 0;
+    addEventListener('scroll', function(){ scrolling = performance.now(); }, {passive:true});
+    (function frame(now){
+      requestAnimationFrame(frame);
+      if(document.hidden || now - scrolling < 180 || now - lastDraw < 32) return;
+      lastDraw = now; draw();
+    })(0);
+  }
 })();
