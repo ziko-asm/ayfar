@@ -46,9 +46,19 @@ Every push to `main` and every pull request runs [CI](.github/workflows/ci.yml):
 
 To look at the site locally with production headers: `python scripts/serve.py` and open http://127.0.0.1:8765/.
 
-## Fonts
+## Fonts and images
 
 Unbounded, Space Grotesk and JetBrains Mono are served from `/fonts` (SIL Open Font License, see [fonts/LICENSE.md](fonts/LICENSE.md)), so no request goes to a third party and the CSP stays `'self'` only.
+
+The font files are cut down to the characters the site uses (the Azerbaijani letters took a 115 KB file; they now take 3 KB). The originals live in `fonts/src/`. After adding text with new letters:
+
+```bash
+python build.py && python scripts/subset_fonts.py && python build.py   # needs: pip install fonttools brotli
+```
+
+CI fails with a clear message if a page uses a letter that is missing from the subsets.
+
+Gallery screenshots come in three widths: 720 px for phones (`python scripts/resize_images.py`, needs Pillow), 960 px and 1920 px. Page images carry `?v=` and are cached for a year, so bump `V` in `build.py` when replacing one.
 
 ## Contact
 

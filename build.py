@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "42"  # cache-busting for assets and images
+V = "45"  # cache-busting for assets and images
 
 # Contact
 PHONE = "+994772172358"
@@ -536,18 +536,28 @@ def scene(kind):
 </div>"""
 
 
+def reel_srcset(base, i):
+    return f"/img/{base}-{i}-m.webp?v={V} 720w, /img/{base}-{i}-s.webp?v={V} 960w, /img/{base}-{i}.webp?v={V} 1920w"
+
+
+HERO_SIZES = "min(1170px, calc(100vw - 34px))"
+
 IMG_SLUG = {"provguard": "provguard", "prompt-injection-detector": "detector", "graphguard-iot": "graphguard",
             "agent-audit": "agentaudit", "bathshop": "bathshop", "mexaniki-emal": "mexaniki", "mansia": "mansia"}
 
 
-def media_fixed(p, badges=True, sizes="(min-width: 900px) 560px, 100vw"):
+def media_fixed(p, badges=True, sizes="(min-width: 900px) 560px, 100vw", hero=False):
+    """hero: the media is the first thing on the page. Its first image is the LCP and loads right away; the
+    other screenshots only show once the reel moves, so site.js loads them after the page (data-src)."""
     kind, val = p["media"]
     if kind == "reel":
         base = IMG_SLUG[p["slug"]]
         alt = E(X(*p["name"])) + " — " + X("ekran görüntüsü", "screenshot")
         imgs = "".join(
-            f'<img src="/img/{base}-{i}-s.webp?v={V}" srcset="/img/{base}-{i}-m.webp?v={V} 640w, /img/{base}-{i}-s.webp?v={V} 960w, /img/{base}-{i}.webp?v={V} 1920w" '
-            f'sizes="{sizes}" width="1920" height="1200" alt="{alt} {i}" loading="lazy" decoding="async">'
+            (f'<img data-src="/img/{base}-{i}-s.webp?v={V}" data-srcset="{reel_srcset(base, i)}" ' if hero and i > 1 else
+             f'<img src="/img/{base}-{i}-s.webp?v={V}" srcset="{reel_srcset(base, i)}" ')
+            + f'sizes="{sizes}" width="1920" height="1200" alt="{alt} {i}" '
+            + ('fetchpriority="high">' if hero and i == 1 else 'loading="lazy" decoding="async">')
             for i in range(1, val + 1))
         inner = f'<div class="chrome"><i></i><i></i><i></i><b>{E(p["show"])}</b></div><div class="reel n{val}"><div class="strip">{imgs}</div></div><span class="rec">LIVE</span>'
     else:
@@ -936,7 +946,7 @@ def build_project(i, p):
       {gh}
       {"".join(f'<a class="btn magnet" href="{LP()}/yazilar/{a["slug"]}.html" data-nav>📝 {T("Məqaləni oxu", "Read the write-up")} <span class="arr">→</span></a>' for a in ARTICLES if a["project"] == p["slug"])}
     </div>
-    <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="{p['url']}" target="_blank" rel="noopener" aria-label="{E(X(*p['name']))}: {E(p['show'])}">{media_fixed(p, badges=False, sizes="min(1170px, calc(100vw - 34px))")}</a>
+    <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="{p['url']}" target="_blank" rel="noopener" aria-label="{E(X(*p['name']))}: {E(p['show'])}">{media_fixed(p, badges=False, sizes=HERO_SIZES, hero=True)}</a>
   </section>
 
   <section class="wrap p-grid">

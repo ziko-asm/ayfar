@@ -13,8 +13,8 @@
     var S, mode = 'demo', holding = false, visible = false, best = +(A.store && A.store('best') || 0) || 0;
     hud.best.textContent = best.toLocaleString('az');
 
-    function size(){
-      DPR = Math.min(devicePixelRatio || 1, 2); W = wrap.clientWidth; H = wrap.clientHeight;
+    function size(w, h){
+      DPR = Math.min(devicePixelRatio || 1, 2); W = w; H = h;
       cv.width = W * DPR; cv.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       TX = Math.max(30, W * .16); RAIL = H - 34;
     }
@@ -189,11 +189,18 @@
       if(visible && !document.hidden){ step(dt); draw(); }
       requestAnimationFrame(frame);
     }
-    size(); reset();
-    if(reduce){ draw(); }
-    else requestAnimationFrame(frame);
+    /* the canvas size comes from a ResizeObserver: it reports after the browser's layout, so measuring
+       never forces one (doing it while the script ran, or in a frame callback, did) */
+    var booted = false;
+    function resized(w, h){
+      var w0 = W; size(w, h);
+      if(!booted){ booted = true; reset(); if(!reduce) requestAnimationFrame(frame); }
+      else if(w0 !== W && mode !== 'play') reset();
+      if(reduce) draw();
+    }
+    if('ResizeObserver' in window) new ResizeObserver(function(es){ var r = es[0].contentRect; resized(Math.round(r.width), Math.round(r.height)); }).observe(wrap);
+    else { requestAnimationFrame(function(){ resized(wrap.clientWidth, wrap.clientHeight); }); addEventListener('resize', function(){ resized(wrap.clientWidth, wrap.clientHeight); }); }
     new IntersectionObserver(function(es){ visible = es[0].intersectionRatio > 0; }, {threshold:[0, .5]}).observe(wrap);
-    addEventListener('resize', function(){ var w = W; size(); if(w !== W && mode !== 'play') reset(); if(reduce) draw(); });
 
     function down(e){
       if(mode !== 'play'){ if(e && e.type === 'keydown' && e.repeat) return; play(); }
@@ -308,7 +315,9 @@
     var track = hs.querySelector('.hs-track'), slides = [].slice.call(hs.querySelectorAll('.slide'));
     var cur = hs.querySelector('[data-cur]'), bar = hs.querySelector('.hs-bar i'), chips = [].slice.call(hs.querySelectorAll('[data-jump]'));
     var on = false, dist = 0, lastIdx = -1, top = 0, span = 1, centers = [], ks = [], queued = false;
-    function mq(){ return innerWidth >= 900 && innerHeight >= 560 && !reduce; }
+    /* matchMedia answers from the viewport without a layout; innerWidth may force one */
+    var wide = matchMedia('(min-width: 900px) and (min-height: 560px)');
+    function mq(){ return wide.matches && !reduce; }
     /* all measuring happens here, never during scroll */
     function layout(){
       on = mq(); hs.classList.toggle('hs-on', on);
