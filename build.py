@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "38"  # cache-busting for assets
+V = "39"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -247,8 +247,8 @@ P = [
         tag=("Pulsuz alət", "Free tool"), go=("Sayta keç", "Open site"), media=("scene", "yox"),
         metric=("30 san", "ərzində saytın təhlükəsizliyi, sürəti, mobil uyğunluğu və Google görünüşü yoxlanır.",
                 "to check a site's security, speed, mobile readiness and Google visibility."),
-        summary=("Azərbaycandakı kiçik bizneslər üçün pulsuz sayt yoxlama aləti. Nəticəni sadə Azərbaycan dilində izah edir, 0–100 bal və A–F qiymət verir.",
-                 "A free website check for small businesses in Azerbaijan. It explains the result in plain Azerbaijani with a 0–100 score and an A–F grade."),
+        summary=("Azərbaycandakı kiçik bizneslər üçün pulsuz sayt yoxlama aləti. Nəticəni Azərbaycan, ingilis və ya rus dilində sadə sözlərlə izah edir, 0–100 bal və A–F qiymət verir.",
+                 "A free website check for small businesses in Azerbaijan. It explains the result in plain Azerbaijani, English or Russian with a 0–100 score and an A–F grade."),
         body=(["Kiçik biznes sahibləri çox vaxt saytlarının təhlükəsiz olub-olmadığını, Google-da necə göründüyünü bilmir. SaytYoxla bunu 30 saniyədə, texniki biliyə ehtiyac olmadan göstərir.",
                "Saytın ünvanını yazırsınız: alət səhifəni bir dəfə yükləyir, TLS sertifikatına və iki açıq DNS qeydinə (SPF, DMARC) baxır. Hər tapıntı üçün status, sadə izah və düzəliş yolu verilir. Hesabatı PDF kimi çap etmək və WhatsApp ilə əlaqə saxlamaq olar.",
                "Alət yalnız adi ziyarətçinin brauzerinin gördüyünə baxır: gizli yolları yoxlamır, saytı sındırmağa cəhd etmir."],

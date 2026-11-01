@@ -253,7 +253,6 @@
         body.appendChild(ul);
         if(probs.length > 3) body.appendChild(el('p', 'scan-more', T('və daha ' + (probs.length - 3) + ' tövsiyə tam hesabatda.', 'plus ' + (probs.length - 3) + ' more in the full report.', 'и ещё ' + (probs.length - 3) + ' рекомендаций в полном отчёте.')));
       }
-      if(lang() !== 'az') body.appendChild(el('p', 'scan-note', T('', 'Findings are written in Azerbaijani.', 'Результаты проверки написаны на азербайджанском.')));
       var go = el('div', 'scan-go-row');
       var msg = probs.length
         ? 'Salam Ziya! Saytım (' + h + ') SaytYoxla-da ' + r.score + '/100 (' + r.grade + ') aldı. Problemləri düzəltmək istəyirəm.'
@@ -261,7 +260,7 @@
       var wa = el('a', 'btn primary small', probs.length ? T('Bunları düzəldək', 'Fix these with me', 'Исправим это') : T('Yazın, danışaq', 'Message me', 'Напишите мне'));
       wa.href = WA + '?text=' + encodeURIComponent(msg); wa.target = '_blank'; wa.rel = 'noopener';
       var full = el('a', 'btn small', T('Tam hesabat ↗', 'Full report ↗', 'Полный отчёт ↗'));
-      full.href = SITE + '/?url=' + encodeURIComponent(h); full.target = '_blank'; full.rel = 'noopener';
+      full.href = SITE + (lang() === 'az' ? '/' : '/' + lang() + '/') + '?url=' + encodeURIComponent(h); full.target = '_blank'; full.rel = 'noopener';
       go.appendChild(wa); go.appendChild(full); body.appendChild(go);
       card.appendChild(body); out.appendChild(card);
       // animate the ring after it is in the DOM
@@ -275,7 +274,7 @@
       if(!u){ showError(T('Saytın ünvanını yazın, məsələn: example.az', 'Enter a website address, e.g. example.az', 'Введите адрес сайта, например: example.az')); inp.focus(); return; }
       busy(true); out.textContent = ''; out.appendChild(el('div', 'scan-load', T('Sayt yoxlanılır…', 'Checking the site…', 'Проверяем сайт…')));
       var ctl = 'AbortController' in window ? new AbortController() : null, to = setTimeout(function(){ ctl && ctl.abort(); }, 60000);
-      fetch(API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({url:u}), signal:ctl ? ctl.signal : undefined})
+      fetch(API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({url:u, lang:lang()}), signal:ctl ? ctl.signal : undefined})
         .then(function(res){ return res.json().catch(function(){ return {}; }).then(function(d){ return {ok:res.ok, d:d}; }); })
         .then(function(x){
           if(x.ok && typeof x.d.score === 'number') render(x.d);
