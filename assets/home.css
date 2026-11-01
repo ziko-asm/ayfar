@@ -292,3 +292,6 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 .slide .url{margin-top:-2px}
 .slide-idx b{text-shadow:0 0 12px color-mix(in srgb,var(--c1) 60%,transparent)}
 @media (prefers-reduced-motion:reduce){.slide h3{animation:none}}
+/* never split a word in a project name; long names get a smaller size so each word fits */
+.slide h3{overflow-wrap:normal;word-break:normal;hyphens:none}
+.slide h3.long{font-size:clamp(28px,3.5vw,50px)}

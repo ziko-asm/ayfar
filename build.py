@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "33"  # cache-busting for assets
+V = "34"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -671,7 +671,7 @@ def build_index():
         <a class="slide-media tiltable" data-tilt="5" href="p/{p['slug']}.html" data-nav aria-label="{E(p['name'][0])}">{media_fixed(p, '', sizes="(min-width: 900px) 620px, 92vw")}</a>
         <div class="slide-body">
           <div class="slide-idx"><b>{i + 1:02d}</b> / {n:02d} · {T(*CATS[p['cat']])}</div>
-          <h3>{T(*p['name'])}</h3>
+          <h3{' class="long"' if max(len(w) for n in p['name'] for w in n.split()) >= 10 or max(len(n) for n in p['name']) > 18 else ''}>{T(*p['name'])}</h3>
           <div class="url">{E(p['show'])}</div>
           {T(p['summary'][0], p['summary'][1], 'p', 'sum')}
           <div class="metric"><div class="v">{L(p['metric'][0])}</div>{T(p['metric'][1], p['metric'][2], 'div', 'd')}</div>
