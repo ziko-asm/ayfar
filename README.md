@@ -36,6 +36,20 @@ python build.py
 
 Every push to `main` deploys to Vercel.
 
+## Checks
+
+Every push to `main` and every pull request runs [CI](.github/workflows/ci.yml):
+
+1. **Build**: `python build.py` must succeed (it stops if a Russian translation is missing), and its output must match the committed pages.
+2. **Static checks** (`python scripts/check_site.py`): every internal link, image and `hreflang` target exists, hreflang sets are complete and reciprocal, JSON-LD is valid, sitemap URLs exist, and the CSP hashes in `vercel.json` match the inline scripts.
+3. **Browser tests** (`cd tests && npm ci && npm test`): every page in all three languages on desktop and phone, served with the real Vercel headers. No console errors or CSP violations, correct language, no sideways scroll, no WCAG 2.2 AA violations (axe-core), keyboard play of the mini game, readable site-check errors, and the 404 page.
+
+To look at the site locally with production headers: `python scripts/serve.py` and open http://127.0.0.1:8765/.
+
+## Fonts
+
+Unbounded, Space Grotesk and JetBrains Mono are served from `/fonts` (SIL Open Font License, see [fonts/LICENSE.md](fonts/LICENSE.md)), so no request goes to a third party and the CSP stays `'self'` only.
+
 ## Contact
 
 WhatsApp +994 77 217 23 58 · [LinkedIn](https://www.linkedin.com/in/ziya-azizov-91bba638a) · [Instagram](https://www.instagram.com/ayfar.web/)

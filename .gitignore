@@ -1,3 +1,4 @@
 .vercel
 ru_missing.txt
 __pycache__/
+tests/node_modules/

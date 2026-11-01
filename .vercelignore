@@ -6,3 +6,6 @@ README.md
 ru.py
 ru_missing.txt
 content/
+.github
+scripts/
+tests/
