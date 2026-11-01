@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "37"  # cache-busting for assets
+V = "38"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -595,6 +595,8 @@ def llms_txt():
     lines += [f"- {s['name'][1]} ({s['name'][0]}): {s['desc'][1]}" for s in SERVICES]
     lines += ["", "## Projects / Layihələr", ""]
     lines += [f"- [{p['name'][1]}]({CANON}/p/{p['slug']}.html): {p['summary'][1]} Live: {p['url']}" for p in P]
+    lines += ["", "## Articles", ""]
+    lines += [f"- [{a['title']}]({CANON}/yazilar/{a['slug']}.html): {a['desc']}" for a in ARTICLES]
     lines += ["", "## Links", "",
               f"- [Home]({CANON}/)", f"- [Services]({CANON}/#services)", f"- [About]({CANON}/#about)",
               "- [GitHub](https://github.com/ziko-asm)", "- [LinkedIn](https://www.linkedin.com/in/ziya-azizov-91bba638a)", ""]
@@ -602,7 +604,7 @@ def llms_txt():
 
 
 def build_seo_files():
-    urls = [CANON + "/"] + [f"{CANON}/p/{p['slug']}.html" for p in P]
+    urls = [CANON + "/"] + [f"{CANON}/p/{p['slug']}.html" for p in P] + [f"{CANON}/yazilar/{a['slug']}.html" for a in ARTICLES]
     photo = (f"<image:image><image:loc>{SITE}/img/ziya-azizov-ayfar.jpg</image:loc></image:image>")
     xml = "\n".join(f"  <url><loc>{u}</loc><lastmod>{LASTMOD}</lastmod>{photo if u == CANON + '/' else ''}</url>" for u in urls)
     with open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8", newline="\n") as f:
@@ -894,6 +896,7 @@ def build_project(i, p):
     <div class="p-cta reveal-hero d3">
       <a class="btn primary magnet" href="{p['url']}" target="_blank" rel="noopener">{T(*p['go'])} <span class="arr">↗</span></a>
       {gh}
+      {"".join(f'<a class="btn magnet" href="../yazilar/{a["slug"]}.html" data-nav>📝 {T("Məqaləni oxu", "Read the write-up")} <span class="arr">→</span></a>' for a in ARTICLES if a["project"] == p["slug"])}
     </div>
     <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="{p['url']}" target="_blank" rel="noopener" aria-label="{E(p['name'][0])}: {E(p['show'])}">{media_fixed(p, '../', badges=False, sizes="min(1170px, 100vw)")}</a>
   </section>
@@ -929,6 +932,46 @@ def build_project(i, p):
     os.makedirs(os.path.join(ROOT, "p"), exist_ok=True)
     with open(os.path.join(ROOT, "p", f"{p['slug']}.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(page)
+
+
+ARTICLES = [dict(
+    slug="provguard",
+    title="Stop asking \"is this text malicious?\" — how I stopped 144/144 prompt-injection attacks on an AI banking agent",
+    desc="Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.",
+    date="2026-11-01", project="provguard", body="content/provguard-article.html", og="img/og/provguard.png",
+)]
+
+
+def build_articles():
+    import json
+    os.makedirs(os.path.join(ROOT, "yazilar"), exist_ok=True)
+    for a in ARTICLES:
+        with open(os.path.join(ROOT, a["body"]), encoding="utf-8") as f:
+            body = f.read()
+        url = f"{CANON}/yazilar/{a['slug']}.html"
+        page = head(a["title"] + " — ayfar", a["title"] + " — ayfar", a["desc"], url, a["og"], "../")
+        page = page.replace('<meta property="og:type" content="website">', '<meta property="og:type" content="article">')
+        ld = {"@context": "https://schema.org", "@type": "Article", "headline": a["title"], "description": a["desc"],
+              "datePublished": a["date"], "inLanguage": "en", "url": url, "image": SITE + "/" + a["og"],
+              "author": {"@type": "Person", "@id": CANON + "/#ziya", "name": "Ziya Azizov", "url": CANON + "/"},
+              "publisher": {"@id": CANON + "/#ayfar"}}
+        page += f'<link rel="stylesheet" href="../assets/project.css?v={V}">\n<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>\n</head>\n<body class="proj article" style="--c1:#34f5b0;--c2:#5b8cff">\n'
+        page += chrome_bits("../")
+        page += f"""
+<main id="main">
+  <article class="wrap art">
+    <a class="back" href="../p/{a['project']}.html" data-nav>← ProvGuard</a>
+    <div class="p-tags"><span class="tag research">{T("Məqalə", "Article")}</span><span class="p-num">{a['date']} · Ziya Azizov</span></div>
+    <h1>{E(a['title'])}</h1>
+    <p class="art-note" lang="az">Bu məqalə ingilis dilindədir.</p><p class="art-note" lang="ru">Статья на английском языке.</p>
+    <div class="art-body" lang="en">{body}</div>
+  </article>
+</main>
+"""
+        page += footer()
+        page += f'\n<script src="../assets/site.js?v={V}"></script>\n</body>\n</html>\n'
+        with open(os.path.join(ROOT, "yazilar", a["slug"] + ".html"), "w", encoding="utf-8", newline="\n") as f:
+            f.write(page)
 
 
 def build_404():
@@ -993,6 +1036,7 @@ if __name__ == "__main__":
     for i, p in enumerate(P):
         build_project(i, p)
     build_404()
+    build_articles()
     build_vercel_json()
     if MISSING:
         import sys

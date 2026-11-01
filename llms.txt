@@ -25,6 +25,10 @@ Contact / Əlaqə: WhatsApp and phone +994772172358, e-mail ziyaazizov9@gmail.co
 - [Vertical lathe machining](https://ayfar.vercel.app/p/mexaniki-emal.html): A website for engineer Telman Azizov's vertical lathe workshop in Baku, with a rotatable 3D flange, real workshop photos and direct WhatsApp ordering. Live: https://mexaniki-emal.vercel.app/
 - [MANSIA](https://ayfar.vercel.app/p/mansia.html): An online shop for MANSIA, a brand of natural handmade soaps inspired by saffron: the collection, gift boxes, the brand story and ordering through WhatsApp. Live: https://mansia.az/
 
+## Articles
+
+- [Stop asking "is this text malicious?" — how I stopped 144/144 prompt-injection attacks on an AI banking agent](https://ayfar.vercel.app/yazilar/provguard.html): Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.
+
 ## Links
 
 - [Home](https://ayfar.vercel.app/)

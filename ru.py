@@ -260,4 +260,7 @@ RU = {
     'Your message': 'Ваше сообщение',
     'Send': 'Отправить',
     'Sending…': 'Отправляем…',
+    'Article': 'Статья',
+    'Read the write-up': 'Читать статью',
+    'Stop asking "is this text malicious?" — how I stopped 144/144 prompt-injection attacks on an AI banking agent — ayfar': 'Stop asking "is this text malicious?" — how I stopped 144/144 prompt-injection attacks on an AI banking agent — ayfar',
 }
