@@ -1,0 +1,42 @@
+{
+ "jetbrains-mono-cyrillic-ext.woff2": {
+  "chars": "",
+  "unsupported": ""
+ },
+ "jetbrains-mono-cyrillic.woff2": {
+  "chars": "АБВГДЕЖЗИКЛМНОПРСТУХЦЧЩЫЬЭЯабвгдежзийклмнопрстуфхцчшщъыьэюяё",
+  "unsupported": ""
+ },
+ "jetbrains-mono-latin-ext.woff2": {
+  "chars": "ğİŞşƏə",
+  "unsupported": "ı₼"
+ },
+ "jetbrains-mono-latin.woff2": {
+  "chars": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿı–—“”…↑↓",
+  "unsupported": "\n"
+ },
+ "space-grotesk-latin-ext.woff2": {
+  "chars": "ğİŞşƏə₼",
+  "unsupported": "ı"
+ },
+ "space-grotesk-latin.woff2": {
+  "chars": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿı–—“”…↑↓",
+  "unsupported": "\n"
+ },
+ "unbounded-cyrillic-ext.woff2": {
+  "chars": "",
+  "unsupported": ""
+ },
+ "unbounded-cyrillic.woff2": {
+  "chars": "АБВГДЕЖЗИКЛМНОПРСТУХЦЧЩЫЬЭЯабвгдежзийклмнопрстуфхцчшщъыьэюяё",
+  "unsupported": ""
+ },
+ "unbounded-latin-ext.woff2": {
+  "chars": "ğİŞşƏə₼",
+  "unsupported": "ı"
+ },
+ "unbounded-latin.woff2": {
+  "chars": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿı–—“”…↑↓",
+  "unsupported": "\n"
+ }
+}

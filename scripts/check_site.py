@@ -53,8 +53,8 @@ for page in pages:
     base = "http://local" + url_path(page)
 
     # links and images
-    for attr, val in re.findall(r'\s(href|src|srcset|data-zoom)="([^"]*)"', html):
-        for v in ([x.strip().split(" ")[0] for x in val.split(",")] if attr == "srcset" else [val]):
+    for attr, val in re.findall(r'\s(href|src|srcset|data-src|data-srcset|data-zoom)="([^"]*)"', html):
+        for v in ([x.strip().split(" ")[0] for x in val.split(",")] if attr.endswith("srcset") else [val]):
             if v.startswith(SITE):
                 v = v[len(SITE):] or "/"
             if not v or v.startswith(("#", "mailto:", "tel:", "data:")):
@@ -122,6 +122,26 @@ if allowed != inline_hashes:
     err("vercel.json", f"CSP script hashes {sorted(allowed)} do not match inline scripts {sorted(inline_hashes)}")
 if "'unsafe-inline'" in script_src:
     err("vercel.json", "script-src must not allow 'unsafe-inline'")
+
+# fonts: the -ext font files are cut down to the characters the site uses (scripts/subset_fonts.py);
+# a new letter that is missing from them would fall back to a system font
+with open(os.path.join(ROOT, "fonts", "src", "fonts.css"), encoding="utf-8") as f:
+    src_css = f.read()
+with open(os.path.join(ROOT, "fonts", "subset.json"), encoding="utf-8") as f:
+    subsets = json.load(f)
+used = set()
+for f in [os.path.join(ROOT, p.lstrip("/")) for p in pages] + glob.glob(os.path.join(ROOT, "assets", "*.js")):
+    with open(f, encoding="utf-8") as fh:
+        used |= set(fh.read())
+for name, info in subsets.items():
+    block = next(b for b in re.findall(r"@font-face \{.*?\}", src_css, re.S) if f"/fonts/{name}" in b)
+    rng = set()
+    for part in re.search(r"unicode-range: ([^;]+);", block).group(1).split(","):
+        a, _, b = part.strip()[2:].partition("-")
+        rng |= {chr(c) for c in range(int(a, 16), int(b or a, 16) + 1)}
+    missing = (used & rng) - set(info["chars"]) - set(info["unsupported"])
+    if missing:
+        err(f"fonts/{name}", f"pages use {''.join(sorted(missing))!r}, not in the subset: run python scripts/subset_fonts.py")
 
 print(f"{len(pages)} pages, {links} internal links, {len(locs)} sitemap URLs checked")
 if errors:

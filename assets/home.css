@@ -227,10 +227,12 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 }
 
 /* phones and tablets: projects slide in as you scroll (desktop uses the pinned horizontal gallery) */
-.js .hs:not(.hs-on) .slide-media{opacity:0;transform:translateX(-14%) rotate(-3deg) scale(.92);transition:opacity .8s,transform 1s cubic-bezier(.2,.9,.2,1)}
+/* phones: the gallery is a long column; slides far from the screen are not laid out or painted */
+.hs:not(.hs-on) .slide{content-visibility:auto;contain-intrinsic-size:auto 760px}
+.js .hs:not(.hs-on) .slide-media{transform:translateX(-14%) rotate(-3deg) scale(.92);transition:transform 1s cubic-bezier(.2,.9,.2,1)}
 .js .hs:not(.hs-on) .slide:nth-child(even) .slide-media{transform:translateX(14%) rotate(3deg) scale(.92)}
-.js .hs:not(.hs-on) .slide-body > *{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .8s cubic-bezier(.2,.9,.2,1)}
-.js .hs:not(.hs-on) .slide.seen .slide-media,.js .hs:not(.hs-on) .slide.seen .slide-body > *{opacity:1;transform:none}
+.js .hs:not(.hs-on) .slide-body > *{transform:translateY(26px);transition:transform .8s cubic-bezier(.2,.9,.2,1)}
+.js .hs:not(.hs-on) .slide.seen .slide-media,.js .hs:not(.hs-on) .slide.seen .slide-body > *{transform:none}
 .hs:not(.hs-on) .slide.seen .slide-body > :nth-child(2){transition-delay:.08s}
 .hs:not(.hs-on) .slide.seen .slide-body > :nth-child(3){transition-delay:.14s}
 .hs:not(.hs-on) .slide.seen .slide-body > :nth-child(4){transition-delay:.2s}

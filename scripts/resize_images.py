@@ -1,5 +1,5 @@
-"""Makes the 640 px wide previews (img/<name>-<n>-m.webp) from the 1920 px screenshots.
-Phones show a gallery image about 360 CSS px wide (~630 device px), so they get this size
+"""Makes the 720 px wide previews (img/<name>-<n>-m.webp) from the 1920 px screenshots.
+Phones show a gallery image about 360 CSS px wide (~630-660 device px), so they get this size
 instead of the 960 px one. Needs Pillow.
 
 Run:  python scripts/resize_images.py      (only writes files that are missing or older than their source)
@@ -11,7 +11,7 @@ import re
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-WIDTH, QUALITY = 640, 78
+WIDTH, QUALITY = 720, 78
 
 made = 0
 for src in sorted(glob.glob(os.path.join(ROOT, "img", "*.webp"))):

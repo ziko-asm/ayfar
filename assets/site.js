@@ -100,6 +100,16 @@
     pdlg.addEventListener('click', function(){ pdlg.close(); });
   }
 
+  /* ---------- deferred images: the hidden screenshots of a hero reel load after the page ---------- */
+  addEventListener('load', function(){
+    setTimeout(function(){
+      document.querySelectorAll('img[data-srcset]').forEach(function(im){
+        im.srcset = im.dataset.srcset; im.src = im.dataset.src;
+        im.removeAttribute('data-srcset'); im.removeAttribute('data-src');
+      });
+    }, 300);
+  });
+
   /* ---------- rotating words ---------- */
   document.querySelectorAll('.rot').forEach(function(el){
     var words = el.dataset.words.split('|'), wi = 0;
@@ -120,19 +130,18 @@
   /* ---------- hero word: one gradient across all letters ---------- */
   var word = document.querySelector('.word');
   if(word){
-    /* read every position first, then write: interleaving reads and writes forced a full layout per letter */
-    var spans = [].slice.call(word.querySelectorAll('span')), measuredW = -1;
+    /* read every position first, then write (interleaving them forced a layout per letter). A ResizeObserver
+       calls this right after the browser's own layout, so the reads cost nothing; it fires again when the
+       word changes size, which is also what happens when the web font arrives. */
+    var spans = [].slice.call(word.querySelectorAll('span'));
     var measure = function(){
       var left = word.offsetLeft, ww = word.scrollWidth;
       var xs = spans.map(function(s){ return s.offsetLeft - left; });
       word.style.setProperty('--ww', ww + 'px');
       spans.forEach(function(s, i){ s.style.setProperty('--ox', xs[i] + 'px'); });
-      measuredW = innerWidth;
     };
-    requestAnimationFrame(measure);
-    if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ requestAnimationFrame(measure); });
-    /* phones fire resize when the address bar shows or hides; only the width matters here */
-    addEventListener('resize', function(){ if(innerWidth !== measuredW) requestAnimationFrame(measure); });
+    if('ResizeObserver' in window) new ResizeObserver(measure).observe(word);
+    else { requestAnimationFrame(measure); addEventListener('resize', measure); }
   }
 
   /* ---------- reveal + counters ---------- */
@@ -212,8 +221,8 @@
   var W, H, DPR, nodes = [], edges = [], adj = [], trains = [], pm = {x:-9999, y:-9999};
   var COLORS = ['52,245,176', '255,79,216', '91,140,255', '255,201,77'];
   function newTrain(){ var a = Math.floor(Math.random() * nodes.length); return {a:a, b:adj[a][0], p:Math.random(), s:.004 + Math.random() * .008, c:COLORS[Math.floor(Math.random() * COLORS.length)], trail:[]}; }
-  function build(){
-    DPR = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+  function build(w, h){
+    DPR = Math.min(devicePixelRatio || 1, 2); W = w; H = h;
     cv.width = W * DPR; cv.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     var count = Math.round(Math.min(56, Math.max(20, W * H / 32000)));
     nodes = []; edges = []; adj = [];
@@ -226,11 +235,21 @@
     for(var t = 0; t < Math.round(count / 5); t++) trains.push(newTrain());
   }
   addEventListener('pointermove', function(e){ pm.x = e.clientX; pm.y = e.clientY; }, {passive:true});
-  var rt, lastW = innerWidth; addEventListener('resize', function(){ if(innerWidth === lastW && Math.abs(innerHeight - H) < 120) return; lastW = innerWidth; clearTimeout(rt); rt = setTimeout(build, 200); });
-  build();
+  /* the canvas size comes from a ResizeObserver (after layout, so reading it forces nothing); rebuild on a
+     real resize only (phones resize by ~100 px when the address bar shows or hides) */
+  /* the scroll position is read in the scroll event, never while drawing: the game updates text every frame,
+     and reading scrollY right after that forced a layout per frame */
+  var rt, seen = null, started = false, bgY = 0;
+  function resized(w, h){
+    if(!started){ seen = [w, h]; return; }
+    if(w === W && Math.abs(h - H) < 120) return;
+    clearTimeout(rt); rt = setTimeout(function(){ build(w, h); }, 200);
+  }
+  if('ResizeObserver' in window) new ResizeObserver(function(es){ var r = es[0].contentRect; resized(Math.round(r.width), Math.round(r.height)); }).observe(cv);
+  else addEventListener('resize', function(){ resized(innerWidth, innerHeight); });
   function draw(){
     ctx.clearRect(0, 0, W, H);
-    var off = (scrollY * .08) % H;
+    var off = (bgY * .08) % H;
     nodes.forEach(function(n){
       n.x += n.vx; n.y += n.vy;
       if(n.x < -20) n.x = W + 20; if(n.x > W + 20) n.x = -20; if(n.y < -20) n.y = H + 20; if(n.y > H + 20) n.y = -20;
@@ -269,16 +288,21 @@
       ctx.fillStyle = 'rgba(' + t.c + ',1)'; ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 6.283); ctx.fill();
     });
   }
-  if(reduce) draw();
-  else {
-    /* the background is decoration: draw it at ~30 fps and pause it while the page is being scrolled,
-       so scrolling (and the project gallery) gets the whole frame budget */
-    var scrolling = 0, lastDraw = 0;
-    addEventListener('scroll', function(){ scrolling = performance.now(); }, {passive:true});
+  /* the background is decoration, so it starts once the page is idle: measuring the window while the
+     page script ran forced the first layout into a long task */
+  var scrolling = 0, lastDraw = 0;
+  function start(){
+    started = true; bgY = scrollY;
+    var s = seen || [innerWidth, innerHeight];
+    build(s[0], s[1]);
+    if(reduce){ draw(); return; }
+    /* ~30 fps, paused while the page is being scrolled so scrolling (and the project gallery) gets the frame budget */
+    addEventListener('scroll', function(){ scrolling = performance.now(); bgY = scrollY; }, {passive:true});
     (function frame(now){
       requestAnimationFrame(frame);
       if(document.hidden || now - scrolling < 180 || now - lastDraw < 32) return;
       lastDraw = now; draw();
     })(0);
   }
+  if('requestIdleCallback' in window) requestIdleCallback(start, {timeout:1500}); else setTimeout(start, 400);
 })();
