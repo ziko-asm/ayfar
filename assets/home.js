@@ -376,7 +376,7 @@
     addEventListener('scroll', onScroll, {passive:true});
     var rz; addEventListener('resize', function(){ clearTimeout(rz); rz = setTimeout(layout, 150); });
     addEventListener('load', layout);
-    layout();
+    requestAnimationFrame(layout);
 
     /* fetch and decode every preview up front, while the visitor is still in the hero */
     var imgs = [].slice.call(hs.querySelectorAll('img'));

@@ -23,7 +23,11 @@ function check(ok, name, detail = "") {
 const server = spawn("python3", ["../scripts/serve.py", String(PORT)], { stdio: "ignore" });
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 for (let i = 0; i < 50; i++) {
-  try { if ((await fetch(BASE + "/")).ok) break; } catch {}
+  try {
+    const res = await fetch(BASE + "/");
+    await res.arrayBuffer(); // read the body: an unread body on a closing connection crashes Node's fetch
+    if (res.ok) break;
+  } catch {}
   await sleep(100);
 }
 

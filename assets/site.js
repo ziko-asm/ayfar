@@ -120,14 +120,19 @@
   /* ---------- hero word: one gradient across all letters ---------- */
   var word = document.querySelector('.word');
   if(word){
+    /* read every position first, then write: interleaving reads and writes forced a full layout per letter */
+    var spans = [].slice.call(word.querySelectorAll('span')), measuredW = -1;
     var measure = function(){
-      var spans = word.querySelectorAll('span');
-      word.style.setProperty('--ww', word.scrollWidth + 'px');
-      spans.forEach(function(s){ s.style.setProperty('--ox', (s.offsetLeft - word.offsetLeft) + 'px'); });
+      var left = word.offsetLeft, ww = word.scrollWidth;
+      var xs = spans.map(function(s){ return s.offsetLeft - left; });
+      word.style.setProperty('--ww', ww + 'px');
+      spans.forEach(function(s, i){ s.style.setProperty('--ox', xs[i] + 'px'); });
+      measuredW = innerWidth;
     };
-    measure();
-    if(document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
-    addEventListener('resize', measure);
+    requestAnimationFrame(measure);
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ requestAnimationFrame(measure); });
+    /* phones fire resize when the address bar shows or hides; only the width matters here */
+    addEventListener('resize', function(){ if(innerWidth !== measuredW) requestAnimationFrame(measure); });
   }
 
   /* ---------- reveal + counters ---------- */
