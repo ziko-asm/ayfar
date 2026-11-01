@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "41"  # cache-busting for assets
+V = "42"  # cache-busting for assets and images
 
 # Contact
 PHONE = "+994772172358"
@@ -376,6 +376,15 @@ def T(az, en, tag="span", cls=""):
     return f'<{tag}{c}>{X(az, en)}</{tag}>'
 
 
+def css(*names):
+    """Stylesheets inlined into the page: no render-blocking CSS request. The source files stay in assets/."""
+    parts = []
+    for n in names:
+        with open(os.path.join(ROOT, "assets", n), encoding="utf-8") as f:
+            parts.append(f.read().strip())
+    return "<style>\n" + "\n".join(parts) + "\n</style>\n"
+
+
 def head(title, desc, path, og, alternates=True, canonical=None, noindex=False):
     """<head> of a page. path is the page's path inside a language, e.g. "/" or "/p/provguard.html".
     alternates adds hreflang links to the same page in the other languages."""
@@ -411,13 +420,11 @@ def head(title, desc, path, og, alternates=True, canonical=None, noindex=False):
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/fonts.css?v={V}">
 <script>
 document.documentElement.classList.add('js');
 setTimeout(function(){{var b=document.body;if(!b)return;b.classList.add('ready');document.querySelectorAll('.reveal').forEach(function(e){{e.classList.add('in')}});}},5000);
 </script>
-<link rel="stylesheet" href="/assets/site.css?v={V}">
-<script src="/assets/site.js?v={V}" defer></script>
+{css("fonts.css", "site.css")}<script src="/assets/site.js?v={V}" defer></script>
 """
 
 
@@ -539,7 +546,7 @@ def media_fixed(p, badges=True, sizes="(min-width: 900px) 560px, 100vw"):
         base = IMG_SLUG[p["slug"]]
         alt = E(X(*p["name"])) + " — " + X("ekran görüntüsü", "screenshot")
         imgs = "".join(
-            f'<img src="/img/{base}-{i}-s.webp" srcset="/img/{base}-{i}-s.webp 960w, /img/{base}-{i}.webp 1920w" '
+            f'<img src="/img/{base}-{i}-s.webp?v={V}" srcset="/img/{base}-{i}-m.webp?v={V} 640w, /img/{base}-{i}-s.webp?v={V} 960w, /img/{base}-{i}.webp?v={V} 1920w" '
             f'sizes="{sizes}" width="1920" height="1200" alt="{alt} {i}" loading="lazy" decoding="async">'
             for i in range(1, val + 1))
         inner = f'<div class="chrome"><i></i><i></i><i></i><b>{E(p["show"])}</b></div><div class="reel n{val}"><div class="strip">{imgs}</div></div><span class="rec">LIVE</span>'
@@ -737,7 +744,7 @@ def build_index():
         gh = f'<a class="btn small" href="{p["github"]}" target="_blank" rel="noopener">GitHub</a>' if p["github"] else ""
         slides.append(f"""
       <article class="slide" data-cat="{p['cat']}" style="--c1:{p['c1']};--c2:{p['c2']}">
-        <a class="slide-media tiltable" data-tilt="5" href="{LP()}/p/{p['slug']}.html" data-nav aria-label="{E(X(*p['name']))}">{media_fixed(p, sizes="(min-width: 900px) 620px, 92vw")}</a>
+        <a class="slide-media tiltable" data-tilt="5" href="{LP()}/p/{p['slug']}.html" data-nav aria-label="{E(X(*p['name']))}">{media_fixed(p, sizes="(min-width: 900px) 620px, calc(100vw - 54px)")}</a>
         <div class="slide-body">
           <div class="slide-idx"><b>{i + 1:02d}</b> / {n:02d} · {T(*CATS[p['cat']])}</div>
           <h3{' class="long"' if max(len(w) for n in p['name'] for w in n.split()) >= 10 or max(len(n) for n in p['name']) > 18 else ''}>{T(*p['name'])}</h3>
@@ -757,7 +764,7 @@ def build_index():
                 X("Ayfar — Ziya Əzizov, Bakıdan proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisi. Saytları, oyunları (Metro Tycoon) və tədqiqat layihələri bir yerdə.",
                   "Ayfar is Ziya Azizov, a programming, cybersecurity and AI engineer from Baku. His websites, games (Metro Tycoon) and research projects in one place."),
                 "/", "img/og/home.png")
-    page += f'<link rel="stylesheet" href="/assets/home.css?v={V}">\n<script src="/assets/home.js?v={V}" defer></script>\n' + schema() + '</head>\n<body>\n'
+    page += css("home.css") + f'<script src="/assets/home.js?v={V}" defer></script>\n' + schema() + '</head>\n<body>\n'
     page += chrome_bits("/")
     page += f"""
 <main id="main">
@@ -845,7 +852,7 @@ def build_index():
           <div class="skills" aria-hidden="true"><div class="mq"><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span></div></div>
         </div>
         <div class="idcard reveal tiltable">
-          <div class="photo"><img data-zoom="/img/ziya-azizov-ayfar.webp" tabindex="0" role="button" src="/img/ziya-azizov-ayfar-s.webp" srcset="/img/ziya-azizov-ayfar-s.webp 360w, /img/ziya-azizov-ayfar.webp 900w" sizes="(min-width: 900px) 440px, 92vw" width="900" height="900" alt="{X("Ziya Əzizov (ayfar), Bakıdan veb developer və kibertəhlükəsizlik mühəndisi", "Ziya Azizov (ayfar), web developer and cybersecurity engineer from Baku")}" loading="lazy" decoding="async"><span class="photo-badge"><i></i>Bakı · 2005</span></div>
+          <div class="photo"><img data-zoom="/img/ziya-azizov-ayfar.webp?v={V}" tabindex="0" role="button" src="/img/ziya-azizov-ayfar-s.webp?v={V}" srcset="/img/ziya-azizov-ayfar-s.webp?v={V} 360w, /img/ziya-azizov-ayfar.webp?v={V} 900w" sizes="(min-width: 900px) 440px, 92vw" width="900" height="900" alt="{X("Ziya Əzizov (ayfar), Bakıdan veb developer və kibertəhlükəsizlik mühəndisi", "Ziya Azizov (ayfar), web developer and cybersecurity engineer from Baku")}" loading="lazy" decoding="async"><span class="photo-badge"><i></i>Bakı · 2005</span></div>
           <h3>{T("Ziya Əzizov", "Ziya Azizov")}</h3>
           <div class="handle">@ayfar</div>
           <dl>
@@ -909,7 +916,7 @@ def build_project(i, p):
     desc = X(*p["summary"])
     path = f"/p/{p['slug']}.html"
     page = head(X(name_az, name_en) + " — ayfar", desc, path, f"img/og/{p['slug']}.png")
-    page += f'<link rel="stylesheet" href="/assets/project.css?v={V}">\n</head>\n<body class="proj" style="--c1:{p["c1"]};--c2:{p["c2"]}">\n'
+    page += css("project.css") + f'</head>\n<body class="proj" style="--c1:{p["c1"]};--c2:{p["c2"]}">\n'
     page += chrome_bits(path)
     body = "".join(f"<p>{X(a, e)}</p>" for a, e in zip(*p["body"]))
     bullets = "".join(f"<li>{X(a, e)}</li>" for a, e in zip(*p["bullets"]))
@@ -929,7 +936,7 @@ def build_project(i, p):
       {gh}
       {"".join(f'<a class="btn magnet" href="{LP()}/yazilar/{a["slug"]}.html" data-nav>📝 {T("Məqaləni oxu", "Read the write-up")} <span class="arr">→</span></a>' for a in ARTICLES if a["project"] == p["slug"])}
     </div>
-    <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="{p['url']}" target="_blank" rel="noopener" aria-label="{E(X(*p['name']))}: {E(p['show'])}">{media_fixed(p, badges=False, sizes="min(1170px, 100vw)")}</a>
+    <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="{p['url']}" target="_blank" rel="noopener" aria-label="{E(X(*p['name']))}: {E(p['show'])}">{media_fixed(p, badges=False, sizes="min(1170px, calc(100vw - 34px))")}</a>
   </section>
 
   <section class="wrap p-grid">
@@ -988,7 +995,7 @@ def build_articles():
               "datePublished": a["date"], "inLanguage": "en", "url": url, "image": SITE + "/" + a["og"],
               "author": {"@type": "Person", "@id": CANON + "/#ziya", "name": "Ziya Azizov", "url": CANON + "/"},
               "publisher": {"@id": CANON + "/#ayfar"}}
-        page += f'<link rel="stylesheet" href="/assets/project.css?v={V}">\n<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>\n</head>\n<body class="proj article" style="--c1:#34f5b0;--c2:#5b8cff">\n'
+        page += css("project.css") + f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>\n</head>\n<body class="proj article" style="--c1:#34f5b0;--c2:#5b8cff">\n'
         page += chrome_bits(path)
         note = {"az": "Bu məqalə ingilis dilindədir.", "ru": "Статья на английском языке."}.get(LANG)
         note = f'<p class="art-note">{note}</p>' if note else ""
@@ -1066,7 +1073,7 @@ def build_vercel_json():
         # fonts never change under the same name; CSS/JS are versioned with ?v=, so they can be cached for a year
         ("/fonts/(.*)", "public, max-age=31536000, immutable"),
         ("/assets/(.*)", "public, max-age=31536000, immutable"),
-        ("/img/(.*)", "public, max-age=604800"),
+        ("/img/(.*)", "public, max-age=31536000, immutable"),  # page images carry ?v=; bump V when replacing one
     ]
     cfg = {"headers": [{"source": "/(.*)", "headers": [{"key": k, "value": v} for k, v in headers]}]
            + [{"source": src, "headers": [{"key": "Cache-Control", "value": val}]} for src, val in cache]}
