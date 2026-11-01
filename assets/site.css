@@ -297,3 +297,8 @@ main:focus{outline:none}
 .photo-dlg img{display:block;width:100%;height:auto;border-radius:22px;border:1px solid var(--line2);box-shadow:0 30px 80px -20px rgba(0,0,0,.8)}
 .photo-dlg .msg-x{z-index:2;background:rgba(5,7,11,.7)}
 @media (max-width:1100px){nav.links .msg-open{padding:8px 10px}}
+
+/* the custom cursor sits below <dialog> (top layer), so inside dialogs show the normal cursor */
+body.has-cursor dialog,body.has-cursor dialog *{cursor:auto}
+body.has-cursor dialog button,body.has-cursor dialog .btn,body.has-cursor dialog a,body.has-cursor .photo-dlg{cursor:pointer}
+body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
