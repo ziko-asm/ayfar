@@ -261,7 +261,7 @@ P = [
                  ["<b>Security:</b> HTTPS, certificate expiry, HSTS, CSP, clickjacking protection, version disclosure.",
                   "<b>E-mail:</b> SPF and DMARC records.",
                   "<b>Speed, mobile &amp; Google:</b> response time, HTML size, viewport, title, description."]),
-        chips=["Python", "FastAPI", "Vercel"],
+        chips=["Python", "FastAPI", "React", "TypeScript"],
         github="https://github.com/ziko-asm/saytyoxla",
         note=None,
     ),
