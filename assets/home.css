@@ -280,3 +280,4 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 .scan-more,.scan-note{margin:0 0 10px;font-size:13.5px;color:var(--muted)}
 .scan-go-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
 .rev blockquote p::after{content:"”";color:var(--g);font:900 30px/0 var(--display);margin-left:4px;vertical-align:-.3em}
+.rev-cta{margin-top:22px}

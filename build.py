@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "30"  # cache-busting for assets
+V = "31"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -32,6 +32,7 @@ SCAN_SITE = "https://saytyoxla.vercel.app"
 SCAN_API = SCAN_SITE + "/api/scan"
 INSTAGRAM = "https://www.instagram.com/ayfar.web/"
 X_URL = "https://x.com/ayfar_web"
+GOOGLE_REVIEW = "https://g.page/r/Cfrr1Out_JVWEBM/review"
 
 # Services. price: None shows "price on request"; set e.g. ("150 ₼-dan", "from 150 ₼") to show a number.
 SERVICES = [
@@ -650,6 +651,7 @@ def reviews_html():
       <div class="sec-head reveal"><div><div class="sec-num">03 — {T("RƏYLƏR", "REVIEWS")}</div><h2>{T("Müştərilər deyir", "What clients say")}</h2></div></div>
       <div class="rev-grid">{cards}
       </div>
+      <div class="rev-cta reveal"><a class="btn small magnet" href="{GOOGLE_REVIEW}" target="_blank" rel="noopener">⭐ {T("Google-da rəy yazın", "Leave a review on Google")} <span class="arr">↗</span></a></div>
     </div>
   </section>"""
 
