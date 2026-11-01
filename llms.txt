@@ -22,7 +22,7 @@ Contact / Əlaqə: WhatsApp and phone +994772172358, e-mail ziyaazizov9@gmail.co
 - [Agent Audit](https://ayfar.vercel.app/p/agent-audit.html): A security audit service for companies' AI chatbots and agents: it runs real attacks and delivers a report with evidence and concrete fixes. Live: https://agent-audit-ten.vercel.app/
 - [SaytYoxla](https://ayfar.vercel.app/p/saytyoxla.html): A free website check for small businesses in Azerbaijan. It explains the result in plain Azerbaijani, English or Russian with a 0–100 score and an A–F grade. Live: https://saytyoxla.vercel.app
 - [bathshop.az](https://ayfar.vercel.app/p/bathshop.html): An online store for bathroom and heating equipment in Baku: water heaters, gas boilers and water pumps, with a cart and ordering. Live: https://bathshop-az-selling-site.vercel.app/
-- [Vertical lathe machining](https://ayfar.vercel.app/p/mexaniki-emal.html): A website for engineer Telman Azizov's vertical lathe workshop in Baku, with a rotatable 3D flange, real workshop photos and direct WhatsApp ordering. Live: https://mexaniki-emal.vercel.app/
+- [Vertical lathe machining](https://ayfar.vercel.app/p/mexaniki-emal.html): A website for engineer Telman Azizov's vertical lathe workshop in Baku, with a 3D gallery of real workshop photos that moves as you scroll and direct WhatsApp ordering. Live: https://mexaniki-emal.vercel.app/
 - [MANSIA](https://ayfar.vercel.app/p/mansia.html): An online shop for MANSIA, a brand of natural handmade soaps inspired by saffron: the collection, gift boxes, the brand story and ordering through WhatsApp. Live: https://mansia.az/
 
 ## Articles

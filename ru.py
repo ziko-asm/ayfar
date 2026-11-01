@@ -4,7 +4,7 @@ build.py fails and lists the gaps in ru_missing.txt when a new English string ha
 """
 
 RU = {
-    '<b>3D model:</b> a flange you spin by dragging, with a "view from below" mode.': '<b>3D-модель:</b> фланец, который можно вращать мышью или пальцем, с режимом «вид снизу».',
+    '<b>3D gallery:</b> as you scroll, the workshop photos move along one row and turn.': '<b>3D-галерея:</b> при прокрутке фотографии работ движутся в один ряд и поворачиваются.',
     '<b>A cascade</b> cannot rescue a model that is confidently wrong.': '<b>Каскад</b> не спасает модель, которая уверенно ошибается.',
     '<b>AgentDojo, model-free:</b> banking 144/144 (100%), Slack 97/105 (92%), workspace 200/240 (83%), travel 79/120 (66%).': '<b>AgentDojo, без модели:</b> банкинг 144/144 (100%), Slack 97/105 (92%), workspace 200/240 (83%), travel 79/120 (66%).',
     '<b>Brand story:</b> from the saffron field to the soap, told as a timeline.': '<b>История бренда:</b> путь от шафранового поля до мыла в виде таймлайна.',
@@ -48,7 +48,7 @@ RU = {
     'A study of how easily neural network intrusion detectors are fooled when an attacker slightly shapes its own traffic, with an interactive Streamlit dashboard.': 'Исследование того, как легко обмануть нейросетевые детекторы вторжений, когда атакующий немного меняет свой трафик, с интерактивной панелью на Streamlit.',
     "A study of how reliable prompt injection detectors really are. Five kinds of detector were trained on two public datasets and tested on each other's data.": 'Исследование того, насколько надёжны детекторы prompt injection на самом деле. Пять видов детекторов обучены на двух открытых датасетах и проверены на данных друг друга.',
     'A train-driving tycoon game on the Baku metro: build the metro, drive the train, become a millionaire. Open stations from İçərişəhər to Həzi Aslanov, collect coins, beat obstacles and find hidden codes.': 'Игра-тайкун о машинисте бакинского метро: строй метро, веди поезд, стань миллионером. Открывай станции от Ичеришехер до Гази Асланова, собирай монеты, преодолевай препятствия и ищи секретные коды.',
-    "A website for engineer Telman Azizov's vertical lathe workshop in Baku, with a rotatable 3D flange, real workshop photos and direct WhatsApp ordering.": 'Сайт для цеха карусельной токарной обработки инженера Тельмана Азизова в Баку: вращаемый 3D-фланец, реальные фото цеха и заказ напрямую через WhatsApp.',
+    "A website for engineer Telman Azizov's vertical lathe workshop in Baku, with a 3D gallery of real workshop photos that moves as you scroll and direct WhatsApp ordering.": 'Сайт для цеха карусельной токарной обработки инженера Тельмана Азизова в Баку: 3D-галерея реальных фотографий работ, которая движется при прокрутке, и заказ напрямую через WhatsApp.',
     'AI agents read e-mails, web pages and documents written by strangers, then take real actions like sending money or e-mail. An attacker can hide an instruction in that text and steer the agent.': 'AI-агенты читают письма, веб-страницы и документы, написанные посторонними, а затем выполняют реальные действия: переводят деньги или отправляют письма. Злоумышленник может спрятать в таком тексте инструкцию и управлять агентом.',
     'AI-NIDS Robustness Lab': 'AI-NIDS Robustness Lab',
     'AI-NIDS Robustness Lab — ayfar': 'AI-NIDS Robustness Lab — ayfar',
@@ -127,7 +127,7 @@ RU = {
     'I set up the domain and hosting, and the site goes live on Google.': 'Я настраиваю домен и хостинг, и сайт появляется в Google.',
     "I was born in Baku in 2005 and still live there. I'm an engineer working in programming, cybersecurity and artificial intelligence.": 'Я родился в Баку в 2005 году и живу здесь. Я инженер в области программирования, кибербезопасности и искусственного интеллекта.',
     'Is ayfar the same as Ayfar Otomotiv?': 'ayfar и Ayfar Otomotiv — одна компания?',
-    'It has a technical-drawing look, a rotatable 3D flange model, a gallery of real workshop photos, a page for each service, address and map, and direct WhatsApp ordering. It is optimised for Google search.': 'Стиль технического чертежа, вращаемая 3D-модель фланца, галерея реальных фото цеха, отдельная страница для каждой услуги, адрес и карта, заказ напрямую через WhatsApp. Сайт оптимизирован для поиска Google.',
+    'It has a technical-drawing look, a gallery of real workshop photos that slides sideways in 3D as you scroll, a page for each service, address and map, and direct WhatsApp ordering. It is optimised for Google search.': 'Стиль технического чертежа, галерея реальных фото цеха, которая при прокрутке движется вбок в 3D, отдельная страница для каждой услуги, адрес и карта, заказ напрямую через WhatsApp. Сайт оптимизирован для поиска Google.',
     "It only looks at what any visitor's browser sees: it never probes hidden paths or tries to break in.": 'Инструмент смотрит только на то, что видит браузер обычного посетителя: он не ищет скрытые пути и не пытается взломать сайт.',
     'Landing page': 'Лендинг',
     'Languages': 'Языки',
