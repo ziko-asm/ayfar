@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and static checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build every page in three languages (fails if a Russian translation is missing)
+        run: python build.py
+
+      - name: Committed HTML matches build.py output
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::The committed pages differ from what build.py generates. Run 'python build.py' and commit the result."
+            git status --porcelain
+            git diff --stat
+            exit 1
+          fi
+
+      - name: Links, hreflang, JSON-LD, sitemap and CSP hashes
+        run: python scripts/check_site.py
+
+      - name: JavaScript syntax
+        run: for f in assets/*.js; do node --check "$f"; done
+
+  browser:
+    name: Browser tests (Playwright + axe)
+    needs: build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tests
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tests/package-lock.json
+
+      - run: npm ci
+
+      - run: npx playwright install --with-deps chromium
+
+      - name: Pages, languages, accessibility, game keyboard, site check errors, 404
+        run: npm test

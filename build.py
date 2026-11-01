@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "40"  # cache-busting for assets
+V = "41"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -409,14 +409,15 @@ def head(title, desc, path, og, alternates=True, canonical=None, noindex=False):
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="/img/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css?v={V}">
 <script>
 document.documentElement.classList.add('js');
 setTimeout(function(){{var b=document.body;if(!b)return;b.classList.add('ready');document.querySelectorAll('.reveal').forEach(function(e){{e.classList.add('in')}});}},5000);
 </script>
 <link rel="stylesheet" href="/assets/site.css?v={V}">
+<script src="/assets/site.js?v={V}" defer></script>
 """
 
 
@@ -756,7 +757,7 @@ def build_index():
                 X("Ayfar — Ziya Əzizov, Bakıdan proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisi. Saytları, oyunları (Metro Tycoon) və tədqiqat layihələri bir yerdə.",
                   "Ayfar is Ziya Azizov, a programming, cybersecurity and AI engineer from Baku. His websites, games (Metro Tycoon) and research projects in one place."),
                 "/", "img/og/home.png")
-    page += f'<link rel="stylesheet" href="/assets/home.css?v={V}">\n' + schema() + '</head>\n<body>\n'
+    page += f'<link rel="stylesheet" href="/assets/home.css?v={V}">\n<script src="/assets/home.js?v={V}" defer></script>\n' + schema() + '</head>\n<body>\n'
     page += chrome_bits("/")
     page += f"""
 <main id="main">
@@ -889,7 +890,7 @@ def build_index():
 </main>
 """
     page += footer()
-    page += f'\n<script src="/assets/site.js?v={V}"></script>\n<script src="/assets/home.js?v={V}"></script>\n</body>\n</html>\n'
+    page += '\n</body>\n</html>\n'
     with open(out_path("index.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(page)
 
@@ -958,7 +959,7 @@ def build_project(i, p):
 </main>
 """
     page += footer()
-    page += f'\n<script src="/assets/site.js?v={V}"></script>\n</body>\n</html>\n'
+    page += '\n</body>\n</html>\n'
     with open(out_path("p", f"{p['slug']}.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(page)
 
@@ -976,6 +977,8 @@ def build_articles():
     for a in ARTICLES:
         with open(os.path.join(ROOT, a["body"]), encoding="utf-8") as f:
             body = f.read()
+        # wide code blocks and tables scroll sideways on phones; make them reachable from the keyboard
+        body = body.replace("<pre>", '<pre tabindex="0">').replace("<table>", '<table tabindex="0">')
         path = f"/yazilar/{a['slug']}.html"
         url = CANON + path  # the text is English everywhere, so every language version points here
         proj = next(p for p in P if p["slug"] == a["project"])
@@ -1001,7 +1004,7 @@ def build_articles():
 </main>
 """
         page += footer()
-        page += f'\n<script src="/assets/site.js?v={V}"></script>\n</body>\n</html>\n'
+        page += '\n</body>\n</html>\n'
         with open(out_path("yazilar", a["slug"] + ".html"), "w", encoding="utf-8", newline="\n") as f:
             f.write(page)
 
@@ -1025,7 +1028,7 @@ def build_404():
 </main>
 """
     page += footer()
-    page += f'\n<script src="/assets/site.js?v={V}"></script>\n</body>\n</html>\n'
+    page += '\n</body>\n</html>\n'
     with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(page)
 
@@ -1039,14 +1042,16 @@ def build_vercel_json():
     import json
     import re
     hashes = set()
-    for f in glob.glob(os.path.join(ROOT, "**", "*.html"), recursive=True):
+    built = [f for f in glob.glob(os.path.join(ROOT, "**", "*.html"), recursive=True)
+             if not os.path.relpath(f, ROOT).replace(os.sep, "/").startswith(("tests/", "content/", "node_modules/"))]
+    for f in built:
         with open(f, encoding="utf-8") as fh:
             for m in re.finditer(r"<script>(.*?)</script>", fh.read(), re.S):
                 hashes.add("'sha256-" + base64.b64encode(hashlib.sha256(m.group(1).encode()).digest()).decode() + "'")
     csp = ("default-src 'self'; "
            f"script-src 'self' {' '.join(sorted(hashes))}; "
-           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-           "font-src 'self' https://fonts.gstatic.com; "
+           "style-src 'self' 'unsafe-inline'; "
+           "font-src 'self'; "
            "img-src 'self' data:; connect-src 'self' " + SCAN_SITE + " https://formspree.io; "
            "frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://formspree.io; object-src 'none'; upgrade-insecure-requests")
     headers = [
@@ -1057,7 +1062,14 @@ def build_vercel_json():
         ("Strict-Transport-Security", "max-age=63072000; includeSubDomains"),
         ("Content-Security-Policy", csp),
     ]
-    cfg = {"headers": [{"source": "/(.*)", "headers": [{"key": k, "value": v} for k, v in headers]}]}
+    cache = [
+        # fonts never change under the same name; CSS/JS are versioned with ?v=, so they can be cached for a year
+        ("/fonts/(.*)", "public, max-age=31536000, immutable"),
+        ("/assets/(.*)", "public, max-age=31536000, immutable"),
+        ("/img/(.*)", "public, max-age=604800"),
+    ]
+    cfg = {"headers": [{"source": "/(.*)", "headers": [{"key": k, "value": v} for k, v in headers]}]
+           + [{"source": src, "headers": [{"key": "Cache-Control", "value": val}]} for src, val in cache]}
     with open(os.path.join(ROOT, "vercel.json"), "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(cfg, indent=2) + "\n")
 

@@ -1,0 +1,13 @@
+{
+  "name": "ayfar-tests",
+  "private": true,
+  "description": "Browser tests for the built site (see browser.mjs)",
+  "type": "module",
+  "scripts": {
+    "test": "node browser.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.3",
+    "playwright": "1.63.0"
+  }
+}

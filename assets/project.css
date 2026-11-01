@@ -8,10 +8,9 @@
 .p-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:46px}
 .p-media{display:block;text-decoration:none;transition:transform .5s cubic-bezier(.2,.9,.2,1)}
 .p-media .media{box-shadow:0 50px 120px -30px color-mix(in srgb,var(--c1) 40%,transparent),0 0 0 1px rgba(255,255,255,.04)}
-.js .reveal-hero{opacity:0;transform:translateY(30px)}
-.reveal-hero{transition:opacity .9s,transform 1s cubic-bezier(.2,.9,.2,1)}
-.ready .reveal-hero{opacity:1;transform:none}
-.ready .reveal-hero.d1{transition-delay:.1s}.ready .reveal-hero.d2{transition-delay:.2s}.ready .reveal-hero.d3{transition-delay:.3s}.ready .reveal-hero.d4{transition-delay:.4s}
+.reveal-hero{animation:heroIn .8s cubic-bezier(.2,.9,.2,1) both}
+@keyframes heroIn{from{transform:translateY(30px)}}
+.reveal-hero.d1{animation-delay:.05s}.reveal-hero.d2{animation-delay:.1s}.reveal-hero.d3{animation-delay:.15s}.reveal-hero.d4{animation-delay:.2s}
 
 .p-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:48px;padding-top:50px;padding-bottom:60px;align-items:start}
 @media (max-width:900px){.p-grid{grid-template-columns:minmax(0,1fr)}}

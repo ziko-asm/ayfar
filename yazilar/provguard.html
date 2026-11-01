@@ -22,15 +22,16 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="/img/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css?v=41">
 <script>
 document.documentElement.classList.add('js');
 setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});},5000);
 </script>
-<link rel="stylesheet" href="/assets/site.css?v=40">
-<link rel="stylesheet" href="/assets/project.css?v=40">
+<link rel="stylesheet" href="/assets/site.css?v=41">
+<script src="/assets/site.js?v=41" defer></script>
+<link rel="stylesheet" href="/assets/project.css?v=41">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Stop asking \"is this text malicious?\" — how I stopped 144/144 prompt-injection attacks on an AI banking agent", "description": "Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.", "datePublished": "2026-11-01", "inLanguage": "en", "url": "https://ayfar.vercel.app/yazilar/provguard.html", "image": "https://ayfar.vercel.app/img/og/provguard.png", "author": {"@type": "Person", "@id": "https://ayfar.vercel.app/#ziya", "name": "Ziya Azizov", "url": "https://ayfar.vercel.app/"}, "publisher": {"@id": "https://ayfar.vercel.app/#ayfar"}}</script>
 </head>
 <body class="proj article" style="--c1:#34f5b0;--c2:#5b8cff">
@@ -107,7 +108,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
 <p>That pushed me to a different question.</p>
 <h2>Part 2: Ask where the argument came from, not what the text says</h2>
 <p>Look at a hijacked agent closely and the damage always happens at the same moment: a tool is called with an argument the user never gave.</p>
-<pre><code>send_email(to=&quot;collector@unknown.example&quot;, ...)
+<pre tabindex="0"><code>send_email(to=&quot;collector@unknown.example&quot;, ...)
 </code></pre>
 <p>The user asked for a summary to be sent to Alice. The address <code>collector@unknown.example</code> appeared in only one place: an e-mail written by a stranger.</p>
 <p>So instead of judging the text, <strong>ProvGuard tracks provenance</strong>, an idea borrowed from information-flow control:</p>
@@ -122,7 +123,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
 <li><strong>Escalate when the context is tainted.</strong> Sensitive tools can require confirmation, or be blocked, once any untrusted text has been read.</li>
 </ol>
 <p>The policy is a few lines of YAML:</p>
-<pre><code class="language-yaml">tools:
+<pre tabindex="0"><code class="language-yaml">tools:
   read_inbox:
     output: untrusted
   get_contacts:
@@ -138,7 +139,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
 <h2>Part 3: Results on AgentDojo</h2>
 <p>I evaluated ProvGuard on <a target="_blank" rel="noopener" href="https://github.com/ethz-spylab/agentdojo">AgentDojo</a>, the agent-security benchmark from ETH Zürich, in two ways.</p>
 <p><strong>Model-free replay.</strong> AgentDojo ships a reference solution for every task. I replayed them through ProvGuard with no LLM in the loop, as if the agent were fully hijacked by the <code>important_instructions</code> attack. Every number is deterministic:</p>
-<table>
+<table tabindex="0">
 <thead>
 <tr>
 <th>Suite</th>
@@ -172,7 +173,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
 <p>One rule I kept: <strong>the policies were written from tool signatures alone, before I read any attack</strong>, and they have not changed since.</p>
 <p>The best lesson came from a failure. In the first version, Slack stopped only 53 of 105 attacks. The attacker had planted text inside a <em>channel name</em>, and the channel list was trusted, so a URL hidden inside the name looked trusted too. The fix went into the library, not the policy: structured tool output now vouches only for <em>complete</em> field values, never for text found inside a field. Slack went from 53 to <strong>97 of 105</strong>.</p>
 <p><strong>A live agent.</strong> Replays measure the policy, not an agent, so I also ran a real model: Qwen3 8B on AgentDojo banking, locally through Ollama.</p>
-<table>
+<table tabindex="0">
 <thead>
 <tr>
 <th></th>
@@ -220,6 +221,5 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   </article>
 </main>
 <footer><div class="wrap">© 2026 ayfar · <span>Ziya Əzizov</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span>Bakıda hazırlanıb</span></div></footer>
-<script src="/assets/site.js?v=40"></script>
 </body>
 </html>
