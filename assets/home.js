@@ -66,6 +66,8 @@
     }
     function play(){
       reset(); mode = 'play'; over.classList.remove('show'); start.classList.add('hide'); wrap.classList.add('playing');
+      /* the start/again buttons fade out; keep keyboard focus in the game instead of on a hidden button */
+      if(wrap.contains(document.activeElement) && document.activeElement !== cv) cv.focus({preventScroll:true});
       say({az:'Basılı saxla: qaz · burax: tormoz', ru:'Держите: газ · отпустите: тормоз'}[lang()] || 'Hold: go · release: brake');
     }
 
@@ -202,14 +204,18 @@
     cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up); cv.addEventListener('lostpointercapture', up);
     /* press-and-hold on the start overlay starts the run and keeps the throttle open */
     start.addEventListener('pointerdown', function(e){ e.preventDefault(); play(); holding = true; });
-    start.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); play(); } });
+    start.addEventListener('keydown', function(e){
+      if(e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault(); if(e.repeat) return;
+      play(); holding = e.key === ' ';  /* Space keeps the throttle open until it is released */
+    });
     addEventListener('pointerup', up); addEventListener('pointercancel', up);
     wrap.addEventListener('contextmenu', function(e){ e.preventDefault(); });
     over.querySelector('[data-again]').addEventListener('click', function(){ play(); });
     function inView(){ var r = wrap.getBoundingClientRect(); return r.top < innerHeight * .8 && r.bottom > innerHeight * .2; }
     addEventListener('keydown', function(e){
       if(!/^(Space|ArrowUp|KeyW)$/.test(e.code) || !inView()) return;
-      if(e.target.closest && e.target.closest('input,textarea,button,a')) return;
+      if(e.target !== cv && e.target.closest && e.target.closest('input,textarea,button,a,select,dialog')) return;
       e.preventDefault(); down(e);
     });
     addEventListener('keyup', function(e){ if(/^(Space|ArrowUp|KeyW)$/.test(e.code)) up(); });
@@ -224,6 +230,12 @@
     var el = function(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; };
     var gradeColor = function(g){ return {A:'#34f5b0', B:'#7ee081', C:'#ffc94d', D:'#ff9a4d', F:'#ff4f6d'}[g] || '#8d99a8'; };
     var host = function(u){ try{ return new URL(/^https?:\/\//i.test(u) ? u : 'https://' + u).hostname; }catch(e){ return u; } };
+    /* FastAPI sends "detail" as a string for our own errors and as a list of {msg} objects for validation errors */
+    var detailText = function(d){
+      if(typeof d === 'string') return d;
+      if(Array.isArray(d)) return d.map(function(x){ return x && typeof x.msg === 'string' ? x.msg : ''; }).filter(Boolean).join(' · ');
+      return '';
+    };
     var busy = function(on){ sf.classList.toggle('busy', on); btn.disabled = on; inp.readOnly = on; };
     var showError = function(msg){
       out.textContent = ''; var e = el('div', 'scan-err', msg); e.setAttribute('role', 'alert'); out.appendChild(e);
@@ -254,9 +266,14 @@
         if(probs.length > 3) body.appendChild(el('p', 'scan-more', T('və daha ' + (probs.length - 3) + ' tövsiyə tam hesabatda.', 'plus ' + (probs.length - 3) + ' more in the full report.', 'и ещё ' + (probs.length - 3) + ' рекомендаций в полном отчёте.')));
       }
       var go = el('div', 'scan-go-row');
+      var res = r.score + '/100' + (probs.length ? ' (' + r.grade + ')' : '');
       var msg = probs.length
-        ? 'Salam Ziya! Saytım (' + h + ') SaytYoxla-da ' + r.score + '/100 (' + r.grade + ') aldı. Problemləri düzəltmək istəyirəm.'
-        : 'Salam Ziya! Saytım (' + h + ') SaytYoxla-da ' + r.score + '/100 aldı. Sizinlə sayt barədə danışmaq istəyirəm.';
+        ? T('Salam Ziya! Saytım (' + h + ') SaytYoxla-da ' + res + ' aldı. Problemləri düzəltmək istəyirəm.',
+            'Hi Ziya! My site (' + h + ') scored ' + res + ' on SaytYoxla. I would like to fix the issues.',
+            'Здравствуйте, Зия! Мой сайт (' + h + ') получил ' + res + ' в SaytYoxla. Хочу исправить проблемы.')
+        : T('Salam Ziya! Saytım (' + h + ') SaytYoxla-da ' + res + ' aldı. Sizinlə sayt barədə danışmaq istəyirəm.',
+            'Hi Ziya! My site (' + h + ') scored ' + res + ' on SaytYoxla. I would like to talk about my website.',
+            'Здравствуйте, Зия! Мой сайт (' + h + ') получил ' + res + ' в SaytYoxla. Хочу обсудить с вами сайт.');
       var wa = el('a', 'btn primary small', probs.length ? T('Bunları düzəldək', 'Fix these with me', 'Исправим это') : T('Yazın, danışaq', 'Message me', 'Напишите мне'));
       wa.href = WA + '?text=' + encodeURIComponent(msg); wa.target = '_blank'; wa.rel = 'noopener';
       var full = el('a', 'btn small', T('Tam hesabat ↗', 'Full report ↗', 'Полный отчёт ↗'));
@@ -278,7 +295,7 @@
         .then(function(res){ return res.json().catch(function(){ return {}; }).then(function(d){ return {ok:res.ok, d:d}; }); })
         .then(function(x){
           if(x.ok && typeof x.d.score === 'number') render(x.d);
-          else showError(x.d && x.d.detail ? String(x.d.detail) : T('Yoxlamaq alınmadı. Bir az sonra yenidən cəhd edin.', 'The check failed. Please try again shortly.', 'Проверка не удалась. Попробуйте чуть позже.'));
+          else showError(detailText(x.d && x.d.detail) || T('Yoxlamaq alınmadı. Bir az sonra yenidən cəhd edin.', 'The check failed. Please try again shortly.', 'Проверка не удалась. Попробуйте чуть позже.'));
         })
         .catch(function(){ showError(T('Bağlantı alınmadı. İnterneti yoxlayıb yenidən cəhd edin.', 'Could not connect. Check your connection and try again.', 'Не удалось подключиться. Проверьте интернет и попробуйте снова.')); })
         .then(function(){ clearTimeout(to); busy(false); });

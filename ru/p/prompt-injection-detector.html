@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru" data-lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt Injection Detector Benchmark — ayfar</title>
+<meta name="description" content="Исследование того, насколько надёжны детекторы prompt injection на самом деле. Пять видов детекторов обучены на двух открытых датасетах и проверены на данных друг друга.">
+<link rel="canonical" href="https://ayfar.vercel.app/ru/p/prompt-injection-detector.html">
+<link rel="alternate" hreflang="az" href="https://ayfar.vercel.app/p/prompt-injection-detector.html">
+<link rel="alternate" hreflang="en" href="https://ayfar.vercel.app/en/p/prompt-injection-detector.html">
+<link rel="alternate" hreflang="ru" href="https://ayfar.vercel.app/ru/p/prompt-injection-detector.html">
+<link rel="alternate" hreflang="x-default" href="https://ayfar.vercel.app/p/prompt-injection-detector.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Prompt Injection Detector Benchmark — ayfar">
+<meta property="og:description" content="Исследование того, насколько надёжны детекторы prompt injection на самом деле. Пять видов детекторов обучены на двух открытых датасетах и проверены на данных друг друга.">
+<meta property="og:url" content="https://ayfar.vercel.app/ru/p/prompt-injection-detector.html">
+<meta property="og:image" content="https://ayfar.vercel.app/img/og/prompt-injection-detector.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ayfar.vercel.app/img/og/prompt-injection-detector.png">
+<meta name="theme-color" content="#05070b">
+<meta name="google-site-verification" content="9FHzK0T2MlxLEmw8k1gnPzawKyXvbkJhKm1MKYsDFh4" />
+<meta name="msvalidate.01" content="071B769B591B43B1773023FFFF98515D" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>
+document.documentElement.classList.add('js');
+setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});},5000);
+</script>
+<link rel="stylesheet" href="/assets/site.css?v=40">
+<link rel="stylesheet" href="/assets/project.css?v=40">
+</head>
+<body class="proj" style="--c1:#5b8cff;--c2:#34f5b0">
+<a class="skip" href="#main"><span>Перейти к содержанию</span></a>
+<div id="curtain" aria-hidden="true"><b>ayfar</b></div>
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cur-dot" aria-hidden="true"></div>
+<div class="cur-ring" aria-hidden="true"><span class="lbl">ОТКР</span></div>
+<div id="progress"></div>
+<header class="top" id="hdr">
+  <div class="bar">
+    <a class="logo" href="/ru/" data-nav><span class="dot"></span>ayfar</a>
+    <nav class="links">
+      <a href="/ru/#projects" data-nav><span>Проекты</span></a>
+      <a href="/ru/#services" data-nav><span>Услуги</span></a>
+      <a href="/ru/#about" data-nav><span>Обо мне</span></a>
+      <a href="/ru/#contact" data-nav><span>Контакты</span></a>
+      <button type="button" class="msg-open" data-msg-open>✉ <span>Написать</span></button>
+    </nav>
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="mnav"><span class="sr"><span>Меню</span></span><i></i><i></i></button>
+    <nav class="lang" aria-label="Язык">
+      <span class="pill"></span><a href="/p/prompt-injection-detector.html" hreflang="az" lang="az" data-nav>AZ</a><a href="/en/p/prompt-injection-detector.html" hreflang="en" lang="en" data-nav>EN</a><a href="/ru/p/prompt-injection-detector.html" hreflang="ru" lang="ru" data-nav aria-current="page">RU</a>
+    </nav>
+  </div>
+  <nav class="mnav" id="mnav" aria-label="Меню">
+    <a href="/ru/#projects" data-nav><span>Проекты</span></a>
+    <a href="/ru/#services" data-nav><span>Услуги</span></a>
+    <a href="/ru/#about" data-nav><span>Обо мне</span></a>
+    <a href="/ru/#contact" data-nav><span>Контакты</span></a>
+    <button type="button" class="mnav-msg" data-msg-open>✉ <span>Написать с сайта</span></button>
+    <a class="mnav-wa" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span>WhatsApp · +994 77 217 23 58</span></a>
+  </nav>
+</header>
+<dialog class="msg-dlg" id="msgDlg" aria-labelledby="msgTitle">
+  <form class="msg-form" id="msgForm" action="https://formspree.io/f/xbgdeydb" method="POST">
+    <button type="button" class="msg-x" data-msg-close aria-label="Закрыть">×</button>
+    <div class="sec-num"><span>СООБЩЕНИЕ</span></div>
+    <h2>Напишите мне</h2>
+    <p class="msg-lead">Ваше сообщение вижу только я. Отвечу на телефон или почту, которые вы укажете.</p>
+    <label for="msgName"><span>Ваше имя</span></label>
+    <input id="msgName" name="name" type="text" autocomplete="name" maxlength="80" required>
+    <label for="msgContact"><span>Телефон, WhatsApp или почта</span></label>
+    <input id="msgContact" name="contact" type="text" autocomplete="tel" maxlength="120" required>
+    <label for="msgText"><span>Ваше сообщение</span></label>
+    <textarea id="msgText" name="message" rows="5" maxlength="2000" required></textarea>
+    <input type="hidden" name="_subject" value="ayfar.vercel.app — yeni mesaj">
+    <input type="text" name="_gotcha" class="msg-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="btn primary" type="submit"><span class="msg-go"><span>Отправить</span></span><span class="msg-wait"><span>Отправляем…</span></span></button>
+    <div class="msg-status" aria-live="polite"></div>
+  </form>
+</dialog>
+<dialog class="photo-dlg" id="photoDlg" aria-label="Ziya Əzizov">
+  <button type="button" class="msg-x" data-photo-close aria-label="Закрыть">×</button>
+  <img alt="" width="900" height="900" decoding="async">
+</dialog>
+<aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span><span>Написать</span></span></a></aside>
+
+<main id="main">
+  <section class="p-hero wrap">
+    <a class="back" href="/ru/#projects" data-nav>← <span>Все проекты</span></a>
+    <div class="p-tags reveal-hero"><span class="tag research"><span>Исследование · Бенчмарк</span></span><span class="tag on"><span>работает</span></span><span class="p-num">03 / 10</span></div>
+    <h1 class="reveal-hero d1"><span>Prompt Injection Detector Benchmark</span></h1>
+    <p class="p-lead reveal-hero d2">Исследование того, насколько надёжны детекторы prompt injection на самом деле. Пять видов детекторов обучены на двух открытых датасетах и проверены на данных друг друга.</p>
+    <div class="p-cta reveal-hero d3">
+      <a class="btn primary magnet" href="https://prompt-injection-detector-snowy.vercel.app/" target="_blank" rel="noopener"><span>Открыть сайт</span> <span class="arr">↗</span></a>
+      <a class="btn magnet" href="https://github.com/ziko-asm/prompt-injection-detector" target="_blank" rel="noopener">GitHub <span class="arr">→</span></a>
+      
+    </div>
+    <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="https://prompt-injection-detector-snowy.vercel.app/" target="_blank" rel="noopener" aria-label="Prompt Injection Detector Benchmark: prompt-injection-detector-snowy.vercel.app"><div class="media" style="--c1:#5b8cff;--c2:#34f5b0"><div class="chrome"><i></i><i></i><i></i><b>prompt-injection-detector-snowy.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/detector-1-s.webp" srcset="/img/detector-1-s.webp 960w, /img/detector-1.webp 1920w" sizes="min(1170px, 100vw)" width="1920" height="1200" alt="Prompt Injection Detector Benchmark — скриншот 1" loading="lazy" decoding="async"><img src="/img/detector-2-s.webp" srcset="/img/detector-2-s.webp 960w, /img/detector-2.webp 1920w" sizes="min(1170px, 100vw)" width="1920" height="1200" alt="Prompt Injection Detector Benchmark — скриншот 2" loading="lazy" decoding="async"><img src="/img/detector-3-s.webp" srcset="/img/detector-3-s.webp 960w, /img/detector-3.webp 1920w" sizes="min(1170px, 100vw)" width="1920" height="1200" alt="Prompt Injection Detector Benchmark — скриншот 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span></div></a>
+  </section>
+
+  <section class="wrap p-grid">
+    <div class="p-text reveal">
+      <div class="sec-num"><span>ЧТО ДЕЛАЕТ</span></div>
+      <div><p>Многие компании защищают своих AI-чат-ботов детекторами, которые пытаются распознать вредоносный текст. Это исследование проверяет, насколько надёжны такие детекторы, когда данные меняются.</p><p>Проверено пять видов детекторов: правило по ключевым словам, TF-IDF + логистическая регрессия, дообученный многоязычный трансформер DistilBERT, каскад и локальные модели Llama 3.2 3B и Llama 3.1 8B в роли LLM-судей. Все обучены на двух открытых датасетах (deepset и jackhhao) и проверены на данных друг друга.</p><p>Результат: детектор, который получает 0.96–0.98 F1 на своём датасете, на другом либо пропускает большинство атак, либо блокирует до 97% безобидного текста. На сайте все результаты показаны в интерактивных графиках, включая график скорости и точности, и в полной таблице.</p></div>
+      
+    </div>
+    <div class="p-side reveal">
+      <div class="metric big"><div class="v">0.97→0.54</div><div class="d">F1 трансформера на своём датасете и на чужом.</div></div>
+      <div class="p-box">
+        <div class="sec-num"><span>ОСНОВНОЕ</span></div>
+        <ul><li><b>Обучение на обоих датасетах</b> закрывает большую часть разрыва.</li><li><b>Llama 3.1 8B</b> достигает 0.947 F1 на jackhhao без обучения, но в 2 100 раз медленнее трансформера.</li><li><b>Каскад</b> не спасает модель, которая уверенно ошибается.</li></ul>
+      </div>
+      <div class="p-box">
+        <div class="sec-num"><span>ТЕХНОЛОГИИ</span></div>
+        <div class="chips"><span class="chip">PyTorch</span><span class="chip">DistilBERT</span><span class="chip">scikit-learn</span><span class="chip">Llama 3</span></div>
+        <div class="p-url"><span>URL</span><a href="https://prompt-injection-detector-snowy.vercel.app/" target="_blank" rel="noopener">prompt-injection-detector-snowy.vercel.app ↗</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap p-next">
+    <a class="prev" href="provguard.html" data-nav><small>← <span>Назад</span></small><b><span>ProvGuard</span></b></a>
+    <a class="next" href="graphguard-iot.html" data-nav style="--c1:#34f5b0;--c2:#ff7a45"><small><span>Следующий проект</span> →</small><b><span>GraphGuard IoT</span></b></a>
+  </section>
+</main>
+<footer><div class="wrap">© 2026 ayfar · <span>Зия Азизов</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span>Сделано в Баку</span></div></footer>
+<script src="/assets/site.js?v=40"></script>
+</body>
+</html>

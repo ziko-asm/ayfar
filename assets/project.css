@@ -1,5 +1,5 @@
 .p-hero{padding-top:120px;padding-bottom:40px}
-.back{display:inline-flex;gap:8px;font:600 13px var(--mono);color:var(--muted);text-decoration:none;margin-bottom:28px;transition:color .2s,transform .3s}
+.back{display:inline-flex;align-items:center;min-height:32px;gap:8px;font:600 13px var(--mono);color:var(--muted);text-decoration:none;margin-bottom:28px;transition:color .2s,transform .3s}
 .back:hover{color:var(--text);transform:translateX(-4px)}
 .p-tags{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
 .p-num{font:600 12px var(--mono);color:var(--dim);margin-left:6px}
@@ -27,7 +27,7 @@
 .p-box li::before{content:"";position:absolute;left:2px;top:9px;width:9px;height:9px;border-radius:2px;border:1.5px solid var(--c1);transform:rotate(45deg)}
 .p-box li b{color:var(--text);font-weight:600}
 .p-url{display:flex;gap:10px;align-items:center;margin-top:14px;font:12px var(--mono);color:var(--dim);min-width:0}
-.p-url a{color:var(--c1);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.p-url a{display:inline-block;padding:6px 0;color:var(--c1);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 .p-next{display:grid;grid-template-columns:1fr 2fr;gap:16px;padding-bottom:40px}
 @media (max-width:700px){.p-next{grid-template-columns:1fr}}

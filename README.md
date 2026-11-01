@@ -4,7 +4,7 @@ Portfolio and web studio of **Ziya Azizov (ayfar)**, an engineer from Baku, Azer
 
 **Live site: https://ayfar.vercel.app**
 
-Business websites and online shops, the Metro Tycoon game, and AI security research, in one place, in Azerbaijani and English. The Services section includes a free website check powered by [SaytYoxla](https://saytyoxla.vercel.app).
+Business websites and online shops, the Metro Tycoon game, and AI security research, in one place, in Azerbaijani, English and Russian. The Services section includes a free website check powered by [SaytYoxla](https://saytyoxla.vercel.app).
 
 ## Projects on the site
 
@@ -20,7 +20,15 @@ Business websites and online shops, the Metro Tycoon game, and AI security resea
 
 ## Build
 
-The site is static. `build.py` generates `index.html`, the project pages in `p/`, `sitemap.xml`, `robots.txt`, `llms.txt`, `404.html` and `vercel.json` (security headers and CSP):
+The site is static. `build.py` generates every page in three languages, each at its own URL with `hreflang` links between them:
+
+| Language | Home | Project pages | Articles |
+|---|---|---|---|
+| Azerbaijani (default) | `/` | `/p/<slug>.html` | `/yazilar/<slug>.html` |
+| English | `/en/` | `/en/p/<slug>.html` | `/en/yazilar/<slug>.html` |
+| Russian | `/ru/` | `/ru/p/<slug>.html` | `/ru/yazilar/<slug>.html` |
+
+It also writes `sitemap.xml` (with language alternates), `robots.txt`, `llms.txt`, `404.html` and `vercel.json` (security headers and a CSP that allows the one inline script by its hash). Russian text lives in `ru.py`; the build stops and lists the gaps in `ru_missing.txt` if a string has no translation.
 
 ```bash
 python build.py
