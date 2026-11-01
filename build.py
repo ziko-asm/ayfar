@@ -31,6 +31,7 @@ EMAIL = "ziyaazizov9@gmail.com"
 SCAN_SITE = "https://saytyoxla.vercel.app"
 SCAN_API = SCAN_SITE + "/api/scan"
 INSTAGRAM = "https://www.instagram.com/ayfar.web/"
+X_URL = "https://x.com/ayfar_web"
 
 # Services. price: None shows "price on request"; set e.g. ("150 ₼-dan", "from 150 ₼") to show a number.
 SERVICES = [
@@ -511,7 +512,7 @@ def schema():
         "alumniOf": {"@type": "CollegeOrUniversity", "name": "Azərbaycan Dövlət Neft və Sənaye Universiteti"},
         "affiliation": {"@type": "CollegeOrUniversity", "name": "Bakı Ali Neft Məktəbi"},
         "knowsAbout": ["Proqramlaşdırma", "Kibertəhlükəsizlik", "Süni intellekt", "Veb saytlar", "Oyun hazırlama"],
-        "sameAs": ["https://www.linkedin.com/in/ziya-azizov-91bba638a", INSTAGRAM, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
+        "sameAs": ["https://www.linkedin.com/in/ziya-azizov-91bba638a", INSTAGRAM, X_URL, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
     }
     site = {"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": CANON + "/",
             "inLanguage": ["az", "en", "ru"], "publisher": {"@id": CANON + "/#ziya"}}
@@ -527,7 +528,7 @@ def schema():
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Xidmətlər", "itemListElement": [
             {"@type": "Offer", "itemOffered": {"@type": "Service", "name": s["name"][0], "description": s["desc"][0]}}
             for s in SERVICES]},
-        "sameAs": [INSTAGRAM, "https://www.linkedin.com/in/ziya-azizov-91bba638a", "https://github.com/ziko-asm"],
+        "sameAs": [INSTAGRAM, X_URL, "https://www.linkedin.com/in/ziya-azizov-91bba638a", "https://github.com/ziko-asm"],
     }
     faqp = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, _, a, _ in FAQ]}
@@ -811,6 +812,7 @@ def build_index():
           <a class="btn magnet" href="mailto:{EMAIL}">✉ E-mail</a>
           <a class="btn magnet" href="https://www.linkedin.com/in/ziya-azizov-91bba638a" target="_blank" rel="noopener">LinkedIn <span class="arr">→</span></a>
           <a class="btn magnet" href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram <span class="arr">→</span></a>
+          <a class="btn magnet" href="{X_URL}" target="_blank" rel="noopener">X <span class="arr">→</span></a>
           <a class="btn magnet" href="https://github.com/ziko-asm" target="_blank" rel="noopener">GitHub <span class="arr">→</span></a>
         </div>
       </div>
