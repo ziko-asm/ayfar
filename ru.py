@@ -251,4 +251,13 @@ RU = {
     'Leave a review on Google': 'Оставить отзыв в Google',
     'My grandson Ziya built a great website for my workshop. It has real photos of our work and a 3D part model you can rotate, and customers message us directly on WhatsApp. He consulted me on everything. I recommend him.': 'Мой внук Зия сделал отличный сайт для моего цеха. На сайте реальные фото наших работ и 3D-модель детали, которую можно вращать, а клиенты пишут нам прямо в WhatsApp. Он советовался со мной во всём. Рекомендую.',
     'Vertical lathe workshop': 'Цех карусельной токарной обработки',
+    'Send a message': 'Написать с сайта',
+    'MESSAGE': 'СООБЩЕНИЕ',
+    'Write to me': 'Напишите мне',
+    'Only I see your message. I will reply to the phone or e-mail you give.': 'Ваше сообщение вижу только я. Отвечу на телефон или почту, которые вы укажете.',
+    'Your name': 'Ваше имя',
+    'Phone, WhatsApp or e-mail': 'Телефон, WhatsApp или почта',
+    'Your message': 'Ваше сообщение',
+    'Send': 'Отправить',
+    'Sending…': 'Отправляем…',
 }

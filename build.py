@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "35"  # cache-busting for assets
+V = "36"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -33,6 +33,8 @@ SCAN_API = SCAN_SITE + "/api/scan"
 INSTAGRAM = "https://www.instagram.com/ayfar.web/"
 X_URL = "https://x.com/ayfar_web"
 GOOGLE_REVIEW = "https://g.page/r/Cfrr1Out_JVWEBM/review"
+# Messages from the site form go through Formspree to the e-mail on that Formspree account.
+MESSAGE_FORM = "https://formspree.io/f/xbgdeydb"
 
 # Services. price: None shows "price on request"; set e.g. ("150 ₼-dan", "from 150 ₼") to show a number.
 SERVICES = [
@@ -409,6 +411,7 @@ def chrome_bits(home_href):
       <a href="{home_href}#services" data-nav>{T("Xidmətlər", "Services")}</a>
       <a href="{home_href}#about" data-nav>{T("Haqqımda", "About")}</a>
       <a href="{home_href}#contact" data-nav>{T("Əlaqə", "Contact")}</a>
+      <button type="button" class="msg-open" data-msg-open>✉ {T("Mesaj yaz", "Message")}</button>
     </nav>
     <button type="button" class="menu-btn" aria-expanded="false" aria-controls="mnav"><span class="sr">{T("Menyu", "Menu")}</span><i></i><i></i></button>
     <div class="lang" role="group" aria-label="Language">
@@ -423,14 +426,41 @@ def chrome_bits(home_href):
     <a href="{home_href}#services" data-nav>{T("Xidmətlər", "Services")}</a>
     <a href="{home_href}#about" data-nav>{T("Haqqımda", "About")}</a>
     <a href="{home_href}#contact" data-nav>{T("Əlaqə", "Contact")}</a>
+    <button type="button" class="mnav-msg" data-msg-open>✉ {T("Saytdan mesaj yaz", "Send a message")}</button>
     <a class="mnav-wa" href="{WA_ORDER}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp · {PHONE_SHOW}</span></a>
   </nav>
 </header>
+{message_dialog()}
 <aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="{WA_ORDER}" target="_blank" rel="noopener" aria-label="WhatsApp">{WA_SVG}<span>{T("Yazın", "Message")}</span></a></aside>
 """
 
 
 WA_SVG = '<svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg>'
+
+
+def message_dialog():
+    return f"""<dialog class="msg-dlg" id="msgDlg" aria-labelledby="msgTitle">
+  <form class="msg-form" id="msgForm" action="{MESSAGE_FORM}" method="POST">
+    <button type="button" class="msg-x" data-msg-close aria-label="Close">×</button>
+    <div class="sec-num">{T("MESAJ", "MESSAGE")}</div>
+    {T("Mənə yazın", "Write to me", "h2")}
+    {T("Mesajınızı yalnız mən görürəm. Cavabı göstərdiyiniz telefon və ya e-poçta yazacam.", "Only I see your message. I will reply to the phone or e-mail you give.", "p", "msg-lead")}
+    <label for="msgName">{T("Adınız", "Your name")}</label>
+    <input id="msgName" name="name" type="text" autocomplete="name" maxlength="80" required>
+    <label for="msgContact">{T("Telefon, WhatsApp və ya e-poçt", "Phone, WhatsApp or e-mail")}</label>
+    <input id="msgContact" name="contact" type="text" autocomplete="tel" maxlength="120" required>
+    <label for="msgText">{T("Mesajınız", "Your message")}</label>
+    <textarea id="msgText" name="message" rows="5" maxlength="2000" required></textarea>
+    <input type="hidden" name="_subject" value="ayfar.vercel.app — yeni mesaj">
+    <input type="text" name="_gotcha" class="msg-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="btn primary" type="submit"><span class="msg-go">{T("Göndər", "Send")}</span><span class="msg-wait">{T("Göndərilir…", "Sending…")}</span></button>
+    <div class="msg-status" aria-live="polite"></div>
+  </form>
+</dialog>
+<dialog class="photo-dlg" id="photoDlg" aria-label="Ziya Əzizov">
+  <button type="button" class="msg-x" data-photo-close aria-label="Close">×</button>
+  <img alt="" width="900" height="900" decoding="async">
+</dialog>"""
 
 
 def footer():
@@ -511,7 +541,7 @@ def schema():
         "@context": "https://schema.org", "@type": "Person", "@id": CANON + "/#ziya",
         "name": "Ziya Əzizov", "alternateName": ["ayfar", "Ziya Azizov", "Ziya Ezizov"],
         "url": CANON + "/",
-        "image": {"@type": "ImageObject", "url": SITE + "/img/ziya-azizov-ayfar.jpg", "width": 720, "height": 720,
+        "image": {"@type": "ImageObject", "url": SITE + "/img/ziya-azizov-ayfar.jpg", "width": 900, "height": 900,
                   "caption": "Ziya Əzizov (ayfar), veb developer və kibertəhlükəsizlik mühəndisi, Bakı",
                   "creditText": "Ziya Əzizov", "creator": {"@id": CANON + "/#ziya"}, "copyrightNotice": "© Ziya Əzizov"},
         "telephone": PHONE, "email": EMAIL,
@@ -786,7 +816,7 @@ def build_index():
           <div class="skills" aria-hidden="true"><div class="mq"><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span></div></div>
         </div>
         <div class="idcard reveal tiltable">
-          <div class="photo"><img src="img/ziya-azizov-ayfar-s.webp" srcset="img/ziya-azizov-ayfar-s.webp 360w, img/ziya-azizov-ayfar.webp 720w" sizes="(min-width: 900px) 440px, 92vw" width="720" height="720" alt="Ziya Əzizov (ayfar), Bakıdan veb developer və kibertəhlükəsizlik mühəndisi" loading="lazy" decoding="async"><span class="photo-badge"><i></i>Bakı · 2005</span></div>
+          <div class="photo"><img data-zoom="img/ziya-azizov-ayfar.webp" tabindex="0" role="button" src="img/ziya-azizov-ayfar-s.webp" srcset="img/ziya-azizov-ayfar-s.webp 360w, img/ziya-azizov-ayfar.webp 900w" sizes="(min-width: 900px) 440px, 92vw" width="900" height="900" alt="Ziya Əzizov (ayfar), Bakıdan veb developer və kibertəhlükəsizlik mühəndisi" loading="lazy" decoding="async"><span class="photo-badge"><i></i>Bakı · 2005</span></div>
           <h3>{T("Ziya Əzizov", "Ziya Azizov")}</h3>
           <div class="handle">@ayfar</div>
           <dl>
@@ -818,6 +848,7 @@ def build_index():
         <div class="row">
           <a class="btn primary magnet" href="{WA_ORDER}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp</span></a>
           <a class="btn magnet" href="tel:{PHONE}">📞 <span>{PHONE_SHOW}</span></a>
+          <button type="button" class="btn magnet" data-msg-open>✉ {T("Saytdan mesaj yaz", "Send a message")}</button>
           <a class="btn magnet" href="mailto:{EMAIL}">✉ E-mail</a>
           <a class="btn magnet" href="https://www.linkedin.com/in/ziya-azizov-91bba638a" target="_blank" rel="noopener">LinkedIn <span class="arr">→</span></a>
           <a class="btn magnet" href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram <span class="arr">→</span></a>
@@ -941,8 +972,8 @@ def build_vercel_json():
            f"script-src 'self' {' '.join(sorted(hashes))}; "
            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
            "font-src 'self' https://fonts.gstatic.com; "
-           "img-src 'self' data:; connect-src 'self' " + SCAN_SITE + "; "
-           "frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests")
+           "img-src 'self' data:; connect-src 'self' " + SCAN_SITE + " https://formspree.io; "
+           "frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://formspree.io; object-src 'none'; upgrade-insecure-requests")
     headers = [
         ("X-Frame-Options", "SAMEORIGIN"),
         ("X-Content-Type-Options", "nosniff"),

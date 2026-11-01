@@ -200,7 +200,11 @@
     function up(){ holding = false; }
     cv.addEventListener('pointerdown', function(e){ e.preventDefault(); cv.setPointerCapture && cv.setPointerCapture(e.pointerId); down(e); });
     cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up); cv.addEventListener('lostpointercapture', up);
-    start.addEventListener('click', function(){ play(); });
+    /* press-and-hold on the start overlay starts the run and keeps the throttle open */
+    start.addEventListener('pointerdown', function(e){ e.preventDefault(); play(); holding = true; });
+    start.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); play(); } });
+    addEventListener('pointerup', up); addEventListener('pointercancel', up);
+    wrap.addEventListener('contextmenu', function(e){ e.preventDefault(); });
     over.querySelector('[data-again]').addEventListener('click', function(){ play(); });
     function inView(){ var r = wrap.getBoundingClientRect(); return r.top < innerHeight * .8 && r.bottom > innerHeight * .2; }
     addEventListener('keydown', function(e){

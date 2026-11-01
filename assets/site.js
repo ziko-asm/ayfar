@@ -81,6 +81,52 @@
     addEventListener('resize', function(){ if(innerWidth > 760) setMenu(false); });
   }
 
+  /* ---------- message dialog (Formspree) + photo zoom ---------- */
+  function L3(az, en, ru){ var l = root.getAttribute('data-lang'); return l === 'en' ? en : l === 'ru' ? ru : az; }
+  var dlg = document.getElementById('msgDlg'), form = document.getElementById('msgForm');
+  if(dlg && form && dlg.showModal){
+    var status = form.querySelector('.msg-status'), sendBtn = form.querySelector('button[type=submit]');
+    var openDlg = function(){ status.textContent = ''; status.className = 'msg-status'; dlg.showModal(); var n = document.getElementById('msgName'); if(n) n.focus(); };
+    document.querySelectorAll('[data-msg-open]').forEach(function(b){ b.addEventListener('click', function(){
+      var h = document.getElementById('hdr'); if(h) h.classList.remove('open');
+      var mb = document.querySelector('.menu-btn'); if(mb) mb.setAttribute('aria-expanded', 'false');
+      openDlg();
+    }); });
+    dlg.querySelector('[data-msg-close]').addEventListener('click', function(){ dlg.close(); });
+    dlg.addEventListener('click', function(e){ if(e.target === dlg) dlg.close(); });
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(!form.checkValidity()){ form.reportValidity(); return; }
+      form.classList.add('busy'); sendBtn.disabled = true; status.textContent = '';
+      fetch(form.action, {method:'POST', body:new FormData(form), headers:{'Accept':'application/json'}})
+        .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function(){
+          form.reset(); status.className = 'msg-status ok';
+          status.textContent = L3('Göndərildi ✓ Tezliklə cavab yazacam.', 'Sent ✓ I will get back to you soon.', 'Отправлено ✓ Скоро отвечу.');
+        })
+        .catch(function(){
+          status.className = 'msg-status err';
+          status.textContent = L3('Göndərmək alınmadı. WhatsApp-a yazın: +994 77 217 23 58', 'Could not send. Message me on WhatsApp: +994 77 217 23 58', 'Не удалось отправить. Напишите в WhatsApp: +994 77 217 23 58');
+        })
+        .then(function(){ form.classList.remove('busy'); sendBtn.disabled = false; });
+    });
+  } else {
+    /* very old browsers without <dialog>: send people to WhatsApp instead */
+    document.querySelectorAll('[data-msg-open]').forEach(function(b){ b.addEventListener('click', function(){ location.href = 'https://wa.me/994772172358'; }); });
+  }
+  var pdlg = document.getElementById('photoDlg');
+  document.querySelectorAll('img[data-zoom]').forEach(function(im){
+    var open = function(){
+      if(!pdlg || !pdlg.showModal) return;
+      var big = pdlg.querySelector('img'); big.src = im.dataset.zoom; big.alt = im.alt; pdlg.showModal();
+    };
+    im.addEventListener('click', open);
+    im.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); } });
+  });
+  if(pdlg){
+    pdlg.addEventListener('click', function(){ pdlg.close(); });
+  }
+
   /* ---------- rotating words ---------- */
   document.querySelectorAll('.rot').forEach(function(el){
     var words = el.dataset.words.split('|'), wi = 0;

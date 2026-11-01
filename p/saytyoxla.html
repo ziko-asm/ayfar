@@ -31,8 +31,8 @@
 document.documentElement.classList.add('js');
 setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loading');b.classList.add('ready');var l=document.getElementById('loader');if(l)l.classList.add('done','gone');document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});},5000);
 </script>
-<link rel="stylesheet" href="../assets/site.css?v=35">
-<link rel="stylesheet" href="../assets/project.css?v=35">
+<link rel="stylesheet" href="../assets/site.css?v=36">
+<link rel="stylesheet" href="../assets/project.css?v=36">
 </head>
 <body class="proj" style="--c1:#34f5b0;--c2:#5b8cff">
 <a class="skip" href="#main"><span lang="az">Məzmuna keç</span><span lang="en">Skip to content</span><span lang="ru">Перейти к содержанию</span></a>
@@ -51,6 +51,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
       <a href="../#services" data-nav><span lang="az">Xidmətlər</span><span lang="en">Services</span><span lang="ru">Услуги</span></a>
       <a href="../#about" data-nav><span lang="az">Haqqımda</span><span lang="en">About</span><span lang="ru">Обо мне</span></a>
       <a href="../#contact" data-nav><span lang="az">Əlaqə</span><span lang="en">Contact</span><span lang="ru">Контакты</span></a>
+      <button type="button" class="msg-open" data-msg-open>✉ <span lang="az">Mesaj yaz</span><span lang="en">Message</span><span lang="ru">Написать</span></button>
     </nav>
     <button type="button" class="menu-btn" aria-expanded="false" aria-controls="mnav"><span class="sr"><span lang="az">Menyu</span><span lang="en">Menu</span><span lang="ru">Меню</span></span><i></i><i></i></button>
     <div class="lang" role="group" aria-label="Language">
@@ -65,9 +66,32 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
     <a href="../#services" data-nav><span lang="az">Xidmətlər</span><span lang="en">Services</span><span lang="ru">Услуги</span></a>
     <a href="../#about" data-nav><span lang="az">Haqqımda</span><span lang="en">About</span><span lang="ru">Обо мне</span></a>
     <a href="../#contact" data-nav><span lang="az">Əlaqə</span><span lang="en">Contact</span><span lang="ru">Контакты</span></a>
+    <button type="button" class="mnav-msg" data-msg-open>✉ <span lang="az">Saytdan mesaj yaz</span><span lang="en">Send a message</span><span lang="ru">Написать с сайта</span></button>
     <a class="mnav-wa" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span>WhatsApp · +994 77 217 23 58</span></a>
   </nav>
 </header>
+<dialog class="msg-dlg" id="msgDlg" aria-labelledby="msgTitle">
+  <form class="msg-form" id="msgForm" action="https://formspree.io/f/xbgdeydb" method="POST">
+    <button type="button" class="msg-x" data-msg-close aria-label="Close">×</button>
+    <div class="sec-num"><span lang="az">MESAJ</span><span lang="en">MESSAGE</span><span lang="ru">СООБЩЕНИЕ</span></div>
+    <h2 lang="az">Mənə yazın</h2><h2 lang="en">Write to me</h2><h2 lang="ru">Напишите мне</h2>
+    <p class="msg-lead" lang="az">Mesajınızı yalnız mən görürəm. Cavabı göstərdiyiniz telefon və ya e-poçta yazacam.</p><p class="msg-lead" lang="en">Only I see your message. I will reply to the phone or e-mail you give.</p><p class="msg-lead" lang="ru">Ваше сообщение вижу только я. Отвечу на телефон или почту, которые вы укажете.</p>
+    <label for="msgName"><span lang="az">Adınız</span><span lang="en">Your name</span><span lang="ru">Ваше имя</span></label>
+    <input id="msgName" name="name" type="text" autocomplete="name" maxlength="80" required>
+    <label for="msgContact"><span lang="az">Telefon, WhatsApp və ya e-poçt</span><span lang="en">Phone, WhatsApp or e-mail</span><span lang="ru">Телефон, WhatsApp или почта</span></label>
+    <input id="msgContact" name="contact" type="text" autocomplete="tel" maxlength="120" required>
+    <label for="msgText"><span lang="az">Mesajınız</span><span lang="en">Your message</span><span lang="ru">Ваше сообщение</span></label>
+    <textarea id="msgText" name="message" rows="5" maxlength="2000" required></textarea>
+    <input type="hidden" name="_subject" value="ayfar.vercel.app — yeni mesaj">
+    <input type="text" name="_gotcha" class="msg-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="btn primary" type="submit"><span class="msg-go"><span lang="az">Göndər</span><span lang="en">Send</span><span lang="ru">Отправить</span></span><span class="msg-wait"><span lang="az">Göndərilir…</span><span lang="en">Sending…</span><span lang="ru">Отправляем…</span></span></button>
+    <div class="msg-status" aria-live="polite"></div>
+  </form>
+</dialog>
+<dialog class="photo-dlg" id="photoDlg" aria-label="Ziya Əzizov">
+  <button type="button" class="msg-x" data-photo-close aria-label="Close">×</button>
+  <img alt="" width="900" height="900" decoding="async">
+</dialog>
 <aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span><span lang="az">Yazın</span><span lang="en">Message</span><span lang="ru">Написать</span></span></a></aside>
 
 <main id="main">
@@ -114,6 +138,6 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.remove('loadi
   </section>
 </main>
 <footer><div class="wrap">© 2026 ayfar · <span lang="az">Ziya Əzizov</span><span lang="en">Ziya Azizov</span><span lang="ru">Зия Азизов</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span lang="az">Bakıda hazırlanıb</span><span lang="en">Made in Baku</span><span lang="ru">Сделано в Баку</span></div></footer>
-<script src="../assets/site.js?v=35"></script>
+<script src="../assets/site.js?v=36"></script>
 </body>
 </html>

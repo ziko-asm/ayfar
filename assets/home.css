@@ -301,3 +301,10 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 .slide.active h3{text-shadow:none}
 /* performance: a lighter shadow on the moving gallery previews (the big blur was repainted every frame) */
 .hs.hs-on .slide-media .media{box-shadow:0 18px 40px -18px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.04)}
+
+/* iPhone: long-press on the game must not open the copy / look-up menu */
+.mgame,.mgame *{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.mgame canvas,.mgame .g-start{touch-action:none}
+
+/* about photo: click to enlarge */
+.idcard .photo img[data-zoom]{cursor:zoom-in}
