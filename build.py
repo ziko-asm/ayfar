@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "31"  # cache-busting for assets
+V = "32"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -72,6 +72,9 @@ REVIEWS = [
     ("Onlayn mağazamızı Ziya hazırladı: səbət, sifariş sistemi, üç dil. Sayt sürətli işləyir, telefonda da rahatdır. Sonradan təhlükəsizliyini də yoxlayıb gücləndirdi. Tövsiyə edirəm!",
      "Ziya built our online shop: cart, ordering system, three languages. The site is fast and easy to use on a phone. Later he also audited and hardened its security. I recommend him!",
      "Baxtiyar", "bathshop.az"),  # approved by the client on WhatsApp, 01.11.2026
+    ("Nəvəm Ziya sexim üçün çox gözəl sayt hazırladı. Saytda real iş şəkillərimiz, fırladıla bilən 3D detal modeli var, müştərilər birbaşa WhatsApp-dan yazır. Hər şeyi mənimlə məsləhətləşib etdi. Tövsiyə edirəm.",
+     "My grandson Ziya built a great website for my workshop. It has real photos of our work and a 3D part model you can rotate, and customers message us directly on WhatsApp. He consulted me on everything. I recommend him.",
+     "Telman Əzizov", "Karusel torna emalı sexi"),  # approved by the client, 01.11.2026
 ]
 
 CATS = {
@@ -335,7 +338,8 @@ E = html.escape
 
 # Metric values and chips written in Azerbaijani get their own English text; Russian comes from ru.py.
 LOCAL_EN = {"₼ 2 mlrd": "₼ 2 bn", "30 san": "30 sec", "3 dil": "3 languages", "11 növ": "11 kinds",
-            "WhatsApp sifariş": "WhatsApp orders", "Mobil uyğun": "Mobile-friendly", ".az domen": ".az domain"}
+            "WhatsApp sifariş": "WhatsApp orders", "Mobil uyğun": "Mobile-friendly", ".az domen": ".az domain",
+            "Karusel torna emalı sexi": "Vertical lathe workshop"}
 
 
 def L(text, tag="span", cls=""):
@@ -643,7 +647,7 @@ def reviews_html():
     if not REVIEWS:
         return ""
     cards = "".join(f"""
-        <figure class="rev reveal"><blockquote>{T(qa, qe, 'p')}</blockquote><figcaption><b>{E(n)}</b><span>{E(b)}</span></figcaption></figure>"""
+        <figure class="rev reveal"><blockquote>{T(qa, qe, 'p')}</blockquote><figcaption><b>{E(n)}</b>{L(b, "span", "rb")}</figcaption></figure>"""
                     for qa, qe, n, b in REVIEWS)
     return f"""
   <section id="reviews">
