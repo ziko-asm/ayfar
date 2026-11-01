@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "32"  # cache-busting for assets
+V = "33"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"

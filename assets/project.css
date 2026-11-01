@@ -40,3 +40,13 @@
 /* gradient text is clipped to its box: give tails (ş, ç, ğ, y, q, p) room below the baseline */
 .p-hero h1{padding-bottom:.14em;margin-bottom:calc(20px - .14em)}
 .p-next b{padding-bottom:.14em;margin-bottom:-.14em}
+
+/* project page title: same vivid, shimmering treatment as on the home page */
+.p-hero h1{background:linear-gradient(100deg,var(--c1) 0%,#fff 28%,var(--c2) 52%,var(--c1) 76%,#fff 100%);background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;overflow-wrap:anywhere;
+  filter:drop-shadow(0 0 28px color-mix(in srgb,var(--c1) 40%,transparent));animation:nameshine 7s linear infinite}
+@keyframes nameshine{to{background-position:-220% 0}}
+@media (prefers-reduced-motion:reduce){.p-hero h1{animation:none}}
+/* side column must shrink on small phones (long metrics like 0.97→0.54 used to push the page wider) */
+.p-side{grid-template-columns:minmax(0,1fr);min-width:0}
+.p-side .metric.big .v{white-space:normal;overflow-wrap:anywhere}
