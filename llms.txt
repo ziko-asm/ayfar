@@ -32,6 +32,8 @@ Contact / Əlaqə: WhatsApp and phone +994772172358, e-mail ziyaazizov9@gmail.co
 ## Links
 
 - [Home](https://ayfar.vercel.app/)
+- [Home in English](https://ayfar.vercel.app/en/)
+- [Главная на русском](https://ayfar.vercel.app/ru/)
 - [Services](https://ayfar.vercel.app/#services)
 - [About](https://ayfar.vercel.app/#about)
 - [GitHub](https://github.com/ziko-asm)

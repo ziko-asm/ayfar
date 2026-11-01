@@ -37,7 +37,7 @@
 .g-start .g-play{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--g);color:#000;font-size:20px;box-shadow:0 0 0 0 rgba(52,245,176,.6);animation:ping 1.8s infinite}
 .g-start small{font:500 12px var(--mono);letter-spacing:0;color:var(--soft);max-width:90%;text-align:center;background:rgba(5,7,11,.7);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
 .g-start:hover .g-play{transform:scale(1.08)}
-.g-start.hide{opacity:0;pointer-events:none}
+.g-start.hide{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .4s,visibility 0s .4s}
 .g-over{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(10,4,6,.78);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .35s;text-align:center;padding:10px}
 .g-over.show{opacity:1;pointer-events:auto}
 .g-over > b{font:900 clamp(26px,4vw,40px) var(--display);color:#ff5b5b;letter-spacing:-.02em}
@@ -305,6 +305,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 /* iPhone: long-press on the game must not open the copy / look-up menu */
 .mgame,.mgame *{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 .mgame canvas,.mgame .g-start{touch-action:none}
+.mgame canvas:focus{outline:none}
 
 /* about photo: click to enlarge */
 .idcard .photo img[data-zoom]{cursor:zoom-in}

@@ -5,46 +5,19 @@
   function store(k, v){ try{ if(v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
   window.AYFAR = {reduce:reduce, fine:fine, store:store};
 
-  /* ---------- language ---------- */
-  function setLang(l){
-    root.setAttribute('data-lang', l); root.setAttribute('lang', l);
-    document.querySelectorAll('[data-set-lang]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.setLang === l)); });
-    var t = document.querySelector('meta[name="title-' + l + '"]');
-    if(t) document.title = t.content;
-    var lbl = document.querySelector('.cur-ring .lbl');
-    if(lbl) lbl.textContent = l === 'az' ? 'AÇ' : l === 'ru' ? 'ОТКР' : 'OPEN';
-    store('lang', l);
-    document.dispatchEvent(new CustomEvent('ayfar:lang', {detail:l}));
-  }
-  var saved = store('lang');
-  var nav = (navigator.language || 'az').slice(0,2);
-  setLang(['az','en','ru'].indexOf(saved) >= 0 ? saved : (nav === 'ru' ? 'ru' : nav === 'en' ? 'en' : 'az'));
-  document.querySelectorAll('[data-set-lang]').forEach(function(b){ b.addEventListener('click', function(){ setLang(b.dataset.setLang); }); });
+  /* ---------- language ----------
+     Every language has its own URL (/, /en/, /ru/), rendered on the server side by build.py,
+     so search engines index all three. The switch is a plain link; here we only slide the pill
+     to the chosen language while the page changes. */
+  document.querySelectorAll('.lang a[hreflang]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      root.setAttribute('data-lang', a.getAttribute('hreflang'));
+    });
+  });
 
-  /* ---------- preloader (home) ---------- */
-  var loader = document.getElementById('loader');
-  function ready(){ body.classList.remove('loading'); setTimeout(function(){ body.classList.add('ready'); }, 250); }
-  if(loader){
-    var finished = false;
-    var finishLoad = function(){
-      if(finished) return; finished = true;
-      loader.classList.add('done'); ready();
-      setTimeout(function(){ loader.classList.add('gone'); }, 1200);
-    };
-    var seen = false; try{ seen = sessionStorage.getItem('seen') === '1'; sessionStorage.setItem('seen','1'); }catch(e){}
-    if(reduce || seen){ loader.classList.add('done','gone'); body.classList.add('ready'); }
-    else{
-      body.classList.add('loading');
-      var lnum = document.getElementById('lnum'), lbar = document.getElementById('lbar'), t0 = performance.now();
-      var iv = setInterval(function(){
-        var n = Math.min(100, Math.round(Math.pow(Math.max(0, performance.now() - t0) / 1100, .8) * 100));
-        lnum.textContent = String(n).padStart(3,'0'); lbar.style.width = n + '%';
-        if(n >= 100){ clearInterval(iv); setTimeout(finishLoad, 200); }
-      }, 30);
-      setTimeout(finishLoad, 1700);
-      loader.addEventListener('click', finishLoad);
-    }
-  } else body.classList.add('ready');
+  /* ---------- intro: start the hero animations ---------- */
+  requestAnimationFrame(function(){ body.classList.add('ready'); });
 
   /* ---------- page transition curtain ---------- */
   var curtain = document.getElementById('curtain');

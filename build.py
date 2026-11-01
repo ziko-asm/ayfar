@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "39"  # cache-busting for assets
+V = "40"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -344,32 +344,58 @@ LOCAL_EN = {"₼ 2 mlrd": "₼ 2 bn", "30 san": "30 sec", "3 dil": "3 languages"
             "Karusel torna emalı sexi": "Vertical lathe workshop"}
 
 
+# Each language is its own set of pages: Azerbaijani at the root, English under /en/, Russian under /ru/.
+LANGS = ("az", "en", "ru")
+LANG = "az"  # language of the pages being built right now (set in __main__)
+LOCALE = {"az": "az_AZ", "en": "en_US", "ru": "ru_RU"}
+
+
+def LP(lang=None):
+    """URL prefix of a language: "" for Azerbaijani, "/en" or "/ru" for the others."""
+    lang = lang or LANG
+    return "" if lang == "az" else "/" + lang
+
+
+def X(az, en):
+    """Plain text in the current page language. Russian comes from ru.py (looked up on every pass,
+    so a missing translation always fails the build)."""
+    ru = R(en)
+    return az if LANG == "az" else en if LANG == "en" else ru
+
+
 def L(text, tag="span", cls=""):
-    """A short label in all three languages, or as-is when it reads the same everywhere."""
+    """A short label in the page language, or as-is when it reads the same everywhere."""
     if text in LOCAL_EN:
         return T(E(text), E(LOCAL_EN[text]), tag, cls)
     return f'<{tag} class="{cls}">{E(text)}</{tag}>' if cls else E(text)
 
 
 def T(az, en, tag="span", cls=""):
+    """Text in the current page language, wrapped in a tag."""
     c = f' class="{cls}"' if cls else ""
-    return f'<{tag}{c} lang="az">{az}</{tag}><{tag}{c} lang="en">{en}</{tag}><{tag}{c} lang="ru">{R(en)}</{tag}>'
+    return f'<{tag}{c}>{X(az, en)}</{tag}>'
 
 
-def head(title_az, title_en, desc, url, og, depth=""):
+def head(title, desc, path, og, alternates=True, canonical=None, noindex=False):
+    """<head> of a page. path is the page's path inside a language, e.g. "/" or "/p/provguard.html".
+    alternates adds hreflang links to the same page in the other languages."""
+    url = CANON + LP() + path if canonical is None else canonical
+    links = f'<link rel="canonical" href="{url}">\n' if url else ""
+    if noindex:
+        links = '<meta name="robots" content="noindex">\n' + links
+    if alternates:
+        links += "".join(f'<link rel="alternate" hreflang="{l}" href="{CANON}{LP(l)}{path}">\n' for l in LANGS)
+        links += f'<link rel="alternate" hreflang="x-default" href="{CANON}{path}">\n'
     return f"""<!doctype html>
-<html lang="az" data-lang="az">
+<html lang="{LANG}" data-lang="{LANG}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{E(title_az)}</title>
-<meta name="title-az" content="{E(title_az)}">
-<meta name="title-en" content="{E(title_en)}">
-<meta name="title-ru" content="{E(R(title_en))}">
+<title>{E(title)}</title>
 <meta name="description" content="{E(desc)}">
-<link rel="canonical" href="{url}">
-<meta property="og:type" content="website">
-<meta property="og:title" content="{E(title_az)}">
+{links}<meta property="og:type" content="website">
+<meta property="og:locale" content="{LOCALE[LANG]}">
+<meta property="og:title" content="{E(title)}">
 <meta property="og:description" content="{E(desc)}">
 <meta property="og:url" content="{url}">
 <meta property="og:image" content="{SITE}/{og}">
@@ -381,27 +407,33 @@ def head(title_az, title_en, desc, url, og, depth=""):
 <meta name="google-site-verification" content="9FHzK0T2MlxLEmw8k1gnPzawKyXvbkJhKm1MKYsDFh4" />
 <meta name="msvalidate.01" content="071B769B591B43B1773023FFFF98515D" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
-<link rel="apple-touch-icon" href="{depth}img/icon-180.png">
-<link rel="manifest" href="{depth}site.webmanifest">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script>
 document.documentElement.classList.add('js');
-setTimeout(function(){{var b=document.body;if(!b)return;b.classList.remove('loading');b.classList.add('ready');var l=document.getElementById('loader');if(l)l.classList.add('done','gone');document.querySelectorAll('.reveal').forEach(function(e){{e.classList.add('in')}});}},5000);
+setTimeout(function(){{var b=document.body;if(!b)return;b.classList.add('ready');document.querySelectorAll('.reveal').forEach(function(e){{e.classList.add('in')}});}},5000);
 </script>
-<link rel="stylesheet" href="{depth}assets/site.css?v={V}">
+<link rel="stylesheet" href="/assets/site.css?v={V}">
 """
 
 
-def chrome_bits(home_href):
+def chrome_bits(path="/"):
+    """Header, menus and dialogs. path is the current page inside its language, so the
+    AZ / EN / RU switch links to the same page in the other language."""
+    home_href = LP() + "/"
+    langs = "".join(
+        f'<a href="{LP(l)}{path}" hreflang="{l}" lang="{l}" data-nav' + (' aria-current="page"' if l == LANG else "") + f'>{l.upper()}</a>'
+        for l in LANGS)
     return f"""<a class="skip" href="#main">{T("Məzmuna keç", "Skip to content")}</a>
 <div id="curtain" aria-hidden="true"><b>ayfar</b></div>
 <canvas id="net" aria-hidden="true"></canvas>
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="cur-dot" aria-hidden="true"></div>
-<div class="cur-ring" aria-hidden="true"><span class="lbl">AÇ</span></div>
+<div class="cur-ring" aria-hidden="true"><span class="lbl">{X("AÇ", "OPEN")}</span></div>
 <div id="progress"></div>
 <header class="top" id="hdr">
   <div class="bar">
@@ -414,14 +446,11 @@ def chrome_bits(home_href):
       <button type="button" class="msg-open" data-msg-open>✉ {T("Mesaj yaz", "Message")}</button>
     </nav>
     <button type="button" class="menu-btn" aria-expanded="false" aria-controls="mnav"><span class="sr">{T("Menyu", "Menu")}</span><i></i><i></i></button>
-    <div class="lang" role="group" aria-label="Language">
-      <span class="pill"></span>
-      <button type="button" data-set-lang="az" aria-pressed="true">AZ</button>
-      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
-      <button type="button" data-set-lang="ru" aria-pressed="false">RU</button>
-    </div>
+    <nav class="lang" aria-label="{X("Dil", "Language")}">
+      <span class="pill"></span>{langs}
+    </nav>
   </div>
-  <nav class="mnav" id="mnav" aria-label="Mobile">
+  <nav class="mnav" id="mnav" aria-label="{X("Menyu", "Menu")}">
     <a href="{home_href}#projects" data-nav>{T("Layihələr", "Projects")}</a>
     <a href="{home_href}#services" data-nav>{T("Xidmətlər", "Services")}</a>
     <a href="{home_href}#about" data-nav>{T("Haqqımda", "About")}</a>
@@ -441,7 +470,7 @@ WA_SVG = '<svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><pa
 def message_dialog():
     return f"""<dialog class="msg-dlg" id="msgDlg" aria-labelledby="msgTitle">
   <form class="msg-form" id="msgForm" action="{MESSAGE_FORM}" method="POST">
-    <button type="button" class="msg-x" data-msg-close aria-label="Close">×</button>
+    <button type="button" class="msg-x" data-msg-close aria-label="{X("Bağla", "Close")}">×</button>
     <div class="sec-num">{T("MESAJ", "MESSAGE")}</div>
     {T("Mənə yazın", "Write to me", "h2")}
     {T("Mesajınızı yalnız mən görürəm. Cavabı göstərdiyiniz telefon və ya e-poçta yazacam.", "Only I see your message. I will reply to the phone or e-mail you give.", "p", "msg-lead")}
@@ -458,7 +487,7 @@ def message_dialog():
   </form>
 </dialog>
 <dialog class="photo-dlg" id="photoDlg" aria-label="Ziya Əzizov">
-  <button type="button" class="msg-x" data-photo-close aria-label="Close">×</button>
+  <button type="button" class="msg-x" data-photo-close aria-label="{X("Bağla", "Close")}">×</button>
   <img alt="" width="900" height="900" decoding="async">
 </dialog>"""
 
@@ -503,14 +532,14 @@ IMG_SLUG = {"provguard": "provguard", "prompt-injection-detector": "detector", "
             "agent-audit": "agentaudit", "bathshop": "bathshop", "mexaniki-emal": "mexaniki", "mansia": "mansia"}
 
 
-def media_fixed(p, depth, badges=True, sizes="(min-width: 900px) 560px, 100vw"):
+def media_fixed(p, badges=True, sizes="(min-width: 900px) 560px, 100vw"):
     kind, val = p["media"]
     if kind == "reel":
         base = IMG_SLUG[p["slug"]]
-        alt = E(p["name"][1])
+        alt = E(X(*p["name"])) + " — " + X("ekran görüntüsü", "screenshot")
         imgs = "".join(
-            f'<img src="{depth}img/{base}-{i}-s.webp" srcset="{depth}img/{base}-{i}-s.webp 960w, {depth}img/{base}-{i}.webp 1920w" '
-            f'sizes="{sizes}" width="1920" height="1200" alt="{alt} — screenshot {i}" loading="lazy" decoding="async">'
+            f'<img src="/img/{base}-{i}-s.webp" srcset="/img/{base}-{i}-s.webp 960w, /img/{base}-{i}.webp 1920w" '
+            f'sizes="{sizes}" width="1920" height="1200" alt="{alt} {i}" loading="lazy" decoding="async">'
             for i in range(1, val + 1))
         inner = f'<div class="chrome"><i></i><i></i><i></i><b>{E(p["show"])}</b></div><div class="reel n{val}"><div class="strip">{imgs}</div></div><span class="rec">LIVE</span>'
     else:
@@ -552,7 +581,7 @@ def schema():
         "knowsAbout": ["Proqramlaşdırma", "Kibertəhlükəsizlik", "Süni intellekt", "Veb saytlar", "Oyun hazırlama"],
         "sameAs": ["https://www.linkedin.com/in/ziya-azizov-91bba638a", INSTAGRAM, X_URL, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
     }
-    site = {"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": CANON + "/",
+    site = {"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": CANON + LP() + "/",
             "inLanguage": ["az", "en", "ru"], "publisher": {"@id": CANON + "/#ziya"}}
     service = {
         "@context": "https://schema.org", "@type": "ProfessionalService", "@id": CANON + "/#ayfar",
@@ -569,11 +598,12 @@ def schema():
         "sameAs": [INSTAGRAM, X_URL, "https://www.linkedin.com/in/ziya-azizov-91bba638a", "https://github.com/ziko-asm"],
     }
     faqp = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, _, a, _ in FAQ]}
+        {"@type": "Question", "name": X(qa, qe), "acceptedAnswer": {"@type": "Answer", "text": X(aa, ae)}}
+        for qa, qe, aa, ae in FAQ]}
     return "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in (person, site, service, faqp))
 
 
-LASTMOD = "2026-10-31"  # bump when content changes
+LASTMOD = "2026-11-01"  # bump when content changes
 
 
 def llms_txt():
@@ -598,19 +628,27 @@ def llms_txt():
     lines += ["", "## Articles", ""]
     lines += [f"- [{a['title']}]({CANON}/yazilar/{a['slug']}.html): {a['desc']}" for a in ARTICLES]
     lines += ["", "## Links", "",
-              f"- [Home]({CANON}/)", f"- [Services]({CANON}/#services)", f"- [About]({CANON}/#about)",
+              f"- [Home]({CANON}/)", f"- [Home in English]({CANON}/en/)", f"- [Главная на русском]({CANON}/ru/)",
+              f"- [Services]({CANON}/#services)", f"- [About]({CANON}/#about)",
               "- [GitHub](https://github.com/ziko-asm)", "- [LinkedIn](https://www.linkedin.com/in/ziya-azizov-91bba638a)", ""]
     return "\n".join(lines)
 
 
 def build_seo_files():
-    urls = [CANON + "/"] + [f"{CANON}/p/{p['slug']}.html" for p in P] + [f"{CANON}/yazilar/{a['slug']}.html" for a in ARTICLES]
-    photo = (f"<image:image><image:loc>{SITE}/img/ziya-azizov-ayfar.jpg</image:loc></image:image>")
-    xml = "\n".join(f"  <url><loc>{u}</loc><lastmod>{LASTMOD}</lastmod>{photo if u == CANON + '/' else ''}</url>" for u in urls)
+    photo = f"<image:image><image:loc>{SITE}/img/ziya-azizov-ayfar.jpg</image:loc></image:image>"
+    rows = []
+    for path in ["/"] + [f"/p/{p['slug']}.html" for p in P]:
+        alts = "".join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{CANON}{LP(l)}{path}"/>' for l in LANGS)
+        alts += f'<xhtml:link rel="alternate" hreflang="x-default" href="{CANON}{path}"/>'
+        for l in LANGS:
+            rows.append(f"  <url><loc>{CANON}{LP(l)}{path}</loc><lastmod>{LASTMOD}</lastmod>{alts}{photo if path == '/' else ''}</url>")
+    for a in ARTICLES:  # one canonical URL per article (the text is English in every language)
+        rows.append(f"  <url><loc>{CANON}/yazilar/{a['slug']}.html</loc><lastmod>{max(LASTMOD, a['date'])}</lastmod></url>")
+    xml = "\n".join(rows)
     with open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8", newline="\n") as f:
         f.write(llms_txt())
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
-        f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n{xml}\n</urlset>\n')
+        f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n{xml}\n</urlset>\n')
     with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8", newline="\n") as f:
         f.write(f"User-agent: *\nAllow: /\n\nSitemap: {CANON}/sitemap.xml\n")
 
@@ -624,15 +662,13 @@ def services_html():
     cards = []
     for s in SERVICES:
         price = T(*s["price"]) if s["price"] else T("Qiymət layihəyə görə", "Price on request")
-        fa = "".join(f"<li>{x}</li>" for x in s["feats"][0])
-        fe = "".join(f"<li>{x}</li>" for x in s["feats"][1])
-        fr = "".join(f"<li>{R(x)}</li>" for x in s["feats"][1])
+        feats = "".join(f"<li>{X(a, e)}</li>" for a, e in zip(*s["feats"]))
         cards.append(f"""
         <article class="svc reveal">
           <div class="svc-ic" aria-hidden="true">{s['icon']}</div>
           <h3>{T(*s['name'])}</h3>
           {T(s['desc'][0], s['desc'][1], 'p')}
-          <ul lang="az">{fa}</ul><ul lang="en">{fe}</ul><ul lang="ru">{fr}</ul>
+          <ul>{feats}</ul>
           <div class="svc-price">{price}</div>
           <a class="btn small magnet" href="{WA_ORDER}" target="_blank" rel="noopener">{T("Təklif al", "Get a quote")} <span class="arr">→</span></a>
         </article>""")
@@ -700,7 +736,7 @@ def build_index():
         gh = f'<a class="btn small" href="{p["github"]}" target="_blank" rel="noopener">GitHub</a>' if p["github"] else ""
         slides.append(f"""
       <article class="slide" data-cat="{p['cat']}" style="--c1:{p['c1']};--c2:{p['c2']}">
-        <a class="slide-media tiltable" data-tilt="5" href="p/{p['slug']}.html" data-nav aria-label="{E(p['name'][0])}">{media_fixed(p, '', sizes="(min-width: 900px) 620px, 92vw")}</a>
+        <a class="slide-media tiltable" data-tilt="5" href="{LP()}/p/{p['slug']}.html" data-nav aria-label="{E(X(*p['name']))}">{media_fixed(p, sizes="(min-width: 900px) 620px, 92vw")}</a>
         <div class="slide-body">
           <div class="slide-idx"><b>{i + 1:02d}</b> / {n:02d} · {T(*CATS[p['cat']])}</div>
           <h3{' class="long"' if max(len(w) for n in p['name'] for w in n.split()) >= 10 or max(len(n) for n in p['name']) > 18 else ''}>{T(*p['name'])}</h3>
@@ -708,7 +744,7 @@ def build_index():
           {T(p['summary'][0], p['summary'][1], 'p', 'sum')}
           <div class="metric"><div class="v">{L(p['metric'][0])}</div>{T(p['metric'][1], p['metric'][2], 'div', 'd')}</div>
           <div class="slide-go">
-            <a class="btn primary small magnet" href="p/{p['slug']}.html" data-nav>{T('Ətraflı', 'Details')}<span class="arr">→</span></a>
+            <a class="btn primary small magnet" href="{LP()}/p/{p['slug']}.html" data-nav>{T('Ətraflı', 'Details')}<span class="arr">→</span></a>
             <a class="btn small magnet" href="{p['url']}" target="_blank" rel="noopener">{T(*p['go'])} <span>↗</span></a>
             {gh}
           </div>
@@ -716,20 +752,12 @@ def build_index():
       </article>""")
     chips = "".join(f'<button type="button" data-jump="{k}">{T(*v)}<sup>{counts[k]}</sup></button>' for k, v in CATS.items())
 
-    page = head("ayfar — Ziya Əzizov | Saytlar, oyunlar və layihələr", "ayfar — Ziya Azizov | Websites, games & projects",
-                "Ayfar — Ziya Əzizov, Bakıdan proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisi. Saytları, oyunları (Metro Tycoon) və tədqiqat layihələri bir yerdə.",
-                CANON + "/", "img/og/home.png")
-    page += f'<link rel="stylesheet" href="assets/home.css?v={V}">\n' + schema() + '</head>\n<body>\n'
-    page += """<div id="loader" aria-hidden="true">
-  <div class="panel t"></div><div class="panel b"></div>
-  <div class="inner">
-    <svg viewBox="0 0 600 150" width="min(86vw,520px)"><text x="50%" y="115" text-anchor="middle">ayfar</text><text class="fill" x="50%" y="115" text-anchor="middle">ayfar</text></svg>
-    <div class="bar"><i id="lbar"></i></div>
-    <div class="count"><span id="lnum">000</span> / 100</div>
-  </div>
-</div>
-"""
-    page += chrome_bits("./")
+    page = head(X("ayfar — Ziya Əzizov | Saytlar, oyunlar və layihələr", "ayfar — Ziya Azizov | Websites, games & projects"),
+                X("Ayfar — Ziya Əzizov, Bakıdan proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisi. Saytları, oyunları (Metro Tycoon) və tədqiqat layihələri bir yerdə.",
+                  "Ayfar is Ziya Azizov, a programming, cybersecurity and AI engineer from Baku. His websites, games (Metro Tycoon) and research projects in one place."),
+                "/", "img/og/home.png")
+    page += f'<link rel="stylesheet" href="/assets/home.css?v={V}">\n' + schema() + '</head>\n<body>\n'
+    page += chrome_bits("/")
     page += f"""
 <main id="main">
   <div class="wrap hero">
@@ -739,7 +767,7 @@ def build_index():
     {T("Hazırladığım bütün saytlar, alətlər, oyunlar və layihələr bu səhifədədir. Aşağıdakı metroda qatarı özünüz sürün, sonra layihələrə keçin.", "Every site, tool, game and project I've built is on this page. Drive the metro below yourself, then scroll on to the projects.", "p", "lead reveal-hero d2")}
 
     <div class="mgame reveal-hero d3" id="gameWrap">
-      <canvas id="game" role="img" aria-label="Mini metro game"></canvas>
+      <canvas id="game" tabindex="-1" role="img" aria-label="{X("Mini metro oyunu: qaz üçün Boşluq və ya ↑ düyməsini basılı saxlayın, tormoz üçün buraxın", "Mini metro game: hold Space or ↑ to go, release to brake")}"></canvas>
       <div class="g-hud">
         <div class="cash">₼ <b id="gCash">0</b></div>
         <div><b id="gSpd">0</b> KM/S</div>
@@ -808,9 +836,7 @@ def build_index():
       <div class="sec-head reveal"><div><div class="sec-num">{sec_no(3)} — {T("MƏN", "ME")}</div><h2>{T("Haqqımda", "About me")}</h2></div></div>
       <div class="about">
         <div class="reveal">
-          <p class="big" lang="az">Salam, mən <em>Ziya Əzizovam</em>. İnternetdə <em>ayfar</em> kimi tanınıram.</p>
-          <p class="big" lang="en">Hi, I'm <em>Ziya Azizov</em>, known online as <em>ayfar</em>.</p>
-          <p class="big" lang="ru">Привет, я <em>Зия Азизов</em>, в сети известен как <em>ayfar</em>.</p>
+          {T("Salam, mən <em>Ziya Əzizovam</em>. İnternetdə <em>ayfar</em> kimi tanınıram.", "Hi, I'm <em>Ziya Azizov</em>, known online as <em>ayfar</em>.", "p", "big")}
           {T("2005-ci ildə Bakı şəhərində anadan olmuşam və Bakıda yaşayıram. Proqramlaşdırma, kibertəhlükəsizlik və süni intellekt ilə məşğul olan mühəndisəm.", "I was born in Baku in 2005 and still live there. I'm an engineer working in programming, cybersecurity and artificial intelligence.", "p")}
           {T("Bakalavr təhsilimi Azərbaycan Dövlət Neft və Sənaye Universitetində (ADNSU) Mexatronika və Robototexnika ixtisası üzrə almışam. Hazırda Bakı Ali Neft Məktəbində (BHOS) texniki sistemlərdə idarəetmə üzrə magistr təhsili alıram.", "I earned my bachelor's degree in Mechatronics and Robotics at Azerbaijan State Oil and Industry University (ASOIU). I'm now studying for a master's degree in control in technical systems at Baku Higher Oil School (BHOS).", "p")}
           {T("Bu dünyanı mənə bakalavrın 1-ci kursunda keçdiyimiz <b>Fundamentals of Programming</b> fənni tanıtdı. 2023-cü ildə, hələ 2-ci kursda ikən proqramlaşdırma və kibertəhlükəsizliyə ciddi maraq saldım və işə öz kompüterimə <b>Kali Linux</b> əməliyyat sistemini quraşdırmaqla, özüm başladım.", "This world was opened to me by the <b>Fundamentals of Programming</b> course in my first year. In 2023, in my second year, I got seriously into programming and cybersecurity and started on my own by installing <b>Kali Linux</b> on my computer.", "p")}
@@ -818,7 +844,7 @@ def build_index():
           <div class="skills" aria-hidden="true"><div class="mq"><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span></div></div>
         </div>
         <div class="idcard reveal tiltable">
-          <div class="photo"><img data-zoom="img/ziya-azizov-ayfar.webp" tabindex="0" role="button" src="img/ziya-azizov-ayfar-s.webp" srcset="img/ziya-azizov-ayfar-s.webp 360w, img/ziya-azizov-ayfar.webp 900w" sizes="(min-width: 900px) 440px, 92vw" width="900" height="900" alt="Ziya Əzizov (ayfar), Bakıdan veb developer və kibertəhlükəsizlik mühəndisi" loading="lazy" decoding="async"><span class="photo-badge"><i></i>Bakı · 2005</span></div>
+          <div class="photo"><img data-zoom="/img/ziya-azizov-ayfar.webp" tabindex="0" role="button" src="/img/ziya-azizov-ayfar-s.webp" srcset="/img/ziya-azizov-ayfar-s.webp 360w, /img/ziya-azizov-ayfar.webp 900w" sizes="(min-width: 900px) 440px, 92vw" width="900" height="900" alt="{X("Ziya Əzizov (ayfar), Bakıdan veb developer və kibertəhlükəsizlik mühəndisi", "Ziya Azizov (ayfar), web developer and cybersecurity engineer from Baku")}" loading="lazy" decoding="async"><span class="photo-badge"><i></i>Bakı · 2005</span></div>
           <h3>{T("Ziya Əzizov", "Ziya Azizov")}</h3>
           <div class="handle">@ayfar</div>
           <dl>
@@ -863,25 +889,29 @@ def build_index():
 </main>
 """
     page += footer()
-    page += f'\n<script src="assets/site.js?v={V}"></script>\n<script src="assets/home.js?v={V}"></script>\n</body>\n</html>\n'
-    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8", newline="\n") as f:
+    page += f'\n<script src="/assets/site.js?v={V}"></script>\n<script src="/assets/home.js?v={V}"></script>\n</body>\n</html>\n'
+    with open(out_path("index.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(page)
+
+
+def out_path(*parts):
+    """File path for the current language (az at the root, others in en/ and ru/), creating folders."""
+    d = os.path.join(ROOT, *([] if LANG == "az" else [LANG]), *parts[:-1])
+    os.makedirs(d, exist_ok=True)
+    return os.path.join(d, parts[-1])
 
 
 def build_project(i, p):
     nxt = P[(i + 1) % len(P)]
     prv = P[(i - 1) % len(P)]
     name_az, name_en = p["name"]
-    desc = p["summary"][0]
-    page = head(f"{name_az} — ayfar", f"{name_en} — ayfar", desc, f"{CANON}/p/{p['slug']}.html", f"img/og/{p['slug']}.png", "../")
-    page += f'<link rel="stylesheet" href="../assets/project.css?v={V}">\n</head>\n<body class="proj" style="--c1:{p["c1"]};--c2:{p["c2"]}">\n'
-    page += chrome_bits("../")
-    body_az = "".join(f"<p>{x}</p>" for x in p["body"][0])
-    body_en = "".join(f"<p>{x}</p>" for x in p["body"][1])
-    body_ru = "".join(f"<p>{R(x)}</p>" for x in p["body"][1])
-    bul_az = "".join(f"<li>{x}</li>" for x in p["bullets"][0])
-    bul_en = "".join(f"<li>{x}</li>" for x in p["bullets"][1])
-    bul_ru = "".join(f"<li>{R(x)}</li>" for x in p["bullets"][1])
+    desc = X(*p["summary"])
+    path = f"/p/{p['slug']}.html"
+    page = head(X(name_az, name_en) + " — ayfar", desc, path, f"img/og/{p['slug']}.png")
+    page += f'<link rel="stylesheet" href="/assets/project.css?v={V}">\n</head>\n<body class="proj" style="--c1:{p["c1"]};--c2:{p["c2"]}">\n'
+    page += chrome_bits(path)
+    body = "".join(f"<p>{X(a, e)}</p>" for a, e in zip(*p["body"]))
+    bullets = "".join(f"<li>{X(a, e)}</li>" for a, e in zip(*p["bullets"]))
     note = f'{T(p["note"][0], p["note"][1], "div", "note")}' if p["note"] else ""
     gh = f'<a class="btn magnet" href="{p["github"]}" target="_blank" rel="noopener">GitHub <span class="arr">→</span></a>' if p["github"] else ""
     chips = "".join(L(c, "span", "chip") for c in p["chips"])
@@ -889,29 +919,29 @@ def build_project(i, p):
     page += f"""
 <main id="main">
   <section class="p-hero wrap">
-    <a class="back" href="../#projects" data-nav>← {T("Bütün layihələr", "All projects")}</a>
+    <a class="back" href="{LP()}/#projects" data-nav>← {T("Bütün layihələr", "All projects")}</a>
     <div class="p-tags reveal-hero"><span class="tag {p['cat']}">{T(*p['tag'])}</span><span class="tag {p['status']}">{st}</span><span class="p-num">{i + 1:02d} / {len(P):02d}</span></div>
     <h1 class="reveal-hero d1">{T(name_az, name_en)}</h1>
     {T(p['summary'][0], p['summary'][1], 'p', 'p-lead reveal-hero d2')}
     <div class="p-cta reveal-hero d3">
       <a class="btn primary magnet" href="{p['url']}" target="_blank" rel="noopener">{T(*p['go'])} <span class="arr">↗</span></a>
       {gh}
-      {"".join(f'<a class="btn magnet" href="../yazilar/{a["slug"]}.html" data-nav>📝 {T("Məqaləni oxu", "Read the write-up")} <span class="arr">→</span></a>' for a in ARTICLES if a["project"] == p["slug"])}
+      {"".join(f'<a class="btn magnet" href="{LP()}/yazilar/{a["slug"]}.html" data-nav>📝 {T("Məqaləni oxu", "Read the write-up")} <span class="arr">→</span></a>' for a in ARTICLES if a["project"] == p["slug"])}
     </div>
-    <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="{p['url']}" target="_blank" rel="noopener" aria-label="{E(p['name'][0])}: {E(p['show'])}">{media_fixed(p, '../', badges=False, sizes="min(1170px, 100vw)")}</a>
+    <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="{p['url']}" target="_blank" rel="noopener" aria-label="{E(X(*p['name']))}: {E(p['show'])}">{media_fixed(p, badges=False, sizes="min(1170px, 100vw)")}</a>
   </section>
 
   <section class="wrap p-grid">
     <div class="p-text reveal">
       <div class="sec-num">{T("NƏ EDİR", "WHAT IT DOES")}</div>
-      <div lang="az">{body_az}</div><div lang="en">{body_en}</div><div lang="ru">{body_ru}</div>
+      <div>{body}</div>
       {note}
     </div>
     <div class="p-side reveal">
       <div class="metric big"><div class="v">{L(p['metric'][0])}</div>{T(p['metric'][1], p['metric'][2], 'div', 'd')}</div>
       <div class="p-box">
         <div class="sec-num">{T("ƏSAS XÜSUSİYYƏTLƏR", "HIGHLIGHTS")}</div>
-        <ul lang="az">{bul_az}</ul><ul lang="en">{bul_en}</ul><ul lang="ru">{bul_ru}</ul>
+        <ul>{bullets}</ul>
       </div>
       <div class="p-box">
         <div class="sec-num">{T("TEXNOLOGİYALAR", "BUILT WITH")}</div>
@@ -928,9 +958,8 @@ def build_project(i, p):
 </main>
 """
     page += footer()
-    page += f'\n<script src="../assets/site.js?v={V}"></script>\n</body>\n</html>\n'
-    os.makedirs(os.path.join(ROOT, "p"), exist_ok=True)
-    with open(os.path.join(ROOT, "p", f"{p['slug']}.html"), "w", encoding="utf-8", newline="\n") as f:
+    page += f'\n<script src="/assets/site.js?v={V}"></script>\n</body>\n</html>\n'
+    with open(out_path("p", f"{p['slug']}.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(page)
 
 
@@ -944,39 +973,42 @@ ARTICLES = [dict(
 
 def build_articles():
     import json
-    os.makedirs(os.path.join(ROOT, "yazilar"), exist_ok=True)
     for a in ARTICLES:
         with open(os.path.join(ROOT, a["body"]), encoding="utf-8") as f:
             body = f.read()
-        url = f"{CANON}/yazilar/{a['slug']}.html"
-        page = head(a["title"] + " — ayfar", a["title"] + " — ayfar", a["desc"], url, a["og"], "../")
+        path = f"/yazilar/{a['slug']}.html"
+        url = CANON + path  # the text is English everywhere, so every language version points here
+        proj = next(p for p in P if p["slug"] == a["project"])
+        page = head(a["title"] + " — ayfar", a["desc"], path, a["og"], alternates=False, canonical=url)
         page = page.replace('<meta property="og:type" content="website">', '<meta property="og:type" content="article">')
         ld = {"@context": "https://schema.org", "@type": "Article", "headline": a["title"], "description": a["desc"],
               "datePublished": a["date"], "inLanguage": "en", "url": url, "image": SITE + "/" + a["og"],
               "author": {"@type": "Person", "@id": CANON + "/#ziya", "name": "Ziya Azizov", "url": CANON + "/"},
               "publisher": {"@id": CANON + "/#ayfar"}}
-        page += f'<link rel="stylesheet" href="../assets/project.css?v={V}">\n<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>\n</head>\n<body class="proj article" style="--c1:#34f5b0;--c2:#5b8cff">\n'
-        page += chrome_bits("../")
+        page += f'<link rel="stylesheet" href="/assets/project.css?v={V}">\n<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>\n</head>\n<body class="proj article" style="--c1:#34f5b0;--c2:#5b8cff">\n'
+        page += chrome_bits(path)
+        note = {"az": "Bu məqalə ingilis dilindədir.", "ru": "Статья на английском языке."}.get(LANG)
+        note = f'<p class="art-note">{note}</p>' if note else ""
         page += f"""
 <main id="main">
   <article class="wrap art">
-    <a class="back" href="../p/{a['project']}.html" data-nav>← ProvGuard</a>
+    <a class="back" href="{LP()}/p/{a['project']}.html" data-nav>← {X(*proj['name'])}</a>
     <div class="p-tags"><span class="tag research">{T("Məqalə", "Article")}</span><span class="p-num">{a['date']} · Ziya Azizov</span></div>
     <h1>{E(a['title'])}</h1>
-    <p class="art-note" lang="az">Bu məqalə ingilis dilindədir.</p><p class="art-note" lang="ru">Статья на английском языке.</p>
+    {note}
     <div class="art-body" lang="en">{body}</div>
   </article>
 </main>
 """
         page += footer()
-        page += f'\n<script src="../assets/site.js?v={V}"></script>\n</body>\n</html>\n'
-        with open(os.path.join(ROOT, "yazilar", a["slug"] + ".html"), "w", encoding="utf-8", newline="\n") as f:
+        page += f'\n<script src="/assets/site.js?v={V}"></script>\n</body>\n</html>\n'
+        with open(out_path("yazilar", a["slug"] + ".html"), "w", encoding="utf-8", newline="\n") as f:
             f.write(page)
 
 
 def build_404():
-    page = head("Səhifə tapılmadı — ayfar", "Page not found — ayfar", "Bu səhifə mövcud deyil.", CANON + "/", "img/og/home.png", "/")
-    page = page.replace('<link rel="canonical"', '<meta name="robots" content="noindex">\n<link rel="canonical"')
+    page = head("Səhifə tapılmadı — ayfar", "Bu səhifə mövcud deyil.", "/", "img/og/home.png",
+                alternates=False, canonical="", noindex=True)
     page += '</head>\n<body>\n' + chrome_bits("/")
     page += f"""
 <main id="main">
@@ -1007,7 +1039,7 @@ def build_vercel_json():
     import json
     import re
     hashes = set()
-    for f in [os.path.join(ROOT, "index.html")] + glob.glob(os.path.join(ROOT, "p", "*.html")):
+    for f in glob.glob(os.path.join(ROOT, "**", "*.html"), recursive=True):
         with open(f, encoding="utf-8") as fh:
             for m in re.finditer(r"<script>(.*?)</script>", fh.read(), re.S):
                 hashes.add("'sha256-" + base64.b64encode(hashlib.sha256(m.group(1).encode()).digest()).decode() + "'")
@@ -1031,12 +1063,14 @@ def build_vercel_json():
 
 
 if __name__ == "__main__":
-    build_index()
-    build_seo_files()
-    for i, p in enumerate(P):
-        build_project(i, p)
+    for LANG in LANGS:
+        build_index()
+        for i, p in enumerate(P):
+            build_project(i, p)
+        build_articles()
+    LANG = "az"
     build_404()
-    build_articles()
+    build_seo_files()
     build_vercel_json()
     if MISSING:
         import sys
@@ -1044,4 +1078,4 @@ if __name__ == "__main__":
         with open(os.path.join(ROOT, "ru_missing.txt"), "w", encoding="utf-8") as f:
             f.write("\n".join(miss))
         sys.exit(f"{len(miss)} strings have no Russian translation in ru.py (listed in ru_missing.txt)")
-    print("built index.html and", len(P), "project pages")
+    print(f"built {len(LANGS)} languages: index, {len(P)} project pages and {len(ARTICLES)} article(s) each")

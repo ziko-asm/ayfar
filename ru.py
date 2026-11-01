@@ -263,4 +263,13 @@ RU = {
     'Article': 'Статья',
     'Read the write-up': 'Читать статью',
     'Stop asking "is this text malicious?" — how I stopped 144/144 prompt-injection attacks on an AI banking agent — ayfar': 'Stop asking "is this text malicious?" — how I stopped 144/144 prompt-injection attacks on an AI banking agent — ayfar',
+    # language pages, labels and alt texts
+    'Ayfar is Ziya Azizov, a programming, cybersecurity and AI engineer from Baku. His websites, games (Metro Tycoon) and research projects in one place.': 'Ayfar — это Зия Азизов, инженер из Баку в области программирования, кибербезопасности и искусственного интеллекта. Его сайты, игры (Metro Tycoon) и исследовательские проекты в одном месте.',
+    'Close': 'Закрыть',
+    "Hi, I'm <em>Ziya Azizov</em>, known online as <em>ayfar</em>.": 'Привет, я <em>Зия Азизов</em>, в сети известен как <em>ayfar</em>.',
+    'Language': 'Язык',
+    'OPEN': 'ОТКР',
+    'Ziya Azizov (ayfar), web developer and cybersecurity engineer from Baku': 'Зия Азизов (ayfar), веб-разработчик и инженер по кибербезопасности из Баку',
+    'screenshot': 'скриншот',
+    'Mini metro game: hold Space or ↑ to go, release to brake': 'Мини-игра «Метро»: удерживайте пробел или ↑, чтобы ехать, отпустите, чтобы тормозить',
 }
