@@ -3,7 +3,9 @@
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
   function store(k, v){ try{ if(v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
-  window.AYFAR = {reduce:reduce, fine:fine, store:store};
+  /* thousands with dots, like toLocaleString('az'), without loading Intl (its first call took 45-80 ms on a phone) */
+  function money(n){ return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  window.AYFAR = {reduce:reduce, fine:fine, store:store, money:money};
 
   /* ---------- language ----------
      Every language has its own URL (/, /en/, /ru/), rendered on the server side by build.py,
@@ -199,12 +201,12 @@
 
   /* ---------- metro scene HUD ---------- */
   document.querySelectorAll('.metro').forEach(function(scene){
-    var cash = scene.querySelector('.cash span'), spd = scene.querySelector('.spd span'), money = 0, on = false;
+    var cash = scene.querySelector('.cash span'), spd = scene.querySelector('.spd span'), total = 0, on = false;
     new IntersectionObserver(function(es){ on = es[0].isIntersecting; }).observe(scene);
     setInterval(function(){
       if(!on || document.hidden) return;
       var gain = 50 + Math.floor(Math.random() * 450);
-      money += gain; cash.textContent = money.toLocaleString('az');
+      total += gain; cash.textContent = money(total);
       spd.textContent = 40 + Math.floor(Math.random() * 45);
       if(!reduce){
         var p = document.createElement('div'); p.className = 'pop-cash'; p.textContent = '+' + gain + ' ₼';
