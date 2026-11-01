@@ -247,4 +247,5 @@ RU = {
     'WhatsApp orders': 'Заказ в WhatsApp',
     'Mobile-friendly': 'Для телефонов',
     '.az domain': 'Домен .az',
+    'Ziya built our online shop: cart, ordering system, three languages. The site is fast and easy to use on a phone. Later he also audited and hardened its security. I recommend him!': 'Зия сделал наш интернет-магазин: корзина, система заказов, три языка. Сайт быстрый и удобный на телефоне. Позже он также проверил и усилил его безопасность. Рекомендую!',
 }

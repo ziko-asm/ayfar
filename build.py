@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "29"  # cache-busting for assets
+V = "30"  # cache-busting for assets
 
 # Contact
 PHONE = "+994772172358"
@@ -68,6 +68,9 @@ REVIEWS = [
     ("Ziya MANSIA üçün çox gözəl və sürətli onlayn mağaza hazırladı. Brendimizin ruhunu tam başa düşdü, sifarişlər birbaşa WhatsApp-a gəlir. Hər mərhələdə bizimlə məsləhətləşdi. Tövsiyə edirəm!",
      "Ziya built a beautiful, fast online shop for MANSIA. He fully understood the spirit of our brand, and orders come straight to WhatsApp. He consulted us at every stage. I recommend him!",
      "Kamal", "MANSIA"),  # approved by the client on WhatsApp, 31.10.2026
+    ("Onlayn mağazamızı Ziya hazırladı: səbət, sifariş sistemi, üç dil. Sayt sürətli işləyir, telefonda da rahatdır. Sonradan təhlükəsizliyini də yoxlayıb gücləndirdi. Tövsiyə edirəm!",
+     "Ziya built our online shop: cart, ordering system, three languages. The site is fast and easy to use on a phone. Later he also audited and hardened its security. I recommend him!",
+     "Baxtiyar", "bathshop.az"),  # approved by the client on WhatsApp, 01.11.2026
 ]
 
 CATS = {
