@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.vercel.app"
 CANON = SITE  # switch to "https://ayfar.az" once the domain points here
-V = "46"  # cache-busting for assets and images
+V = "47"  # cache-busting for assets and images
 
 # Contact
 PHONE = "+994772172358"
@@ -376,12 +376,25 @@ def T(az, en, tag="span", cls=""):
     return f'<{tag}{c}>{X(az, en)}</{tag}>'
 
 
+ARTICLE_COLORS = ("#34f5b0", "#5b8cff")
+
+
+def colour_classes() -> str:
+    """Each project's two accent colours as a class (.pc-<slug>). The pages use these classes, not style=""
+    attributes, so the CSP needs no 'unsafe-inline' for styles: the <style> blocks are allowed by hash."""
+    rows = [f".pc-{p['slug']}{{--c1:{p['c1']};--c2:{p['c2']}}}" for p in P]
+    rows.append(f".pc-article{{--c1:{ARTICLE_COLORS[0]};--c2:{ARTICLE_COLORS[1]}}}")
+    return "\n".join(rows)
+
+
 def css(*names):
     """Stylesheets inlined into the page: no render-blocking CSS request. The source files stay in assets/."""
     parts = []
     for n in names:
         with open(os.path.join(ROOT, "assets", n), encoding="utf-8") as f:
             parts.append(f.read().strip())
+        if n == "site.css":
+            parts.append(colour_classes())
     return "<style>\n" + "\n".join(parts) + "\n</style>\n"
 
 
@@ -511,7 +524,7 @@ def scene(kind):
     <defs><radialGradient id="tg"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#ff4fd8" stop-opacity="0"/></radialGradient></defs>
     <path class="track2" d="M40 330 L160 330 L230 260 L360 260 L430 190 L560 190"/>
     <path id="mpath" class="track" d="M40 300 L150 300 L220 230 L350 230 L420 160 L560 160"/>
-    <g><circle class="coin" cx="95" cy="300" r="5"/><circle class="coin" cx="185" cy="265" r="5" style="animation-delay:.3s"/><circle class="coin" cx="285" cy="230" r="5" style="animation-delay:.6s"/><circle class="coin" cx="385" cy="195" r="5" style="animation-delay:.9s"/><circle class="coin" cx="490" cy="160" r="5" style="animation-delay:1.2s"/></g>
+    <g><circle class="coin" cx="95" cy="300" r="5"/><circle class="coin d1" cx="185" cy="265" r="5"/><circle class="coin d2" cx="285" cy="230" r="5"/><circle class="coin d3" cx="385" cy="195" r="5"/><circle class="coin d4" cx="490" cy="160" r="5"/></g>
     <circle class="st" cx="40" cy="300" r="9"/><circle class="st" cx="150" cy="300" r="9"/><circle class="st" cx="220" cy="230" r="9"/><circle class="st" cx="350" cy="230" r="9"/><circle class="st" cx="420" cy="160" r="9"/><circle class="st" cx="560" cy="160" r="9"/>
     <text class="stl" x="48" y="330" text-anchor="middle">İçərişəhər</text><text class="stl" x="150" y="330" text-anchor="middle">28 May</text><text class="stl" x="220" y="212" text-anchor="middle">Nərimanov</text><text class="stl" x="350" y="258" text-anchor="middle">Koroğlu</text><text class="stl" x="420" y="142" text-anchor="middle">Əhmədli</text><text class="stl" x="540" y="142" text-anchor="middle">Həzi Aslanov</text>
     <g><circle r="26" fill="url(#tg)" opacity=".55"/><rect x="-24" y="-9" width="48" height="18" rx="7" fill="#fff"/><rect x="-24" y="-2" width="48" height="5" fill="#e5394a"/><rect x="12" y="-6" width="9" height="5" rx="1.5" fill="#1b2230"/>
@@ -566,7 +579,7 @@ def media_fixed(p, badges=True, sizes="(min-width: 900px) 560px, 100vw", hero=Fa
     if badges:
         st = T("canlı", "live") if p["status"] == "on" else T("müvəqqəti dayanıb", "offline for now")
         b = f'<div class="badge"><span class="tag {p["cat"]}">{T(*p["tag"])}</span><span class="tag {p["status"]}">{st}</span></div>'
-    return f'<div class="media" style="--c1:{p["c1"]};--c2:{p["c2"]}">{inner}{b}</div>'
+    return f'<div class="media pc-{p["slug"]}">{inner}{b}</div>'
 
 
 FAQ = [('Ayfar kimdir?', 'Who is ayfar?', 'Ayfar — Ziya Əzizovun internetdəki ləqəbidir. Ziya Bakıdan olan proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisidir; saytlar, oyunlar və tədqiqat layihələri hazırlayır.', 'Ayfar is the online name of Ziya Azizov, a programming, cybersecurity and AI engineer from Baku who builds websites, games and research projects.'), ('Ziya Əzizov nə ilə məşğuldur?', 'What does Ziya Azizov do?', 'Kibertəhlükəsizlik və süni intellekt üzrə tədqiqatlar aparır (ProvGuard, Prompt Injection Detector Benchmark, GraphGuard IoT), bizneslər üçün saytlar (bathshop.az, karusel torna emalı) və oyunlar (Metro Tycoon) hazırlayır.', 'He does cybersecurity and AI research (ProvGuard, Prompt Injection Detector Benchmark, GraphGuard IoT) and builds business websites (bathshop.az, a lathe workshop site) and games (Metro Tycoon).'), ('Ziya Əzizov harada təhsil alıb?', 'Where did Ziya Azizov study?', 'Bakalavr təhsilini ADNSU-da Mexatronika və Robototexnika üzrə alıb. Hazırda Bakı Ali Neft Məktəbində (BHOS) texniki sistemlərdə idarəetmə üzrə magistraturada oxuyur.', "He holds a bachelor's in Mechatronics and Robotics from ASOIU and is now a master's student in control in technical systems at Baku Higher Oil School (BHOS)."), ('Ziya Əzizovla necə əlaqə saxlamaq olar?', 'How can I contact Ziya Azizov?', 'WhatsApp və ya zəng (+994 77 217 23 58), e-poçt (ziyaazizov9@gmail.com), Instagram (@ayfar.web), LinkedIn və ya GitHub vasitəsilə əlaqə saxlaya bilərsiniz.', 'By WhatsApp or phone (+994 77 217 23 58), e-mail (ziyaazizov9@gmail.com), Instagram (@ayfar.web), LinkedIn or GitHub.'),
@@ -753,7 +766,7 @@ def build_index():
     for i, p in enumerate(P):
         gh = f'<a class="btn small" href="{p["github"]}" target="_blank" rel="noopener">GitHub</a>' if p["github"] else ""
         slides.append(f"""
-      <article class="slide" data-cat="{p['cat']}" style="--c1:{p['c1']};--c2:{p['c2']}">
+      <article class="slide pc-{p['slug']}" data-cat="{p['cat']}">
         <a class="slide-media tiltable" data-tilt="5" href="{LP()}/p/{p['slug']}.html" data-nav aria-label="{E(X(*p['name']))}">{media_fixed(p, sizes="(min-width: 900px) 620px, calc(100vw - 54px)")}</a>
         <div class="slide-body">
           <div class="slide-idx"><b>{i + 1:02d}</b> / {n:02d} · {T(*CATS[p['cat']])}</div>
@@ -926,7 +939,7 @@ def build_project(i, p):
     desc = X(*p["summary"])
     path = f"/p/{p['slug']}.html"
     page = head(X(name_az, name_en) + " — ayfar", desc, path, f"img/og/{p['slug']}.png")
-    page += css("project.css") + f'</head>\n<body class="proj" style="--c1:{p["c1"]};--c2:{p["c2"]}">\n'
+    page += css("project.css") + f'</head>\n<body class="proj pc-{p["slug"]}">\n'
     page += chrome_bits(path)
     body = "".join(f"<p>{X(a, e)}</p>" for a, e in zip(*p["body"]))
     bullets = "".join(f"<li>{X(a, e)}</li>" for a, e in zip(*p["bullets"]))
@@ -971,7 +984,7 @@ def build_project(i, p):
 
   <section class="wrap p-next">
     <a class="prev" href="{prv['slug']}.html" data-nav><small>← {T("Əvvəlki", "Previous")}</small><b>{T(*prv['name'])}</b></a>
-    <a class="next" href="{nxt['slug']}.html" data-nav style="--c1:{nxt['c1']};--c2:{nxt['c2']}"><small>{T("Növbəti layihə", "Next project")} →</small><b>{T(*nxt['name'])}</b></a>
+    <a class="next pc-{nxt['slug']}" href="{nxt['slug']}.html" data-nav><small>{T("Növbəti layihə", "Next project")} →</small><b>{T(*nxt['name'])}</b></a>
   </section>
 </main>
 """
@@ -1005,7 +1018,7 @@ def build_articles():
               "datePublished": a["date"], "inLanguage": "en", "url": url, "image": SITE + "/" + a["og"],
               "author": {"@type": "Person", "@id": CANON + "/#ziya", "name": "Ziya Azizov", "url": CANON + "/"},
               "publisher": {"@id": CANON + "/#ayfar"}}
-        page += css("project.css") + f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>\n</head>\n<body class="proj article" style="--c1:#34f5b0;--c2:#5b8cff">\n'
+        page += css("project.css") + f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>\n</head>\n<body class="proj article pc-article">\n'
         page += chrome_bits(path)
         note = {"az": "Bu məqalə ingilis dilindədir.", "ru": "Статья на английском языке."}.get(LANG)
         note = f'<p class="art-note">{note}</p>' if note else ""
@@ -1050,24 +1063,39 @@ def build_404():
         f.write(page)
 
 
+def build_js():
+    """assets/src/*.js -> assets/*.js without comments and whitespace (pip install rjsmin==1.2.4).
+    The explanations stay in the source; the browser gets the short version."""
+    import glob
+    import rjsmin
+    for src in glob.glob(os.path.join(ROOT, "assets", "src", "*.js")):
+        with open(src, encoding="utf-8") as f:
+            out = rjsmin.jsmin(f.read(), keep_bang_comments=False)
+        with open(os.path.join(ROOT, "assets", os.path.basename(src)), "w", encoding="utf-8", newline="\n") as f:
+            f.write(out + "\n")
+
+
 def build_vercel_json():
-    """Security headers for Vercel. The CSP allows the inline <script> in head() by its hash,
-    so it is recomputed on every build and stays in sync if that script changes."""
+    """Security headers for Vercel. The CSP allows the inline <script> and the inline <style> blocks by
+    their hashes, recomputed on every build, so neither scripts nor styles need 'unsafe-inline'."""
     import base64
     import glob
     import hashlib
     import json
     import re
-    hashes = set()
+    def sha(text):
+        return "'sha256-" + base64.b64encode(hashlib.sha256(text.encode()).digest()).decode() + "'"
+    hashes, style_hashes = set(), set()
     built = [f for f in glob.glob(os.path.join(ROOT, "**", "*.html"), recursive=True)
              if not os.path.relpath(f, ROOT).replace(os.sep, "/").startswith(("tests/", "content/", "node_modules/"))]
     for f in built:
         with open(f, encoding="utf-8") as fh:
-            for m in re.finditer(r"<script>(.*?)</script>", fh.read(), re.S):
-                hashes.add("'sha256-" + base64.b64encode(hashlib.sha256(m.group(1).encode()).digest()).decode() + "'")
+            html = fh.read()
+        hashes |= {sha(m) for m in re.findall(r"<script>(.*?)</script>", html, re.S)}
+        style_hashes |= {sha(m) for m in re.findall(r"<style>(.*?)</style>", html, re.S)}
     csp = ("default-src 'self'; "
            f"script-src 'self' {' '.join(sorted(hashes))}; "
-           "style-src 'self' 'unsafe-inline'; "
+           f"style-src 'self' {' '.join(sorted(style_hashes))}; "
            "font-src 'self'; "
            "img-src 'self' data:; connect-src 'self' " + SCAN_SITE + " https://formspree.io; "
            "frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://formspree.io; object-src 'none'; upgrade-insecure-requests")
@@ -1078,6 +1106,12 @@ def build_vercel_json():
         ("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()"),
         ("Strict-Transport-Security", "max-age=63072000; includeSubDomains"),
         ("Content-Security-Policy", csp),
+        # every resource is the site's own, so the page can be cross-origin isolated
+        ("Cross-Origin-Opener-Policy", "same-origin"),
+        ("Cross-Origin-Embedder-Policy", "require-corp"),
+        ("Cross-Origin-Resource-Policy", "same-origin"),
+        # Vercel answers static files with "Access-Control-Allow-Origin: *"; nothing here is meant for other sites
+        ("Access-Control-Allow-Origin", CANON),
     ]
     cache = [
         # fonts never change under the same name; CSS/JS are versioned with ?v=, so they can be cached for a year
@@ -1092,6 +1126,7 @@ def build_vercel_json():
 
 
 if __name__ == "__main__":
+    build_js()
     for LANG in LANGS:
         build_index()
         for i, p in enumerate(P):

@@ -366,6 +366,7 @@ html[data-lang="ru"] .lang .pill{transform:translateX(200%)}
 .metro .st{fill:#07080d;stroke:#fff;stroke-width:3}
 .metro .stl{font:600 11px var(--mono);fill:#cfd6e0;letter-spacing:.04em}
 .metro .coin{fill:var(--y);filter:drop-shadow(0 0 6px var(--y));animation:coin 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.metro .coin.d1{animation-delay:.3s}.metro .coin.d2{animation-delay:.6s}.metro .coin.d3{animation-delay:.9s}.metro .coin.d4{animation-delay:1.2s}
 @keyframes coin{50%{opacity:.25;transform:scale(.6)}}
 .hud{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;gap:10px;z-index:3}
 .hud div{font:600 12px var(--mono);padding:7px 11px;border-radius:12px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.12)}
@@ -528,8 +529,19 @@ main:focus{outline:none}
 body.has-cursor dialog,body.has-cursor dialog *{cursor:auto}
 body.has-cursor dialog button,body.has-cursor dialog .btn,body.has-cursor dialog a,body.has-cursor .photo-dlg{cursor:pointer}
 body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
+.pc-metro-tycoon{--c1:#ff4fd8;--c2:#ffc94d}
+.pc-provguard{--c1:#34f5b0;--c2:#5b8cff}
+.pc-prompt-injection-detector{--c1:#5b8cff;--c2:#34f5b0}
+.pc-graphguard-iot{--c1:#34f5b0;--c2:#ff7a45}
+.pc-ai-nids-lab{--c1:#ff7a45;--c2:#34f5b0}
+.pc-agent-audit{--c1:#5b8cff;--c2:#ff4fd8}
+.pc-saytyoxla{--c1:#34f5b0;--c2:#5b8cff}
+.pc-bathshop{--c1:#ffc94d;--c2:#5b8cff}
+.pc-mexaniki-emal{--c1:#ffc94d;--c2:#ff7a45}
+.pc-mansia{--c1:#c084fc;--c2:#ffc94d}
+.pc-article{--c1:#34f5b0;--c2:#5b8cff}
 </style>
-<script src="/assets/site.js?v=46" defer></script>
+<script src="/assets/site.js?v=47" defer></script>
 <style>
 .p-hero{padding-top:120px;padding-bottom:40px}
 .back{display:inline-flex;align-items:center;min-height:32px;gap:8px;font:600 13px var(--mono);color:var(--muted);text-decoration:none;margin-bottom:28px;transition:color .2s,transform .3s}
@@ -606,7 +618,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 .art-body th{color:var(--text);font-weight:700}
 </style>
 </head>
-<body class="proj" style="--c1:#ff4fd8;--c2:#ffc94d">
+<body class="proj pc-metro-tycoon">
 <a class="skip" href="#main"><span>Skip to content</span></a>
 <div id="curtain" aria-hidden="true"><b>ayfar</b></div>
 <canvas id="net" aria-hidden="true"></canvas>
@@ -674,12 +686,12 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
       
       
     </div>
-    <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="https://siloveu.itch.io/metro-tycoon" target="_blank" rel="noopener" aria-label="Metro Tycoon: siloveu.itch.io/metro-tycoon"><div class="media" style="--c1:#ff4fd8;--c2:#ffc94d"><div class="scene metro" aria-hidden="true">
+    <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="https://siloveu.itch.io/metro-tycoon" target="_blank" rel="noopener" aria-label="Metro Tycoon: siloveu.itch.io/metro-tycoon"><div class="media pc-metro-tycoon"><div class="scene metro" aria-hidden="true">
   <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice">
     <defs><radialGradient id="tg"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#ff4fd8" stop-opacity="0"/></radialGradient></defs>
     <path class="track2" d="M40 330 L160 330 L230 260 L360 260 L430 190 L560 190"/>
     <path id="mpath" class="track" d="M40 300 L150 300 L220 230 L350 230 L420 160 L560 160"/>
-    <g><circle class="coin" cx="95" cy="300" r="5"/><circle class="coin" cx="185" cy="265" r="5" style="animation-delay:.3s"/><circle class="coin" cx="285" cy="230" r="5" style="animation-delay:.6s"/><circle class="coin" cx="385" cy="195" r="5" style="animation-delay:.9s"/><circle class="coin" cx="490" cy="160" r="5" style="animation-delay:1.2s"/></g>
+    <g><circle class="coin" cx="95" cy="300" r="5"/><circle class="coin d1" cx="185" cy="265" r="5"/><circle class="coin d2" cx="285" cy="230" r="5"/><circle class="coin d3" cx="385" cy="195" r="5"/><circle class="coin d4" cx="490" cy="160" r="5"/></g>
     <circle class="st" cx="40" cy="300" r="9"/><circle class="st" cx="150" cy="300" r="9"/><circle class="st" cx="220" cy="230" r="9"/><circle class="st" cx="350" cy="230" r="9"/><circle class="st" cx="420" cy="160" r="9"/><circle class="st" cx="560" cy="160" r="9"/>
     <text class="stl" x="48" y="330" text-anchor="middle">İçərişəhər</text><text class="stl" x="150" y="330" text-anchor="middle">28 May</text><text class="stl" x="220" y="212" text-anchor="middle">Nərimanov</text><text class="stl" x="350" y="258" text-anchor="middle">Koroğlu</text><text class="stl" x="420" y="142" text-anchor="middle">Əhmədli</text><text class="stl" x="540" y="142" text-anchor="middle">Həzi Aslanov</text>
     <g><circle r="26" fill="url(#tg)" opacity=".55"/><rect x="-24" y="-9" width="48" height="18" rx="7" fill="#fff"/><rect x="-24" y="-2" width="48" height="5" fill="#e5394a"/><rect x="12" y="-6" width="9" height="5" rx="1.5" fill="#1b2230"/>
@@ -712,7 +724,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 
   <section class="wrap p-next">
     <a class="prev" href="mansia.html" data-nav><small>← <span>Previous</span></small><b><span>MANSIA</span></b></a>
-    <a class="next" href="provguard.html" data-nav style="--c1:#34f5b0;--c2:#5b8cff"><small><span>Next project</span> →</small><b><span>ProvGuard</span></b></a>
+    <a class="next pc-provguard" href="provguard.html" data-nav><small><span>Next project</span> →</small><b><span>ProvGuard</span></b></a>
   </section>
 </main>
 <footer><div class="wrap">© 2026 ayfar · <span>Ziya Azizov</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span>Made in Baku</span></div></footer>

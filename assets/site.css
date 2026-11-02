@@ -120,6 +120,7 @@ html[data-lang="ru"] .lang .pill{transform:translateX(200%)}
 .metro .st{fill:#07080d;stroke:#fff;stroke-width:3}
 .metro .stl{font:600 11px var(--mono);fill:#cfd6e0;letter-spacing:.04em}
 .metro .coin{fill:var(--y);filter:drop-shadow(0 0 6px var(--y));animation:coin 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.metro .coin.d1{animation-delay:.3s}.metro .coin.d2{animation-delay:.6s}.metro .coin.d3{animation-delay:.9s}.metro .coin.d4{animation-delay:1.2s}
 @keyframes coin{50%{opacity:.25;transform:scale(.6)}}
 .hud{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;gap:10px;z-index:3}
 .hud div{font:600 12px var(--mono);padding:7px 11px;border-radius:12px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.12)}

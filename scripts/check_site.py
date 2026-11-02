@@ -45,6 +45,7 @@ pages = sorted("/" + os.path.relpath(f, ROOT).replace(os.sep, "/")
                if not os.path.relpath(f, ROOT).startswith(("content", "node_modules", "tests")))
 alternates = {}
 inline_hashes = set()
+style_hashes = set()
 links = 0
 
 for page in pages:
@@ -93,9 +94,15 @@ for page in pages:
         except ValueError as e:
             err(page, f"invalid JSON-LD: {e}")
 
-    # inline scripts that the CSP has to allow
+    # inline scripts and <style> blocks that the CSP has to allow by hash
     for body in re.findall(r"<script>(.*?)</script>", html, re.S):
         inline_hashes.add("'sha256-" + base64.b64encode(hashlib.sha256(body.encode()).digest()).decode() + "'")
+    for body in re.findall(r"<style>(.*?)</style>", html, re.S):
+        style_hashes.add("'sha256-" + base64.b64encode(hashlib.sha256(body.encode()).digest()).decode() + "'")
+    # style="" attributes would need 'unsafe-inline' (colours are classes: .pc-<slug>)
+    for m in re.finditer(r'\sstyle="', html):
+        err(page, "style attribute (use a class; the CSP allows no inline style attributes)")
+        break
 
 # hreflang must be reciprocal: every alternate lists the same set back
 for url, alts in alternates.items():
@@ -122,6 +129,25 @@ if allowed != inline_hashes:
     err("vercel.json", f"CSP script hashes {sorted(allowed)} do not match inline scripts {sorted(inline_hashes)}")
 if "'unsafe-inline'" in script_src:
     err("vercel.json", "script-src must not allow 'unsafe-inline'")
+style_src = re.search(r"style-src ([^;]+)", csp).group(1).split()
+if {s for s in style_src if s.startswith("'sha256-")} != style_hashes:
+    err("vercel.json", "CSP style hashes do not match the <style> blocks: run python build.py")
+if "'unsafe-inline'" in style_src:
+    err("vercel.json", "style-src must not allow 'unsafe-inline'")
+headers = {h["key"]: h["value"] for r in cfg["headers"] for h in r["headers"] if r["source"] == "/(.*)"}
+for key, want in (("Cross-Origin-Opener-Policy", "same-origin"), ("Cross-Origin-Embedder-Policy", "require-corp"),
+                  ("Cross-Origin-Resource-Policy", "same-origin")):
+    if headers.get(key) != want:
+        err("vercel.json", f"{key} should be {want}")
+if headers.get("Access-Control-Allow-Origin", "*") == "*":
+    err("vercel.json", "Access-Control-Allow-Origin must not be *")
+
+# served JavaScript is the minified build of assets/src (no comments shipped)
+for src in glob.glob(os.path.join(ROOT, "assets", "src", "*.js")):
+    out = os.path.join(ROOT, "assets", os.path.basename(src))
+    with open(out, encoding="utf-8") as f:
+        if "/*" in f.read():
+            err("assets/" + os.path.basename(src), "contains comments: run python build.py")
 
 # fonts: the -ext font files are cut down to the characters the site uses (scripts/subset_fonts.py);
 # a new letter that is missing from them would fall back to a system font
