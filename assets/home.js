@@ -1,5 +1,5 @@
 (function(){
-  var A = window.AYFAR || {}, reduce = A.reduce;
+  var A = window.AYFAR || {}, reduce = A.reduce, money = A.money;
   function lang(){ return document.documentElement.getAttribute('data-lang') || 'az'; }
 
   /* =================== MINI METRO GAME =================== */
@@ -11,7 +11,7 @@
     var STATIONS = ['İçərişəhər','Sahil','28 May','Gənclik','Nərimanov','Ulduz','Koroğlu','Qara Qarayev','Neftçilər','Xalqlar Dostluğu','Əhmədli','Həzi Aslanov'];
     var W = 0, H = 200, DPR = 1, TX = 0, TRAIN = 156, RAIL;
     var S, mode = 'demo', holding = false, visible = false, best = +(A.store && A.store('best') || 0) || 0;
-    hud.best.textContent = best.toLocaleString('az');
+    hud.best.textContent = money(best);
 
     function size(w, h){
       DPR = Math.min(devicePixelRatio || 1, 2); W = w; H = h;
@@ -59,9 +59,9 @@
     }
     function crash(){
       mode = 'over'; holding = false; S.shake = 14;
-      if(S.cash > best){ best = S.cash; A.store && A.store('best', String(best)); hud.best.textContent = best.toLocaleString('az'); }
-      over.querySelector('[data-score]').textContent = S.cash.toLocaleString('az') + ' ₼';
-      over.querySelector('[data-best]').textContent = best.toLocaleString('az') + ' ₼';
+      if(S.cash > best){ best = S.cash; A.store && A.store('best', String(best)); hud.best.textContent = money(best); }
+      over.querySelector('[data-score]').textContent = money(S.cash) + ' ₼';
+      over.querySelector('[data-best]').textContent = money(best) + ' ₼';
       over.classList.add('show');
     }
     function play(){
@@ -103,7 +103,7 @@
       gen(S.x + W + 2400);
       if(S.shake > 0) S.shake *= .9;
 
-      hud.cash.textContent = S.cash.toLocaleString('az');
+      hud.cash.textContent = money(S.cash);
       hud.spd.textContent = Math.round(S.v * 9);
       var ns = nextOf('st', S.x - 10);
       if(ns) hud.next.textContent = ns.name;
