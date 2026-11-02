@@ -23,6 +23,9 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: JavaScript minifier used by the build
+        run: pip install rjsmin==1.2.4
+
       - name: Build every page in three languages (fails if a Russian translation is missing)
         run: python build.py
 
@@ -38,8 +41,8 @@ jobs:
       - name: Links, hreflang, JSON-LD, sitemap and CSP hashes
         run: python scripts/check_site.py
 
-      - name: JavaScript syntax
-        run: for f in assets/*.js; do node --check "$f"; done
+      - name: JavaScript syntax (sources and minified output)
+        run: for f in assets/*.js assets/src/*.js; do node --check "$f"; done
 
   browser:
     name: Browser tests (Playwright + axe)

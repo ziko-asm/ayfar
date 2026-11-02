@@ -366,6 +366,7 @@ html[data-lang="ru"] .lang .pill{transform:translateX(200%)}
 .metro .st{fill:#07080d;stroke:#fff;stroke-width:3}
 .metro .stl{font:600 11px var(--mono);fill:#cfd6e0;letter-spacing:.04em}
 .metro .coin{fill:var(--y);filter:drop-shadow(0 0 6px var(--y));animation:coin 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.metro .coin.d1{animation-delay:.3s}.metro .coin.d2{animation-delay:.6s}.metro .coin.d3{animation-delay:.9s}.metro .coin.d4{animation-delay:1.2s}
 @keyframes coin{50%{opacity:.25;transform:scale(.6)}}
 .hud{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;gap:10px;z-index:3}
 .hud div{font:600 12px var(--mono);padding:7px 11px;border-radius:12px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.12)}
@@ -528,8 +529,19 @@ main:focus{outline:none}
 body.has-cursor dialog,body.has-cursor dialog *{cursor:auto}
 body.has-cursor dialog button,body.has-cursor dialog .btn,body.has-cursor dialog a,body.has-cursor .photo-dlg{cursor:pointer}
 body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
+.pc-metro-tycoon{--c1:#ff4fd8;--c2:#ffc94d}
+.pc-provguard{--c1:#34f5b0;--c2:#5b8cff}
+.pc-prompt-injection-detector{--c1:#5b8cff;--c2:#34f5b0}
+.pc-graphguard-iot{--c1:#34f5b0;--c2:#ff7a45}
+.pc-ai-nids-lab{--c1:#ff7a45;--c2:#34f5b0}
+.pc-agent-audit{--c1:#5b8cff;--c2:#ff4fd8}
+.pc-saytyoxla{--c1:#34f5b0;--c2:#5b8cff}
+.pc-bathshop{--c1:#ffc94d;--c2:#5b8cff}
+.pc-mexaniki-emal{--c1:#ffc94d;--c2:#ff7a45}
+.pc-mansia{--c1:#c084fc;--c2:#ffc94d}
+.pc-article{--c1:#34f5b0;--c2:#5b8cff}
 </style>
-<script src="/assets/site.js?v=46" defer></script>
+<script src="/assets/site.js?v=47" defer></script>
 <style>
 .p-hero{padding-top:120px;padding-bottom:40px}
 .back{display:inline-flex;align-items:center;min-height:32px;gap:8px;font:600 13px var(--mono);color:var(--muted);text-decoration:none;margin-bottom:28px;transition:color .2s,transform .3s}
@@ -606,7 +618,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 .art-body th{color:var(--text);font-weight:700}
 </style>
 </head>
-<body class="proj" style="--c1:#5b8cff;--c2:#ff4fd8">
+<body class="proj pc-agent-audit">
 <a class="skip" href="#main"><span>Məzmuna keç</span></a>
 <div id="curtain" aria-hidden="true"><b>ayfar</b></div>
 <canvas id="net" aria-hidden="true"></canvas>
@@ -674,7 +686,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
       
       
     </div>
-    <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="https://agent-audit-ten.vercel.app/" target="_blank" rel="noopener" aria-label="Agent Audit: agent-audit-ten.vercel.app"><div class="media" style="--c1:#5b8cff;--c2:#ff4fd8"><div class="chrome"><i></i><i></i><i></i><b>agent-audit-ten.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/agentaudit-1-s.webp?v=46" srcset="/img/agentaudit-1-m.webp?v=46 720w, /img/agentaudit-1-s.webp?v=46 960w, /img/agentaudit-1.webp?v=46 1920w" sizes="min(1170px, calc(100vw - 34px))" width="1920" height="1200" alt="Agent Audit — ekran görüntüsü 1" fetchpriority="high"><img data-src="/img/agentaudit-2-s.webp?v=46" data-srcset="/img/agentaudit-2-m.webp?v=46 720w, /img/agentaudit-2-s.webp?v=46 960w, /img/agentaudit-2.webp?v=46 1920w" sizes="min(1170px, calc(100vw - 34px))" width="1920" height="1200" alt="Agent Audit — ekran görüntüsü 2" loading="lazy" decoding="async"><img data-src="/img/agentaudit-3-s.webp?v=46" data-srcset="/img/agentaudit-3-m.webp?v=46 720w, /img/agentaudit-3-s.webp?v=46 960w, /img/agentaudit-3.webp?v=46 1920w" sizes="min(1170px, calc(100vw - 34px))" width="1920" height="1200" alt="Agent Audit — ekran görüntüsü 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span></div></a>
+    <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="https://agent-audit-ten.vercel.app/" target="_blank" rel="noopener" aria-label="Agent Audit: agent-audit-ten.vercel.app"><div class="media pc-agent-audit"><div class="chrome"><i></i><i></i><i></i><b>agent-audit-ten.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/agentaudit-1-s.webp?v=47" srcset="/img/agentaudit-1-m.webp?v=47 720w, /img/agentaudit-1-s.webp?v=47 960w, /img/agentaudit-1.webp?v=47 1920w" sizes="min(1170px, calc(100vw - 34px))" width="1920" height="1200" alt="Agent Audit — ekran görüntüsü 1" fetchpriority="high"><img data-src="/img/agentaudit-2-s.webp?v=47" data-srcset="/img/agentaudit-2-m.webp?v=47 720w, /img/agentaudit-2-s.webp?v=47 960w, /img/agentaudit-2.webp?v=47 1920w" sizes="min(1170px, calc(100vw - 34px))" width="1920" height="1200" alt="Agent Audit — ekran görüntüsü 2" loading="lazy" decoding="async"><img data-src="/img/agentaudit-3-s.webp?v=47" data-srcset="/img/agentaudit-3-m.webp?v=47 720w, /img/agentaudit-3-s.webp?v=47 960w, /img/agentaudit-3.webp?v=47 1920w" sizes="min(1170px, calc(100vw - 34px))" width="1920" height="1200" alt="Agent Audit — ekran görüntüsü 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span></div></a>
   </section>
 
   <section class="wrap p-grid">
@@ -699,7 +711,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 
   <section class="wrap p-next">
     <a class="prev" href="ai-nids-lab.html" data-nav><small>← <span>Əvvəlki</span></small><b><span>AI-NIDS Robustness Lab</span></b></a>
-    <a class="next" href="saytyoxla.html" data-nav style="--c1:#34f5b0;--c2:#5b8cff"><small><span>Növbəti layihə</span> →</small><b><span>SaytYoxla</span></b></a>
+    <a class="next pc-saytyoxla" href="saytyoxla.html" data-nav><small><span>Növbəti layihə</span> →</small><b><span>SaytYoxla</span></b></a>
   </section>
 </main>
 <footer><div class="wrap">© 2026 ayfar · <span>Ziya Əzizov</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span>Bakıda hazırlanıb</span></div></footer>

@@ -28,7 +28,7 @@ The site is static. `build.py` generates every page in three languages, each at 
 | English | `/en/` | `/en/p/<slug>.html` | `/en/yazilar/<slug>.html` |
 | Russian | `/ru/` | `/ru/p/<slug>.html` | `/ru/yazilar/<slug>.html` |
 
-It also writes `sitemap.xml` (with language alternates), `robots.txt`, `llms.txt`, `404.html` and `vercel.json` (security headers and a CSP that allows the one inline script by its hash). Russian text lives in `ru.py`; the build stops and lists the gaps in `ru_missing.txt` if a string has no translation.
+JavaScript is written in `assets/src/` and minified into `assets/` by the build (`pip install rjsmin==1.2.4`), so comments never reach the browser. It also writes `sitemap.xml` (with language alternates), `robots.txt`, `llms.txt`, `404.html` and `vercel.json` (security headers; the CSP allows the inline script and the inline `<style>` blocks by their hashes, so neither needs `'unsafe-inline'`; cross-origin isolation with COOP/COEP/CORP). Russian text lives in `ru.py`; the build stops and lists the gaps in `ru_missing.txt` if a string has no translation.
 
 ```bash
 python build.py
