@@ -585,7 +585,8 @@ def media_fixed(p, badges=True, sizes="(min-width: 900px) 560px, 100vw", hero=Fa
 
 FAQ = [('Ayfar kimdir?', 'Who is ayfar?', 'Ayfar — Ziya Əzizovun internetdəki ləqəbidir. Ziya Bakıdan olan proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisidir; saytlar, oyunlar və tədqiqat layihələri hazırlayır.', 'Ayfar is the online name of Ziya Azizov, a programming, cybersecurity and AI engineer from Baku who builds websites, games and research projects.'), ('Ziya Əzizov nə ilə məşğuldur?', 'What does Ziya Azizov do?', 'Kibertəhlükəsizlik və süni intellekt üzrə tədqiqatlar aparır (ProvGuard, Prompt Injection Detector Benchmark, GraphGuard IoT), bizneslər üçün saytlar (bathshop.az, karusel torna emalı) və oyunlar (Metro Tycoon) hazırlayır.', 'He does cybersecurity and AI research (ProvGuard, Prompt Injection Detector Benchmark, GraphGuard IoT) and builds business websites (bathshop.az, a lathe workshop site) and games (Metro Tycoon).'), ('Ziya Əzizov harada təhsil alıb?', 'Where did Ziya Azizov study?', 'Bakalavr təhsilini ADNSU-da Mexatronika və Robototexnika üzrə alıb. Hazırda Bakı Ali Neft Məktəbində (BHOS) texniki sistemlərdə idarəetmə üzrə magistraturada oxuyur.', "He holds a bachelor's in Mechatronics and Robotics from ASOIU and is now a master's student in control in technical systems at Baku Higher Oil School (BHOS)."), ('Ziya Əzizovla necə əlaqə saxlamaq olar?', 'How can I contact Ziya Azizov?', 'WhatsApp və ya zəng (+994 77 217 23 58), e-poçt (ziyaazizov9@gmail.com), Instagram (@ayfar.web), Facebook, LinkedIn və ya GitHub vasitəsilə əlaqə saxlaya bilərsiniz.', 'By WhatsApp or phone (+994 77 217 23 58), e-mail (ziyaazizov9@gmail.com), Instagram (@ayfar.web), Facebook, LinkedIn or GitHub.'),
        ('ayfar Ayfar Otomotiv ilə eyni şirkətdir?', 'Is ayfar the same as Ayfar Otomotiv?', 'Xeyr. ayfar — bakılı mühəndis Ziya Əzizovun şəxsi brendidir: saytlar, oyunlar və kibertəhlükəsizlik layihələri. Türkiyədəki avtomobil hissələri istehsalçısı Ayfar Otomotiv ilə heç bir əlaqəsi yoxdur.', 'No. ayfar is the personal brand of Ziya Azizov, an engineer from Baku who builds websites, games and cybersecurity projects. It has no connection to Ayfar Otomotiv, the Turkish auto parts manufacturer.'),
-       ('Ziya Əzizovdan sayt sifariş etmək olar?', 'Can I order a website from Ziya Azizov?', 'Bəli. Landing page, biznes saytı və onlayn mağaza hazırlayır. WhatsApp-a (+994 77 217 23 58) yazın, pulsuz qiymət təklifi göndərsin.', 'Yes. He builds landing pages, business websites and online shops. Message him on WhatsApp (+994 77 217 23 58) for a free quote.')]
+       ('Ziya Əzizovdan sayt sifariş etmək olar?', 'Can I order a website from Ziya Azizov?', 'Bəli. Landing page, biznes saytı və onlayn mağaza hazırlayır. WhatsApp-a (+994 77 217 23 58) yazın, pulsuz qiymət təklifi göndərsin.', 'Yes. He builds landing pages, business websites and online shops. Message him on WhatsApp (+994 77 217 23 58) for a free quote.'),
+       ('Bakıda sayt sifarişi necə verilir?', 'How do I order a website in Baku?', 'WhatsApp-a (+994 77 217 23 58) biznesinizi və nə istədiyinizi qısaca yazın. Ziya pulsuz plan, müddət və qiymət təklifi göndərir, saytı hazırlayır, domen və hostinqi qurur. Sonra sayt Google-da görünməyə başlayır.', 'Message +994 77 217 23 58 on WhatsApp with a few words about your business and what you need. Ziya sends a free plan, timeline and price, builds the site and sets up the domain and hosting. Then the site starts showing up on Google.')]
 
 
 def faq_html():
@@ -635,7 +636,7 @@ def schema():
     return "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in (person, site, service, faqp))
 
 
-LASTMOD = "2026-11-01"  # bump when content changes
+LASTMOD = "2026-11-03"  # bump when content changes
 
 
 def llms_txt():
@@ -709,8 +710,8 @@ def services_html():
     return f"""
   <section id="services">
     <div class="wrap">
-      <div class="sec-head reveal"><div><div class="sec-num">02 — {T("XİDMƏTLƏR", "SERVICES")}</div><h2>{T("Sizə sayt", "A site for you")}</h2></div></div>
-      {T("Bizneslər üçün sürətli, müasir və mobilə uyğun saytlar hazırlayıram. Yuxarıdakı bathshop.az, MANSIA və torna sexi saytları bu işlərdəndir.", "I build fast, modern, mobile-friendly websites for businesses. bathshop.az, MANSIA and the lathe workshop site above are examples.", "p", "svc-lead reveal")}
+      <div class="sec-head reveal"><div><div class="sec-num">02 — {T("XİDMƏTLƏR", "SERVICES")}</div><h2>{T("Sayt sifarişi Bakıda", "Website development in Baku")}</h2></div></div>
+      {T("Bakıda bizneslər üçün sayt hazırlayıram: sürətli, müasir və mobilə uyğun. Yuxarıdakı bathshop.az, MANSIA və torna sexi saytları bu işlərdəndir.", "I build websites for businesses in Baku: fast, modern and mobile-friendly. bathshop.az, MANSIA and the lathe workshop site above are examples.", "p", "svc-lead reveal")}
       {scan_html()}
       <div class="svc-grid">{''.join(cards)}
       </div>
@@ -784,9 +785,9 @@ def build_index():
       </article>""")
     chips = "".join(f'<button type="button" data-jump="{k}">{T(*v)}<sup>{counts[k]}</sup></button>' for k, v in CATS.items())
 
-    page = head(X("ayfar — Ziya Əzizov | Saytlar, oyunlar və layihələr", "ayfar — Ziya Azizov | Websites, games & projects"),
-                X("Ayfar — Ziya Əzizov, Bakıdan proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisi. Saytları, oyunları (Metro Tycoon) və tədqiqat layihələri bir yerdə.",
-                  "Ayfar is Ziya Azizov, a programming, cybersecurity and AI engineer from Baku. His websites, games (Metro Tycoon) and research projects in one place."),
+    page = head(X("Sayt sifarişi Bakıda — ayfar | Ziya Əzizov", "Website development in Baku — ayfar | Ziya Azizov"),
+                X("Bakıda sayt sifarişi: landing page, biznes saytı və onlayn mağaza. Ziya Əzizov (ayfar), veb developer və kibertəhlükəsizlik mühəndisi. Pulsuz qiymət təklifi.",
+                  "Website development in Baku: landing pages, business websites and online shops. Ziya Azizov (ayfar), web developer and cybersecurity engineer. Free quote."),
                 "/", "img/og/home.png")
     page += css("home.css") + f'<script src="/assets/home.js?v={V}" defer></script>\n' + schema() + '</head>\n<body>\n'
     page += chrome_bits("/")

@@ -272,4 +272,10 @@ RU = {
     'Ziya Azizov (ayfar), web developer and cybersecurity engineer from Baku': 'Зия Азизов (ayfar), веб-разработчик и инженер по кибербезопасности из Баку',
     'screenshot': 'скриншот',
     'Mini metro game: hold Space or ↑ to go, release to brake': 'Мини-игра «Метро»: удерживайте пробел или ↑, чтобы ехать, отпустите, чтобы тормозить',
+    'How do I order a website in Baku?': 'Как заказать сайт в Баку?',
+    'I build websites for businesses in Baku: fast, modern and mobile-friendly. bathshop.az, MANSIA and the lathe workshop site above are examples.': 'Создаю сайты для бизнеса в Баку: быстрые, современные и удобные на телефоне. Примеры — bathshop.az, MANSIA и сайт токарного цеха выше.',
+    'Message +994 77 217 23 58 on WhatsApp with a few words about your business and what you need. Ziya sends a free plan, timeline and price, builds the site and sets up the domain and hosting. Then the site starts showing up on Google.': 'Напишите в WhatsApp на +994 77 217 23 58 пару слов о вашем бизнесе и о том, что нужно. Зия бесплатно присылает план, сроки и цену, делает сайт и настраивает домен и хостинг. После этого сайт начинает появляться в Google.',
+    'Website development in Baku': 'Создание сайтов в Баку',
+    'Website development in Baku — ayfar | Ziya Azizov': 'Создание сайтов в Баку — ayfar | Зия Азизов',
+    'Website development in Baku: landing pages, business websites and online shops. Ziya Azizov (ayfar), web developer and cybersecurity engineer. Free quote.': 'Создание сайтов в Баку: лендинги, сайты компаний и интернет-магазины. Зия Азизов (ayfar), веб-разработчик и инженер по кибербезопасности. Бесплатный расчёт цены.',
 }
