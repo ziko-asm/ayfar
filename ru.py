@@ -75,7 +75,7 @@ RU = {
     'Business site': 'Бизнес-сайт',
     'Business website': 'Сайт для бизнеса',
     'Business websites': 'Сайты для бизнеса',
-    'By WhatsApp or phone (+994 77 217 23 58), e-mail (ziyaazizov9@gmail.com), Instagram (@ayfar.web), LinkedIn or GitHub.': 'Через WhatsApp или по телефону (+994 77 217 23 58), по почте (ziyaazizov9@gmail.com), в Instagram (@ayfar.web), LinkedIn или GitHub.',
+    'By WhatsApp or phone (+994 77 217 23 58), e-mail (ziyaazizov9@gmail.com), Instagram (@ayfar.web), Facebook, LinkedIn or GitHub.': 'Через WhatsApp или по телефону (+994 77 217 23 58), по почте (ziyaazizov9@gmail.com), в Instagram (@ayfar.web), Facebook, LinkedIn или GitHub.',
     'CONTACT': 'КОНТАКТЫ',
     'Can I order a website from Ziya Azizov?': 'Можно ли заказать сайт у Зии Азизова?',
     'Cart and checkout': 'Корзина и оформление заказа',

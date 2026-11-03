@@ -32,6 +32,7 @@ SCAN_SITE = "https://saytyoxla.vercel.app"
 SCAN_API = SCAN_SITE + "/api/scan"
 INSTAGRAM = "https://www.instagram.com/ayfar.web/"
 X_URL = "https://x.com/ayfar_web"
+FACEBOOK = "https://www.facebook.com/profile.php?id=100081598819007"
 GOOGLE_REVIEW = "https://g.page/r/Cfrr1Out_JVWEBM/review"
 # Messages from the site form go through Formspree to the e-mail on that Formspree account.
 MESSAGE_FORM = "https://formspree.io/f/xbgdeydb"
@@ -582,7 +583,7 @@ def media_fixed(p, badges=True, sizes="(min-width: 900px) 560px, 100vw", hero=Fa
     return f'<div class="media pc-{p["slug"]}">{inner}{b}</div>'
 
 
-FAQ = [('Ayfar kimdir?', 'Who is ayfar?', 'Ayfar — Ziya Əzizovun internetdəki ləqəbidir. Ziya Bakıdan olan proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisidir; saytlar, oyunlar və tədqiqat layihələri hazırlayır.', 'Ayfar is the online name of Ziya Azizov, a programming, cybersecurity and AI engineer from Baku who builds websites, games and research projects.'), ('Ziya Əzizov nə ilə məşğuldur?', 'What does Ziya Azizov do?', 'Kibertəhlükəsizlik və süni intellekt üzrə tədqiqatlar aparır (ProvGuard, Prompt Injection Detector Benchmark, GraphGuard IoT), bizneslər üçün saytlar (bathshop.az, karusel torna emalı) və oyunlar (Metro Tycoon) hazırlayır.', 'He does cybersecurity and AI research (ProvGuard, Prompt Injection Detector Benchmark, GraphGuard IoT) and builds business websites (bathshop.az, a lathe workshop site) and games (Metro Tycoon).'), ('Ziya Əzizov harada təhsil alıb?', 'Where did Ziya Azizov study?', 'Bakalavr təhsilini ADNSU-da Mexatronika və Robototexnika üzrə alıb. Hazırda Bakı Ali Neft Məktəbində (BHOS) texniki sistemlərdə idarəetmə üzrə magistraturada oxuyur.', "He holds a bachelor's in Mechatronics and Robotics from ASOIU and is now a master's student in control in technical systems at Baku Higher Oil School (BHOS)."), ('Ziya Əzizovla necə əlaqə saxlamaq olar?', 'How can I contact Ziya Azizov?', 'WhatsApp və ya zəng (+994 77 217 23 58), e-poçt (ziyaazizov9@gmail.com), Instagram (@ayfar.web), LinkedIn və ya GitHub vasitəsilə əlaqə saxlaya bilərsiniz.', 'By WhatsApp or phone (+994 77 217 23 58), e-mail (ziyaazizov9@gmail.com), Instagram (@ayfar.web), LinkedIn or GitHub.'),
+FAQ = [('Ayfar kimdir?', 'Who is ayfar?', 'Ayfar — Ziya Əzizovun internetdəki ləqəbidir. Ziya Bakıdan olan proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisidir; saytlar, oyunlar və tədqiqat layihələri hazırlayır.', 'Ayfar is the online name of Ziya Azizov, a programming, cybersecurity and AI engineer from Baku who builds websites, games and research projects.'), ('Ziya Əzizov nə ilə məşğuldur?', 'What does Ziya Azizov do?', 'Kibertəhlükəsizlik və süni intellekt üzrə tədqiqatlar aparır (ProvGuard, Prompt Injection Detector Benchmark, GraphGuard IoT), bizneslər üçün saytlar (bathshop.az, karusel torna emalı) və oyunlar (Metro Tycoon) hazırlayır.', 'He does cybersecurity and AI research (ProvGuard, Prompt Injection Detector Benchmark, GraphGuard IoT) and builds business websites (bathshop.az, a lathe workshop site) and games (Metro Tycoon).'), ('Ziya Əzizov harada təhsil alıb?', 'Where did Ziya Azizov study?', 'Bakalavr təhsilini ADNSU-da Mexatronika və Robototexnika üzrə alıb. Hazırda Bakı Ali Neft Məktəbində (BHOS) texniki sistemlərdə idarəetmə üzrə magistraturada oxuyur.', "He holds a bachelor's in Mechatronics and Robotics from ASOIU and is now a master's student in control in technical systems at Baku Higher Oil School (BHOS)."), ('Ziya Əzizovla necə əlaqə saxlamaq olar?', 'How can I contact Ziya Azizov?', 'WhatsApp və ya zəng (+994 77 217 23 58), e-poçt (ziyaazizov9@gmail.com), Instagram (@ayfar.web), Facebook, LinkedIn və ya GitHub vasitəsilə əlaqə saxlaya bilərsiniz.', 'By WhatsApp or phone (+994 77 217 23 58), e-mail (ziyaazizov9@gmail.com), Instagram (@ayfar.web), Facebook, LinkedIn or GitHub.'),
        ('ayfar Ayfar Otomotiv ilə eyni şirkətdir?', 'Is ayfar the same as Ayfar Otomotiv?', 'Xeyr. ayfar — bakılı mühəndis Ziya Əzizovun şəxsi brendidir: saytlar, oyunlar və kibertəhlükəsizlik layihələri. Türkiyədəki avtomobil hissələri istehsalçısı Ayfar Otomotiv ilə heç bir əlaqəsi yoxdur.', 'No. ayfar is the personal brand of Ziya Azizov, an engineer from Baku who builds websites, games and cybersecurity projects. It has no connection to Ayfar Otomotiv, the Turkish auto parts manufacturer.'),
        ('Ziya Əzizovdan sayt sifariş etmək olar?', 'Can I order a website from Ziya Azizov?', 'Bəli. Landing page, biznes saytı və onlayn mağaza hazırlayır. WhatsApp-a (+994 77 217 23 58) yazın, pulsuz qiymət təklifi göndərsin.', 'Yes. He builds landing pages, business websites and online shops. Message him on WhatsApp (+994 77 217 23 58) for a free quote.')]
 
@@ -610,7 +611,7 @@ def schema():
         "alumniOf": {"@type": "CollegeOrUniversity", "name": "Azərbaycan Dövlət Neft və Sənaye Universiteti"},
         "affiliation": {"@type": "CollegeOrUniversity", "name": "Bakı Ali Neft Məktəbi"},
         "knowsAbout": ["Proqramlaşdırma", "Kibertəhlükəsizlik", "Süni intellekt", "Veb saytlar", "Oyun hazırlama"],
-        "sameAs": ["https://www.linkedin.com/in/ziya-azizov-91bba638a", INSTAGRAM, X_URL, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
+        "sameAs": ["https://www.linkedin.com/in/ziya-azizov-91bba638a", INSTAGRAM, FACEBOOK, X_URL, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
     }
     site = {"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": CANON + LP() + "/",
             "inLanguage": ["az", "en", "ru"], "publisher": {"@id": CANON + "/#ziya"}}
@@ -626,7 +627,7 @@ def schema():
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Xidmətlər", "itemListElement": [
             {"@type": "Offer", "itemOffered": {"@type": "Service", "name": s["name"][0], "description": s["desc"][0]}}
             for s in SERVICES]},
-        "sameAs": [INSTAGRAM, X_URL, "https://www.linkedin.com/in/ziya-azizov-91bba638a", "https://github.com/ziko-asm"],
+        "sameAs": [INSTAGRAM, FACEBOOK, X_URL, "https://www.linkedin.com/in/ziya-azizov-91bba638a", "https://github.com/ziko-asm"],
     }
     faqp = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": X(qa, qe), "acceptedAnswer": {"@type": "Answer", "text": X(aa, ae)}}
@@ -911,6 +912,7 @@ def build_index():
           <a class="btn magnet" href="mailto:{EMAIL}">✉ E-mail</a>
           <a class="btn magnet" href="https://www.linkedin.com/in/ziya-azizov-91bba638a" target="_blank" rel="noopener">LinkedIn <span class="arr">→</span></a>
           <a class="btn magnet" href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram <span class="arr">→</span></a>
+          <a class="btn magnet" href="{FACEBOOK}" target="_blank" rel="noopener">Facebook <span class="arr">→</span></a>
           <a class="btn magnet" href="{X_URL}" target="_blank" rel="noopener">X <span class="arr">→</span></a>
           <a class="btn magnet" href="https://github.com/ziko-asm" target="_blank" rel="noopener">GitHub <span class="arr">→</span></a>
         </div>
