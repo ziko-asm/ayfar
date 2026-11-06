@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Stop asking &quot;is this text malicious?&quot; — how I stopped 144/144 prompt-injection attacks on an AI banking agent — ayfar</title>
 <meta name="description" content="Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.">
-<link rel="canonical" href="https://ayfar.vercel.app/yazilar/provguard.html">
+<link rel="canonical" href="https://ayfar.dev/yazilar/provguard.html">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:title" content="Stop asking &quot;is this text malicious?&quot; — how I stopped 144/144 prompt-injection attacks on an AI banking agent — ayfar">
 <meta property="og:description" content="Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.">
-<meta property="og:url" content="https://ayfar.vercel.app/yazilar/provguard.html">
-<meta property="og:image" content="https://ayfar.vercel.app/img/og/provguard.png">
+<meta property="og:url" content="https://ayfar.dev/yazilar/provguard.html">
+<meta property="og:image" content="https://ayfar.dev/img/og/provguard.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://ayfar.vercel.app/img/og/provguard.png">
+<meta name="twitter:image" content="https://ayfar.dev/img/og/provguard.png">
 <meta name="theme-color" content="#05070b">
 <meta name="google-site-verification" content="9FHzK0T2MlxLEmw8k1gnPzawKyXvbkJhKm1MKYsDFh4" />
 <meta name="msvalidate.01" content="071B769B591B43B1773023FFFF98515D" />
@@ -613,7 +613,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 .art-body th,.art-body td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line2);white-space:nowrap}
 .art-body th{color:var(--text);font-weight:700}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Stop asking \"is this text malicious?\" — how I stopped 144/144 prompt-injection attacks on an AI banking agent", "description": "Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.", "datePublished": "2026-11-01", "inLanguage": "en", "url": "https://ayfar.vercel.app/yazilar/provguard.html", "image": "https://ayfar.vercel.app/img/og/provguard.png", "author": {"@type": "Person", "@id": "https://ayfar.vercel.app/#ziya", "name": "Ziya Azizov", "url": "https://ayfar.vercel.app/"}, "publisher": {"@id": "https://ayfar.vercel.app/#ayfar"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Stop asking \"is this text malicious?\" — how I stopped 144/144 prompt-injection attacks on an AI banking agent", "description": "Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.", "datePublished": "2026-11-01", "inLanguage": "en", "url": "https://ayfar.dev/yazilar/provguard.html", "image": "https://ayfar.dev/img/og/provguard.png", "author": {"@type": "Person", "@id": "https://ayfar.dev/#ziya", "name": "Ziya Azizov", "url": "https://ayfar.dev/"}, "publisher": {"@id": "https://ayfar.dev/#ayfar"}}</script>
 </head>
 <body class="proj article pc-article">
 <a class="skip" href="#main"><span>Перейти к содержанию</span></a>
@@ -660,7 +660,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
     <input id="msgContact" name="contact" type="text" autocomplete="tel" maxlength="120" required>
     <label for="msgText"><span>Ваше сообщение</span></label>
     <textarea id="msgText" name="message" rows="5" maxlength="2000" required></textarea>
-    <input type="hidden" name="_subject" value="ayfar.vercel.app — yeni mesaj">
+    <input type="hidden" name="_subject" value="ayfar.dev — yeni mesaj">
     <input type="text" name="_gotcha" class="msg-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <button class="btn primary" type="submit"><span class="msg-go"><span>Отправить</span></span><span class="msg-wait"><span>Отправляем…</span></span></button>
     <div class="msg-status" aria-live="polite"></div>
@@ -798,7 +798,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 <li>Code and full results: <strong>https://github.com/ziko-asm/provguard</strong></li>
 <li>The detector benchmark: <strong>https://prompt-injection-detector-snowy.vercel.app</strong></li>
 </ul>
-<p>If you are shipping an agent that reads untrusted content and calls tools, I would like to hear how you are handling this. I also run authorised security audits of AI chatbots and agents: <strong>https://ayfar.vercel.app</strong></p></div>
+<p>If you are shipping an agent that reads untrusted content and calls tools, I would like to hear how you are handling this. I also run authorised security audits of AI chatbots and agents: <strong>https://ayfar.dev</strong></p></div>
   </article>
 </main>
 <footer><div class="wrap">© 2026 ayfar · <span>Зия Азизов</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span>Сделано в Баку</span></div></footer>

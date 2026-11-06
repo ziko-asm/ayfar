@@ -2,7 +2,7 @@
 
 Portfolio and web studio of **Ziya Azizov (ayfar)**, an engineer from Baku, Azerbaijan, working in programming, cybersecurity and AI.
 
-**Live site: https://ayfar.vercel.app**
+**Live site: https://ayfar.dev**
 
 Business websites and online shops, the Metro Tycoon game, and AI security research, in one place, in Azerbaijani, English and Russian. The Services section includes a free website check powered by [SaytYoxla](https://saytyoxla.vercel.app).
 

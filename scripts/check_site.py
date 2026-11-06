@@ -19,7 +19,7 @@ import sys
 from urllib.parse import urljoin, urlparse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE = "https://ayfar.vercel.app"
+SITE = "https://ayfar.dev"
 LANGS = {"az", "en", "ru", "x-default"}
 errors = []
 

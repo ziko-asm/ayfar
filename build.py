@@ -18,8 +18,8 @@ def R(en):
     return en
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-SITE = "https://ayfar.vercel.app"
-CANON = SITE  # switch to "https://ayfar.az" once the domain points here
+SITE = "https://ayfar.dev"
+CANON = SITE  # ayfar.dev since 2026-11-06; ayfar.vercel.app redirects here
 V = "47"  # cache-busting for assets and images
 
 # Contact
@@ -504,7 +504,7 @@ def message_dialog():
     <input id="msgContact" name="contact" type="text" autocomplete="tel" maxlength="120" required>
     <label for="msgText">{T("Mesajınız", "Your message")}</label>
     <textarea id="msgText" name="message" rows="5" maxlength="2000" required></textarea>
-    <input type="hidden" name="_subject" value="ayfar.vercel.app — yeni mesaj">
+    <input type="hidden" name="_subject" value="ayfar.dev — yeni mesaj">
     <input type="text" name="_gotcha" class="msg-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <button class="btn primary" type="submit"><span class="msg-go">{T("Göndər", "Send")}</span><span class="msg-wait">{T("Göndərilir…", "Sending…")}</span></button>
     <div class="msg-status" aria-live="polite"></div>
@@ -638,7 +638,7 @@ def schema():
     return "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in (person, site, service, faqp))
 
 
-LASTMOD = "2026-11-03"  # bump when content changes
+LASTMOD = "2026-11-06"  # bump when content changes
 
 
 def llms_txt():

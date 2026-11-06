@@ -14,27 +14,27 @@ Contact / Əlaqə: WhatsApp and phone +994772172358, e-mail ziyaazizov9@gmail.co
 
 ## Projects / Layihələr
 
-- [Metro Tycoon](https://ayfar.vercel.app/p/metro-tycoon.html): A train-driving tycoon game on the Baku metro: build the metro, drive the train, become a millionaire. Open stations from İçərişəhər to Həzi Aslanov, collect coins, beat obstacles and find hidden codes. Live: https://siloveu.itch.io/metro-tycoon
-- [ProvGuard](https://ayfar.vercel.app/p/provguard.html): An open-source Python library that protects AI agents from prompt injection. It doesn't guess whether text is malicious; it checks which source supplied each sensitive argument. Live: https://provguard.vercel.app
-- [Prompt Injection Detector Benchmark](https://ayfar.vercel.app/p/prompt-injection-detector.html): A study of how reliable prompt injection detectors really are. Five kinds of detector were trained on two public datasets and tested on each other's data. Live: https://prompt-injection-detector-snowy.vercel.app/
-- [GraphGuard IoT](https://ayfar.vercel.app/p/graphguard-iot.html): An interactive benchmark of how well graph neural networks that find compromised IoT devices (botnets) hold up under attack. Live: https://graphguard-iot.vercel.app/
-- [AI-NIDS Robustness Lab](https://ayfar.vercel.app/p/ai-nids-lab.html): A study of how easily neural network intrusion detectors are fooled when an attacker slightly shapes its own traffic, with an interactive Streamlit dashboard. Live: https://github.com/ziko-asm/ai-nids-adversarial-benchmark
-- [Agent Audit](https://ayfar.vercel.app/p/agent-audit.html): A security audit service for companies' AI chatbots and agents: it runs real attacks and delivers a report with evidence and concrete fixes. Live: https://agent-audit-ten.vercel.app/
-- [SaytYoxla](https://ayfar.vercel.app/p/saytyoxla.html): A free website check for small businesses in Azerbaijan. It explains the result in plain Azerbaijani, English or Russian with a 0–100 score and an A–F grade. Live: https://saytyoxla.vercel.app
-- [bathshop.az](https://ayfar.vercel.app/p/bathshop.html): An online store for bathroom and heating equipment in Baku: water heaters, gas boilers and water pumps, with a cart and ordering. Live: https://bathshop-az-selling-site.vercel.app/
-- [Vertical lathe machining](https://ayfar.vercel.app/p/mexaniki-emal.html): A website for engineer Telman Azizov's vertical lathe workshop in Baku, with a 3D gallery of real workshop photos that moves as you scroll and direct WhatsApp ordering. Live: https://mexaniki-emal.vercel.app/
-- [MANSIA](https://ayfar.vercel.app/p/mansia.html): An online shop for MANSIA, a brand of natural handmade soaps inspired by saffron: the collection, gift boxes, the brand story and ordering through WhatsApp. Live: https://mansia.az/
+- [Metro Tycoon](https://ayfar.dev/p/metro-tycoon.html): A train-driving tycoon game on the Baku metro: build the metro, drive the train, become a millionaire. Open stations from İçərişəhər to Həzi Aslanov, collect coins, beat obstacles and find hidden codes. Live: https://siloveu.itch.io/metro-tycoon
+- [ProvGuard](https://ayfar.dev/p/provguard.html): An open-source Python library that protects AI agents from prompt injection. It doesn't guess whether text is malicious; it checks which source supplied each sensitive argument. Live: https://provguard.vercel.app
+- [Prompt Injection Detector Benchmark](https://ayfar.dev/p/prompt-injection-detector.html): A study of how reliable prompt injection detectors really are. Five kinds of detector were trained on two public datasets and tested on each other's data. Live: https://prompt-injection-detector-snowy.vercel.app/
+- [GraphGuard IoT](https://ayfar.dev/p/graphguard-iot.html): An interactive benchmark of how well graph neural networks that find compromised IoT devices (botnets) hold up under attack. Live: https://graphguard-iot.vercel.app/
+- [AI-NIDS Robustness Lab](https://ayfar.dev/p/ai-nids-lab.html): A study of how easily neural network intrusion detectors are fooled when an attacker slightly shapes its own traffic, with an interactive Streamlit dashboard. Live: https://github.com/ziko-asm/ai-nids-adversarial-benchmark
+- [Agent Audit](https://ayfar.dev/p/agent-audit.html): A security audit service for companies' AI chatbots and agents: it runs real attacks and delivers a report with evidence and concrete fixes. Live: https://agent-audit-ten.vercel.app/
+- [SaytYoxla](https://ayfar.dev/p/saytyoxla.html): A free website check for small businesses in Azerbaijan. It explains the result in plain Azerbaijani, English or Russian with a 0–100 score and an A–F grade. Live: https://saytyoxla.vercel.app
+- [bathshop.az](https://ayfar.dev/p/bathshop.html): An online store for bathroom and heating equipment in Baku: water heaters, gas boilers and water pumps, with a cart and ordering. Live: https://bathshop-az-selling-site.vercel.app/
+- [Vertical lathe machining](https://ayfar.dev/p/mexaniki-emal.html): A website for engineer Telman Azizov's vertical lathe workshop in Baku, with a 3D gallery of real workshop photos that moves as you scroll and direct WhatsApp ordering. Live: https://mexaniki-emal.vercel.app/
+- [MANSIA](https://ayfar.dev/p/mansia.html): An online shop for MANSIA, a brand of natural handmade soaps inspired by saffron: the collection, gift boxes, the brand story and ordering through WhatsApp. Live: https://mansia.az/
 
 ## Articles
 
-- [Stop asking "is this text malicious?" — how I stopped 144/144 prompt-injection attacks on an AI banking agent](https://ayfar.vercel.app/yazilar/provguard.html): Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.
+- [Stop asking "is this text malicious?" — how I stopped 144/144 prompt-injection attacks on an AI banking agent](https://ayfar.dev/yazilar/provguard.html): Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.
 
 ## Links
 
-- [Home](https://ayfar.vercel.app/)
-- [Home in English](https://ayfar.vercel.app/en/)
-- [Главная на русском](https://ayfar.vercel.app/ru/)
-- [Services](https://ayfar.vercel.app/#services)
-- [About](https://ayfar.vercel.app/#about)
+- [Home](https://ayfar.dev/)
+- [Home in English](https://ayfar.dev/en/)
+- [Главная на русском](https://ayfar.dev/ru/)
+- [Services](https://ayfar.dev/#services)
+- [About](https://ayfar.dev/#about)
 - [GitHub](https://github.com/ziko-asm)
 - [LinkedIn](https://www.linkedin.com/in/ziya-azizov-91bba638a)

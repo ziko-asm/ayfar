@@ -41,7 +41,7 @@
         },
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://ayfar.vercel.app"
+          "value": "https://ayfar.dev"
         }
       ]
     },
