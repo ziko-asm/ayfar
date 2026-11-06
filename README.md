@@ -62,4 +62,4 @@ Gallery screenshots come in three widths: 720 px for phones (`python scripts/res
 
 ## Contact
 
-WhatsApp +994 77 217 23 58 · [LinkedIn](https://www.linkedin.com/in/ziya-azizov-91bba638a) · [Instagram](https://www.instagram.com/ayfar.web/)
+WhatsApp +994 77 217 23 58 · [LinkedIn](https://www.linkedin.com/in/ziyaazizov) · [Instagram](https://www.instagram.com/ayfar.web/)

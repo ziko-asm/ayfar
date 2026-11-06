@@ -614,7 +614,7 @@ def schema():
         "alumniOf": {"@type": "CollegeOrUniversity", "name": "Azərbaycan Dövlət Neft və Sənaye Universiteti"},
         "affiliation": {"@type": "CollegeOrUniversity", "name": "Bakı Ali Neft Məktəbi"},
         "knowsAbout": ["Proqramlaşdırma", "Kibertəhlükəsizlik", "Süni intellekt", "Veb saytlar", "Oyun hazırlama"],
-        "sameAs": ["https://www.linkedin.com/in/ziya-azizov-91bba638a", INSTAGRAM, FACEBOOK, YOUTUBE, X_URL, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
+        "sameAs": ["https://www.linkedin.com/in/ziyaazizov", INSTAGRAM, FACEBOOK, YOUTUBE, X_URL, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
     }
     site = {"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": CANON + LP() + "/",
             "inLanguage": ["az", "en", "ru"], "publisher": {"@id": CANON + "/#ziya"}}
@@ -630,7 +630,7 @@ def schema():
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Xidmətlər", "itemListElement": [
             {"@type": "Offer", "itemOffered": {"@type": "Service", "name": s["name"][0], "description": s["desc"][0]}}
             for s in SERVICES]},
-        "sameAs": [INSTAGRAM, FACEBOOK, YOUTUBE, X_URL, "https://www.linkedin.com/in/ziya-azizov-91bba638a", "https://github.com/ziko-asm"],
+        "sameAs": [INSTAGRAM, FACEBOOK, YOUTUBE, X_URL, "https://www.linkedin.com/in/ziyaazizov", "https://github.com/ziko-asm"],
     }
     faqp = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": X(qa, qe), "acceptedAnswer": {"@type": "Answer", "text": X(aa, ae)}}
@@ -665,7 +665,7 @@ def llms_txt():
     lines += ["", "## Links", "",
               f"- [Home]({CANON}/)", f"- [Home in English]({CANON}/en/)", f"- [Главная на русском]({CANON}/ru/)",
               f"- [Services]({CANON}/#services)", f"- [About]({CANON}/#about)",
-              "- [GitHub](https://github.com/ziko-asm)", "- [LinkedIn](https://www.linkedin.com/in/ziya-azizov-91bba638a)", ""]
+              "- [GitHub](https://github.com/ziko-asm)", "- [LinkedIn](https://www.linkedin.com/in/ziyaazizov)", ""]
     return "\n".join(lines)
 
 
@@ -740,7 +740,7 @@ def hire_html():
             <div class="row">
               <a class="btn primary small magnet" href="{CV_PDF}" target="_blank" rel="noopener">Download CV (PDF) <span class="arr">↓</span></a>
               <a class="btn small magnet" href="mailto:{EMAIL}">✉ {EMAIL}</a>
-              <a class="btn small magnet" href="https://www.linkedin.com/in/ziya-azizov-91bba638a" target="_blank" rel="noopener">LinkedIn <span class="arr">→</span></a>
+              <a class="btn small magnet" href="https://www.linkedin.com/in/ziyaazizov" target="_blank" rel="noopener">LinkedIn <span class="arr">→</span></a>
               <a class="btn small magnet" href="https://github.com/ziko-asm" target="_blank" rel="noopener">GitHub <span class="arr">→</span></a>
             </div>
           </div>"""
@@ -972,7 +972,7 @@ def build_index():
           <a class="btn magnet" href="tel:{PHONE}">📞 <span>{PHONE_SHOW}</span></a>
           <button type="button" class="btn magnet" data-msg-open>✉ {T("Saytdan mesaj yaz", "Send a message")}</button>
           <a class="btn magnet" href="mailto:{EMAIL}">✉ E-mail</a>
-          <a class="btn magnet" href="https://www.linkedin.com/in/ziya-azizov-91bba638a" target="_blank" rel="noopener">LinkedIn <span class="arr">→</span></a>
+          <a class="btn magnet" href="https://www.linkedin.com/in/ziyaazizov" target="_blank" rel="noopener">LinkedIn <span class="arr">→</span></a>
           <a class="btn magnet" href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram <span class="arr">→</span></a>
           <a class="btn magnet" href="{FACEBOOK}" target="_blank" rel="noopener">Facebook <span class="arr">→</span></a>
           <a class="btn magnet" href="{YOUTUBE}" target="_blank" rel="noopener">YouTube <span class="arr">→</span></a>
