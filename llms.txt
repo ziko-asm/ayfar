@@ -27,7 +27,7 @@ Contact / Əlaqə: WhatsApp and phone +994772172358, e-mail ziyaazizov9@gmail.co
 
 ## Articles
 
-- [Stop asking "is this text malicious?" — how I stopped 144/144 prompt-injection attacks on an AI banking agent](https://ayfar.dev/yazilar/provguard.html): Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.
+- [Stop asking "is this text malicious?" — how I stopped 144/144 prompt-injection attacks on an AI banking agent](https://ayfar.dev/articles/provguard.html): Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.
 
 ## Links
 

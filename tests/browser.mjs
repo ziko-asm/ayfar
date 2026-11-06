@@ -9,7 +9,7 @@ const require = createRequire(import.meta.url);
 const AXE = readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
 const PORT = 8790;
 const BASE = `http://127.0.0.1:${PORT}`;
-const PAGES = ["/", "/p/metro-tycoon.html", "/p/provguard.html", "/p/saytyoxla.html", "/yazilar/provguard.html"];
+const PAGES = ["/", "/p/metro-tycoon.html", "/p/provguard.html", "/p/saytyoxla.html", "/articles/provguard.html"];
 const LANGS = { az: "", en: "/en", ru: "/ru" };
 const VIEWPORTS = { desktop: { width: 1440, height: 900 }, phone: { width: 360, height: 740 } };
 
@@ -59,7 +59,7 @@ try {
         if (info.article !== null) check(info.article > 1000, name + " article text visible", `${info.article}px`);
 
         // accessibility (WCAG 2.2 AA rules from axe-core), with animations settled; CSP is bypassed only to inject axe
-        if (path === "/" || path.startsWith("/yazilar")) {
+        if (path === "/" || path.startsWith("/articles")) {
           const ap = await browser.newPage({ viewport, reducedMotion: "reduce", bypassCSP: true });
           await ap.goto(BASE + url, { waitUntil: "load" });
           await ap.evaluate(() => document.querySelectorAll(".reveal,.slide").forEach((e) => e.classList.add("in", "seen")));

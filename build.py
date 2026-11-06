@@ -661,7 +661,7 @@ def llms_txt():
     lines += ["", "## Projects / Layihələr", ""]
     lines += [f"- [{p['name'][1]}]({CANON}/p/{p['slug']}.html): {p['summary'][1]} Live: {p['url']}" for p in P]
     lines += ["", "## Articles", ""]
-    lines += [f"- [{a['title']}]({CANON}/yazilar/{a['slug']}.html): {a['desc']}" for a in ARTICLES]
+    lines += [f"- [{a['title']}]({CANON}/articles/{a['slug']}.html): {a['desc']}" for a in ARTICLES]
     lines += ["", "## Links", "",
               f"- [Home]({CANON}/)", f"- [Home in English]({CANON}/en/)", f"- [Главная на русском]({CANON}/ru/)",
               f"- [Services]({CANON}/#services)", f"- [About]({CANON}/#about)",
@@ -678,7 +678,7 @@ def build_seo_files():
         for l in LANGS:
             rows.append(f"  <url><loc>{CANON}{LP(l)}{path}</loc><lastmod>{LASTMOD}</lastmod>{alts}{photo if path == '/' else ''}</url>")
     for a in ARTICLES:  # one canonical URL per article (the text is English in every language)
-        rows.append(f"  <url><loc>{CANON}/yazilar/{a['slug']}.html</loc><lastmod>{max(LASTMOD, a['date'])}</lastmod></url>")
+        rows.append(f"  <url><loc>{CANON}/articles/{a['slug']}.html</loc><lastmod>{max(LASTMOD, a['date'])}</lastmod></url>")
     xml = "\n".join(rows)
     with open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8", newline="\n") as f:
         f.write(llms_txt())
@@ -1025,7 +1025,7 @@ def build_project(i, p):
     <div class="p-cta reveal-hero d3">
       <a class="btn primary magnet" href="{p['url']}" target="_blank" rel="noopener">{T(*p['go'])} <span class="arr">↗</span></a>
       {gh}
-      {"".join(f'<a class="btn magnet" href="{LP()}/yazilar/{a["slug"]}.html" data-nav>📝 {T("Məqaləni oxu", "Read the write-up")} <span class="arr">→</span></a>' for a in ARTICLES if a["project"] == p["slug"])}
+      {"".join(f'<a class="btn magnet" href="{LP()}/articles/{a["slug"]}.html" data-nav>📝 {T("Məqaləni oxu", "Read the write-up")} <span class="arr">→</span></a>' for a in ARTICLES if a["project"] == p["slug"])}
     </div>
     <a class="p-media reveal-hero d4 tiltable" data-tilt="4" href="{p['url']}" target="_blank" rel="noopener" aria-label="{E(X(*p['name']))}: {E(p['show'])}">{media_fixed(p, badges=False, sizes=HERO_SIZES, hero=True)}</a>
   </section>
@@ -1077,7 +1077,7 @@ def build_articles():
             body = f.read()
         # wide code blocks and tables scroll sideways on phones; make them reachable from the keyboard
         body = body.replace("<pre>", '<pre tabindex="0">').replace("<table>", '<table tabindex="0">')
-        path = f"/yazilar/{a['slug']}.html"
+        path = f"/articles/{a['slug']}.html"
         url = CANON + path  # the text is English everywhere, so every language version points here
         proj = next(p for p in P if p["slug"] == a["project"])
         page = head(a["title"] + " — ayfar", a["desc"], path, a["og"], alternates=False, canonical=url)
@@ -1103,7 +1103,7 @@ def build_articles():
 """
         page += footer()
         page += '\n</body>\n</html>\n'
-        with open(out_path("yazilar", a["slug"] + ".html"), "w", encoding="utf-8", newline="\n") as f:
+        with open(out_path("articles", a["slug"] + ".html"), "w", encoding="utf-8", newline="\n") as f:
             f.write(page)
 
 
@@ -1187,8 +1187,12 @@ def build_vercel_json():
         ("/assets/(.*)", "public, max-age=31536000, immutable"),
         ("/img/(.*)", "public, max-age=31536000, immutable"),  # page images carry ?v=; bump V when replacing one
     ]
-    cfg = {"headers": [{"source": "/(.*)", "headers": [{"key": k, "value": v} for k, v in headers]}]
-           + [{"source": src, "headers": [{"key": "Cache-Control", "value": val}]} for src, val in cache]}
+    cfg = {
+        # the articles used to live under /yazilar/: old links (LinkedIn, CVs, Google) keep working
+        "redirects": [{"source": "/:lang(en|ru)/yazilar/:slug", "destination": "/:lang/articles/:slug", "permanent": True},
+                      {"source": "/yazilar/:slug", "destination": "/articles/:slug", "permanent": True}],
+        "headers": [{"source": "/(.*)", "headers": [{"key": k, "value": v} for k, v in headers]}]
+        + [{"source": src, "headers": [{"key": "Cache-Control", "value": val}]} for src, val in cache]}
     with open(os.path.join(ROOT, "vercel.json"), "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(cfg, indent=2) + "\n")
 

@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Stop asking &quot;is this text malicious?&quot; — how I stopped 144/144 prompt-injection attacks on an AI banking agent — ayfar</title>
 <meta name="description" content="Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.">
-<link rel="canonical" href="https://ayfar.dev/yazilar/provguard.html">
+<link rel="canonical" href="https://ayfar.dev/articles/provguard.html">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:title" content="Stop asking &quot;is this text malicious?&quot; — how I stopped 144/144 prompt-injection attacks on an AI banking agent — ayfar">
 <meta property="og:description" content="Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.">
-<meta property="og:url" content="https://ayfar.dev/yazilar/provguard.html">
+<meta property="og:url" content="https://ayfar.dev/articles/provguard.html">
 <meta property="og:image" content="https://ayfar.dev/img/og/provguard.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -613,7 +613,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 .art-body th,.art-body td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line2);white-space:nowrap}
 .art-body th{color:var(--text);font-weight:700}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Stop asking \"is this text malicious?\" — how I stopped 144/144 prompt-injection attacks on an AI banking agent", "description": "Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.", "datePublished": "2026-11-01", "inLanguage": "en", "url": "https://ayfar.dev/yazilar/provguard.html", "image": "https://ayfar.dev/img/og/provguard.png", "author": {"@type": "Person", "@id": "https://ayfar.dev/#ziya", "name": "Ziya Azizov", "url": "https://ayfar.dev/"}, "publisher": {"@id": "https://ayfar.dev/#ayfar"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Stop asking \"is this text malicious?\" — how I stopped 144/144 prompt-injection attacks on an AI banking agent", "description": "Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.", "datePublished": "2026-11-01", "inLanguage": "en", "url": "https://ayfar.dev/articles/provguard.html", "image": "https://ayfar.dev/img/og/provguard.png", "author": {"@type": "Person", "@id": "https://ayfar.dev/#ziya", "name": "Ziya Azizov", "url": "https://ayfar.dev/"}, "publisher": {"@id": "https://ayfar.dev/#ayfar"}}</script>
 </head>
 <body class="proj article pc-article">
 <a class="skip" href="#main"><span>Перейти к содержанию</span></a>
@@ -636,7 +636,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
     </nav>
     <button type="button" class="menu-btn" aria-expanded="false" aria-controls="mnav"><span class="sr"><span>Меню</span></span><i></i><i></i></button>
     <nav class="lang" aria-label="Язык">
-      <span class="pill"></span><a href="/yazilar/provguard.html" hreflang="az" lang="az" data-nav>AZ</a><a href="/en/yazilar/provguard.html" hreflang="en" lang="en" data-nav>EN</a><a href="/ru/yazilar/provguard.html" hreflang="ru" lang="ru" data-nav aria-current="page">RU</a>
+      <span class="pill"></span><a href="/articles/provguard.html" hreflang="az" lang="az" data-nav>AZ</a><a href="/en/articles/provguard.html" hreflang="en" lang="en" data-nav>EN</a><a href="/ru/articles/provguard.html" hreflang="ru" lang="ru" data-nav aria-current="page">RU</a>
     </nav>
   </div>
   <nav class="mnav" id="mnav" aria-label="Меню">

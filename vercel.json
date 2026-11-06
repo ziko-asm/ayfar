@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/:lang(en|ru)/yazilar/:slug",
+      "destination": "/:lang/articles/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/yazilar/:slug",
+      "destination": "/articles/:slug",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
