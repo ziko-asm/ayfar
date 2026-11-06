@@ -320,3 +320,5 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 .hire{margin:8px 0 24px;padding:20px 22px;border-radius:20px;border:1px solid color-mix(in srgb,var(--g) 45%,transparent);background:color-mix(in srgb,var(--g) 7%,transparent)}
 .about .hire p{margin:0 0 14px;color:var(--text)}
 .hire .row{display:flex;flex-wrap:wrap;gap:10px}
+.play-note{margin:14px 0 0;color:var(--soft);font-size:15px}
+.play-note a{color:var(--g)}

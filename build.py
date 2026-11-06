@@ -698,7 +698,27 @@ CV_PDF = "/cv/Ziya_Azizov_CV.pdf"
 HERO_EN = ('<p class="tagline reveal-hero d1">AI security engineer &amp; web developer.</p>\n'
            '    <p class="lead reveal-hero d2">I build defences for AI agents and secure websites for businesses. '
            'ProvGuard, my prompt-injection defence, stopped 144/144 AgentDojo banking attacks. '
-           'Drive the metro below, or scroll on to the projects.</p>')
+           'Scroll on to the projects; the metro game is at the end of the page.</p>')
+
+
+def game_to_end(page):
+    """English page: the metro mini game moves from the hero to just before the contact section,
+    so recruiters see the role, the CV and the projects first."""
+    start = page.index('    <div class="mgame reveal-hero d3" id="gameWrap">')
+    end = page.index('    <div class="cta reveal-hero d4">', start)
+    game = page[start:end].rstrip() + "\n"
+    page = page[:start] + page[end:]
+    block = f"""  <section id="play">
+    <div class="wrap">
+      <div class="sec-head reveal"><div><div class="sec-num">GAME</div><h2>Take a break: drive the Baku metro</h2></div></div>
+{game.replace('class="mgame reveal-hero d3"', 'class="mgame reveal"')}      <p class="play-note reveal">A small version of <a href="https://siloveu.itch.io/metro-tycoon" target="_blank" rel="noopener">Metro Tycoon</a>, my browser game.</p>
+    </div>
+  </section>
+
+"""
+    anchor = '  <section id="contact">'
+    i = page.index(anchor)
+    return page[:i] + block + page[i:]
 
 
 def home_order():
@@ -965,6 +985,8 @@ def build_index():
 """
     page += footer()
     page += '\n</body>\n</html>\n'
+    if LANG == "en":
+        page = game_to_end(page)
     with open(out_path("index.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(page)
 
