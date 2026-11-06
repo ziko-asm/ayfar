@@ -33,6 +33,7 @@ SCAN_API = SCAN_SITE + "/api/scan"
 INSTAGRAM = "https://www.instagram.com/ayfar.web/"
 X_URL = "https://x.com/ayfar_web"
 FACEBOOK = "https://www.facebook.com/profile.php?id=100081598819007"
+YOUTUBE = "https://www.youtube.com/@ayfarweb"  # channel UCIGnzVoj9TA1Ky6qkSWk3yA
 GOOGLE_REVIEW = "https://g.page/r/Cfrr1Out_JVWEBM/review"
 # Messages from the site form go through Formspree to the e-mail on that Formspree account.
 MESSAGE_FORM = "https://formspree.io/f/xbgdeydb"
@@ -613,7 +614,7 @@ def schema():
         "alumniOf": {"@type": "CollegeOrUniversity", "name": "Azərbaycan Dövlət Neft və Sənaye Universiteti"},
         "affiliation": {"@type": "CollegeOrUniversity", "name": "Bakı Ali Neft Məktəbi"},
         "knowsAbout": ["Proqramlaşdırma", "Kibertəhlükəsizlik", "Süni intellekt", "Veb saytlar", "Oyun hazırlama"],
-        "sameAs": ["https://www.linkedin.com/in/ziya-azizov-91bba638a", INSTAGRAM, FACEBOOK, X_URL, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
+        "sameAs": ["https://www.linkedin.com/in/ziya-azizov-91bba638a", INSTAGRAM, FACEBOOK, YOUTUBE, X_URL, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
     }
     site = {"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": CANON + LP() + "/",
             "inLanguage": ["az", "en", "ru"], "publisher": {"@id": CANON + "/#ziya"}}
@@ -629,7 +630,7 @@ def schema():
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Xidmətlər", "itemListElement": [
             {"@type": "Offer", "itemOffered": {"@type": "Service", "name": s["name"][0], "description": s["desc"][0]}}
             for s in SERVICES]},
-        "sameAs": [INSTAGRAM, FACEBOOK, X_URL, "https://www.linkedin.com/in/ziya-azizov-91bba638a", "https://github.com/ziko-asm"],
+        "sameAs": [INSTAGRAM, FACEBOOK, YOUTUBE, X_URL, "https://www.linkedin.com/in/ziya-azizov-91bba638a", "https://github.com/ziko-asm"],
     }
     faqp = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": X(qa, qe), "acceptedAnswer": {"@type": "Answer", "text": X(aa, ae)}}
@@ -974,6 +975,7 @@ def build_index():
           <a class="btn magnet" href="https://www.linkedin.com/in/ziya-azizov-91bba638a" target="_blank" rel="noopener">LinkedIn <span class="arr">→</span></a>
           <a class="btn magnet" href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram <span class="arr">→</span></a>
           <a class="btn magnet" href="{FACEBOOK}" target="_blank" rel="noopener">Facebook <span class="arr">→</span></a>
+          <a class="btn magnet" href="{YOUTUBE}" target="_blank" rel="noopener">YouTube <span class="arr">→</span></a>
           <a class="btn magnet" href="{X_URL}" target="_blank" rel="noopener">X <span class="arr">→</span></a>
           <a class="btn magnet" href="https://github.com/ziko-asm" target="_blank" rel="noopener">GitHub <span class="arr">→</span></a>
           {f'<a class="btn magnet" href="{CV_PDF}" target="_blank" rel="noopener">CV (PDF) <span class="arr">↓</span></a>' if LANG == "en" else ""}
