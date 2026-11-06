@@ -194,8 +194,9 @@ P = [
     dict(
         slug="ai-nids-lab", cat="research", status="on", c1="#ff7a45", c2="#34f5b0",
         name=("AI-NIDS Robustness Lab", "AI-NIDS Robustness Lab"),
-        url="https://ai-nids-robustness.streamlit.app", show="ai-nids-robustness.streamlit.app",
-        tag=("Tədqiqat · Şəbəkə", "Research · Network"), go=("Sayta keç", "Open site"), media=("scene", "nids"),
+        # the Streamlit demo sleeps when idle, so the main link goes to the code and results on GitHub
+        url="https://github.com/ziko-asm/ai-nids-adversarial-benchmark", show="github.com/ziko-asm/ai-nids-adversarial-benchmark",
+        tag=("Tədqiqat · Şəbəkə", "Research · Network"), go=("GitHub-da bax", "Open on GitHub"), media=("scene", "nids"),
         metric=("3.7×", "UNSW-NB15-də hücumlar normal trafikə 3.7 dəfə yaxındır, ona görə detektorlar orada çökür.",
                 "UNSW-NB15 attacks sit 3.7× closer to benign traffic, so detectors break there."),
         summary=("Şəbəkə hücumlarını aşkarlayan neyron şəbəkələrinin, hücumçu trafikini bir az dəyişəndə nə qədər asan aldandığını ölçən tədqiqat. Streamlit-də interaktiv dashboard.",
@@ -213,7 +214,7 @@ P = [
                   "<b>Mixed training</b> avoids the collapse, but its robustness is overstated.",
                   "<b>Trees</b> hold up better against transferred attacks."]),
         chips=["PyTorch", "1D-CNN", "PGD / FGSM", "Streamlit"],
-        github="https://github.com/ziko-asm/ai-nids-adversarial-benchmark",
+        github=None,  # the main link above already goes to GitHub
         note=("Streamlit tətbiqi boş qalanda yatır, ilk açılış bir neçə saniyə çəkə bilər.",
               "The Streamlit app sleeps when idle, so the first load can take a few seconds."),
     ),
@@ -693,6 +694,20 @@ def sec_no(base):
 
 CV_PDF = "/cv/Ziya_Azizov_CV.pdf"
 
+# English hero: recruiters should see the role in the first seconds
+HERO_EN = ('<p class="tagline reveal-hero d1">AI security engineer &amp; web developer.</p>\n'
+           '    <p class="lead reveal-hero d2">I build defences for AI agents and secure websites for businesses. '
+           'ProvGuard, my prompt-injection defence, stopped 144/144 AgentDojo banking attacks. '
+           'Drive the metro below, or scroll on to the projects.</p>')
+
+
+def home_order():
+    """Project order on the home page. English readers are mostly recruiters: AI security first, the game last."""
+    if LANG != "en":
+        return P
+    first = [p for p in P if p["cat"] == "research"] + [p for p in P if p["cat"] == "service"]
+    return first + [p for p in P if p["cat"] == "web"] + [p for p in P if p["cat"] == "game"]
+
 
 def hire_html():
     """For recruiters: what roles, where, and the CV. English page only, so clients in Baku are not confused."""
@@ -784,7 +799,7 @@ def build_index():
     n = len(P)
     counts = {k: sum(1 for p in P if p["cat"] == k) for k in CATS}
     slides = []
-    for i, p in enumerate(P):
+    for i, p in enumerate(home_order()):
         gh = f'<a class="btn small" href="{p["github"]}" target="_blank" rel="noopener">GitHub</a>' if p["github"] else ""
         slides.append(f"""
       <article class="slide pc-{p['slug']}" data-cat="{p['cat']}">
@@ -818,10 +833,9 @@ def build_index():
     page += f"""
 <main id="main">
   <div class="wrap hero">
-    <div class="eyebrow reveal-hero"><span class="live"></span>{T(f"Ziya Əzizov · Bakı · {n} canlı layihə", f"Ziya Azizov · Baku · {n} live projects")}</div>
+    <div class="eyebrow reveal-hero"><span class="live"></span>{"<span>Ziya Azizov · Baku · open to remote roles and relocation</span>" if LANG == "en" else T(f"Ziya Əzizov · Bakı · {n} canlı layihə", f"Ziya Azizov · Baku · {n} live projects")}</div>
     <h1 class="word" aria-label="ayfar"><span aria-hidden="true">a</span><span aria-hidden="true">y</span><span aria-hidden="true">f</span><span aria-hidden="true">a</span><span aria-hidden="true">r</span></h1>
-    <p class="tagline reveal-hero d1">{T('Mən <span class="rot" data-words="saytlar|oyunlar|alətlər|layihələr">saytlar</span> yaradıram.', 'I build <span class="rot" data-words="websites|games|tools|projects">websites</span>.')}</p>
-    {T("Hazırladığım bütün saytlar, alətlər, oyunlar və layihələr bu səhifədədir. Aşağıdakı metroda qatarı özünüz sürün, sonra layihələrə keçin.", "Every site, tool, game and project I've built is on this page. Drive the metro below yourself, then scroll on to the projects.", "p", "lead reveal-hero d2")}
+    {HERO_EN if LANG == "en" else '<p class="tagline reveal-hero d1">' + T('Mən <span class="rot" data-words="saytlar|oyunlar|alətlər|layihələr">saytlar</span> yaradıram.', 'I build <span class="rot" data-words="websites|games|tools|projects">websites</span>.') + '</p>\n    ' + T("Hazırladığım bütün saytlar, alətlər, oyunlar və layihələr bu səhifədədir. Aşağıdakı metroda qatarı özünüz sürün, sonra layihələrə keçin.", "Every site, tool, game and project I've built is on this page. Drive the metro below yourself, then scroll on to the projects.", "p", "lead reveal-hero d2")}
 
     <div class="mgame reveal-hero d3" id="gameWrap">
       <canvas id="game" tabindex="-1" role="img" aria-label="{X("Mini metro oyunu: qaz üçün Boşluq və ya ↑ düyməsini basılı saxlayın, tormoz üçün buraxın", "Mini metro game: hold Space or ↑ to go, release to brake")}"></canvas>
@@ -849,8 +863,9 @@ def build_index():
 
     <div class="cta reveal-hero d4">
       <a class="btn primary magnet" href="#projects">{T("Layihələrə bax", "See the projects")}<span class="arr">→</span></a>
+      {f'<a class="btn magnet" href="{CV_PDF}" target="_blank" rel="noopener">Download CV<span class="arr">↓</span></a>' if LANG == "en" else ""}
       <a class="btn magnet" href="#services">{T("Sayt sifariş et", "Order a website")}<span class="arr">→</span></a>
-      <a class="btn magnet" href="https://siloveu.itch.io/metro-tycoon" target="_blank" rel="noopener"><span>🎮</span>{T("Metro Tycoon tam versiya", "Metro Tycoon full game")}</a>
+      {"" if LANG == "en" else f'<a class="btn magnet" href="https://siloveu.itch.io/metro-tycoon" target="_blank" rel="noopener"><span>🎮</span>{T("Metro Tycoon tam versiya", "Metro Tycoon full game")}</a>'}
     </div>
   </div>
 
@@ -894,7 +909,7 @@ def build_index():
       <div class="about">
         <div class="reveal">
           {T("Salam, mən <em>Ziya Əzizovam</em>. İnternetdə <em>ayfar</em> kimi tanınıram.", "Hi, I'm <em>Ziya Azizov</em>, known online as <em>ayfar</em>.", "p", "big")}
-          {T("2005-ci ildə Bakı şəhərində anadan olmuşam və Bakıda yaşayıram. Proqramlaşdırma, kibertəhlükəsizlik və süni intellekt ilə məşğul olan mühəndisəm.", "I was born in Baku in 2005 and still live there. I'm an engineer working in programming, cybersecurity and artificial intelligence.", "p")}
+          {"<p>I live in Baku, Azerbaijan. I'm an engineer working in programming, cybersecurity and artificial intelligence.</p>" if LANG == "en" else ""}{"" if LANG == "en" else T("2005-ci ildə Bakı şəhərində anadan olmuşam və Bakıda yaşayıram. Proqramlaşdırma, kibertəhlükəsizlik və süni intellekt ilə məşğul olan mühəndisəm.", "I was born in Baku in 2005 and still live there. I'm an engineer working in programming, cybersecurity and artificial intelligence.", "p")}
           {T("Bakalavr təhsilimi Azərbaycan Dövlət Neft və Sənaye Universitetində (ADNSU) Mexatronika və Robototexnika ixtisası üzrə almışam. Hazırda Bakı Ali Neft Məktəbində (BHOS) texniki sistemlərdə idarəetmə üzrə magistr təhsili alıram.", "I earned my bachelor's degree in Mechatronics and Robotics at Azerbaijan State Oil and Industry University (ASOIU). I'm now studying for a master's degree in control in technical systems at Baku Higher Oil School (BHOS).", "p")}
           {T("Bu dünyanı mənə bakalavrın 1-ci kursunda keçdiyimiz <b>Fundamentals of Programming</b> fənni tanıtdı. 2023-cü ildə, hələ 2-ci kursda ikən proqramlaşdırma və kibertəhlükəsizliyə ciddi maraq saldım və işə öz kompüterimə <b>Kali Linux</b> əməliyyat sistemini quraşdırmaqla, özüm başladım.", "This world was opened to me by the <b>Fundamentals of Programming</b> course in my first year. In 2023, in my second year, I got seriously into programming and cybersecurity and started on my own by installing <b>Kali Linux</b> on my computer.", "p")}
           {T("Düşünürəm ki, kibertəhlükəsizlik və süni intellekt uzun illər boyu ən güclü sahələr olaraq qalacaq və bu sahələrdə bacarıqlı mühəndislərə həmişə ehtiyac olacaq. Bu sahələrdəki işimdən əlavə, şirkətlərin, professorların və insanların işini əhəmiyyətli dərəcədə yüngülləşdirə biləcək maraqlı layihələr də yaradıram. Onların hamısı bu saytdadır.", "I believe cybersecurity and AI will stay among the strongest fields for many years, and skilled engineers will always be needed there. Alongside that work, I build projects that can make life noticeably easier for companies, professors and everyday people. All of them are on this site.", "p")}
@@ -909,7 +924,7 @@ def build_index():
             <div><dt>{T("Nə edirəm", "What I make")}</dt>{T("Saytlar · Oyunlar · Alətlər · Tədqiqat", "Websites · Games · Tools · Research", "dd")}</div>
             <div><dt>{T("Təhsil", "Education")}</dt>{T("BHOS: Texniki sistemlərdə idarəetmə, magistratura (2026–)", "BHOS: M.S. Control in Technical Systems (2026–)", "dd")}{T("ADNSU: Mexatronika və Robototexnika, bakalavr (2022–2026)", "ASOIU: B.S. Mechatronics &amp; Robotics (2022–2026)", "dd")}</div>
             <div><dt>{T("Dillər", "Languages")}</dt>{T("Azərbaycan · İngilis (C1) · Türk", "Azerbaijani · English (C1) · Turkish", "dd")}</div>
-            <div><dt>{T("Yer", "Location")}</dt>{T("Bakı, Azərbaycan · 2005", "Baku, Azerbaijan · born 2005", "dd")}</div>
+            <div><dt>{T("Yer", "Location")}</dt>{"<dd>Baku, Azerbaijan</dd>" if LANG == "en" else T("Bakı, Azərbaycan · 2005", "Baku, Azerbaijan · born 2005", "dd")}</div>
             <div><dt>{T("Sahələr", "Fields")}</dt>{T("Proqramlaşdırma · Kibertəhlükəsizlik · Süni intellekt", "Programming · Cybersecurity · AI", "dd")}</div>
           </dl>
         </div>

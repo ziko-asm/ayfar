@@ -278,4 +278,5 @@ RU = {
     'Website development in Baku': 'Создание сайтов в Баку',
     'Website development in Baku — ayfar | Ziya Azizov': 'Создание сайтов в Баку — ayfar | Зия Азизов',
     'Website development in Baku: landing pages, business websites and online shops. Ziya Azizov (ayfar), web developer and cybersecurity engineer. Free quote.': 'Создание сайтов в Баку: лендинги, сайты компаний и интернет-магазины. Зия Азизов (ayfar), веб-разработчик и инженер по кибербезопасности. Бесплатный расчёт цены.',
+    'Open on GitHub': 'Открыть на GitHub',
 }
