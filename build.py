@@ -607,7 +607,7 @@ def schema():
                   "caption": "Ziya Əzizov (ayfar), veb developer və kibertəhlükəsizlik mühəndisi, Bakı",
                   "creditText": "Ziya Əzizov", "creator": {"@id": CANON + "/#ziya"}, "copyrightNotice": "© Ziya Əzizov"},
         "telephone": PHONE, "email": EMAIL,
-        "jobTitle": "Proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisi",
+        "jobTitle": "AI Security Engineer and Web Developer" if LANG == "en" else "Proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisi",
         "address": {"@type": "PostalAddress", "addressLocality": "Bakı", "addressCountry": "AZ"},
         "alumniOf": {"@type": "CollegeOrUniversity", "name": "Azərbaycan Dövlət Neft və Sənaye Universiteti"},
         "affiliation": {"@type": "CollegeOrUniversity", "name": "Bakı Ali Neft Məktəbi"},
@@ -689,6 +689,25 @@ def build_seo_files():
 def sec_no(base):
     """Sections after services move down by one when the reviews section is shown."""
     return f"{(base + 1 if REVIEWS else base):02d}"
+
+
+CV_PDF = "/cv/Ziya_Azizov_CV.pdf"
+
+
+def hire_html():
+    """For recruiters: what roles, where, and the CV. English page only, so clients in Baku are not confused."""
+    if LANG != "en":
+        return ""
+    return f"""<div class="hire">
+            <p><b>Open to roles:</b> AI security engineer, security engineer, ML engineer, full-stack developer.
+            Remote, or relocation (United States, Finland, Norway).</p>
+            <div class="row">
+              <a class="btn primary small magnet" href="{CV_PDF}" target="_blank" rel="noopener">Download CV (PDF) <span class="arr">↓</span></a>
+              <a class="btn small magnet" href="mailto:{EMAIL}">✉ {EMAIL}</a>
+              <a class="btn small magnet" href="https://www.linkedin.com/in/ziya-azizov-91bba638a" target="_blank" rel="noopener">LinkedIn <span class="arr">→</span></a>
+              <a class="btn small magnet" href="https://github.com/ziko-asm" target="_blank" rel="noopener">GitHub <span class="arr">→</span></a>
+            </div>
+          </div>"""
 
 
 def services_html():
@@ -785,9 +804,14 @@ def build_index():
       </article>""")
     chips = "".join(f'<button type="button" data-jump="{k}">{T(*v)}<sup>{counts[k]}</sup></button>' for k, v in CATS.items())
 
-    page = head(X("Sayt sifarişi Bakıda — ayfar | Ziya Əzizov", "Website development in Baku — ayfar | Ziya Azizov"),
-                X("Bakıda sayt sifarişi: landing page, biznes saytı və onlayn mağaza. Ziya Əzizov (ayfar), veb developer və kibertəhlükəsizlik mühəndisi. Pulsuz qiymət təklifi.",
-                  "Website development in Baku: landing pages, business websites and online shops. Ziya Azizov (ayfar), web developer and cybersecurity engineer. Free quote."),
+    # English is for recruiters and international readers; Azerbaijani and Russian are for clients in Baku
+    title = ("Ziya Azizov — AI Security Engineer & Web Developer | ayfar" if LANG == "en" else
+             X("Sayt sifarişi Bakıda — ayfar | Ziya Əzizov", "Website development in Baku — ayfar | Ziya Azizov"))
+    desc = ("Ziya Azizov (ayfar): AI security engineer and web developer from Baku. Built ProvGuard, which stopped 144/144 "
+            "AgentDojo banking attacks. Open to remote roles and relocation." if LANG == "en" else
+            X("Bakıda sayt sifarişi: landing page, biznes saytı və onlayn mağaza. Ziya Əzizov (ayfar), veb developer və kibertəhlükəsizlik mühəndisi. Pulsuz qiymət təklifi.",
+              "Website development in Baku: landing pages, business websites and online shops. Ziya Azizov (ayfar), web developer and cybersecurity engineer. Free quote."))
+    page = head(title, desc,
                 "/", "img/og/home.png")
     page += css("home.css") + f'<script src="/assets/home.js?v={V}" defer></script>\n' + schema() + '</head>\n<body>\n'
     page += chrome_bits("/")
@@ -874,6 +898,7 @@ def build_index():
           {T("Bakalavr təhsilimi Azərbaycan Dövlət Neft və Sənaye Universitetində (ADNSU) Mexatronika və Robototexnika ixtisası üzrə almışam. Hazırda Bakı Ali Neft Məktəbində (BHOS) texniki sistemlərdə idarəetmə üzrə magistr təhsili alıram.", "I earned my bachelor's degree in Mechatronics and Robotics at Azerbaijan State Oil and Industry University (ASOIU). I'm now studying for a master's degree in control in technical systems at Baku Higher Oil School (BHOS).", "p")}
           {T("Bu dünyanı mənə bakalavrın 1-ci kursunda keçdiyimiz <b>Fundamentals of Programming</b> fənni tanıtdı. 2023-cü ildə, hələ 2-ci kursda ikən proqramlaşdırma və kibertəhlükəsizliyə ciddi maraq saldım və işə öz kompüterimə <b>Kali Linux</b> əməliyyat sistemini quraşdırmaqla, özüm başladım.", "This world was opened to me by the <b>Fundamentals of Programming</b> course in my first year. In 2023, in my second year, I got seriously into programming and cybersecurity and started on my own by installing <b>Kali Linux</b> on my computer.", "p")}
           {T("Düşünürəm ki, kibertəhlükəsizlik və süni intellekt uzun illər boyu ən güclü sahələr olaraq qalacaq və bu sahələrdə bacarıqlı mühəndislərə həmişə ehtiyac olacaq. Bu sahələrdəki işimdən əlavə, şirkətlərin, professorların və insanların işini əhəmiyyətli dərəcədə yüngülləşdirə biləcək maraqlı layihələr də yaradıram. Onların hamısı bu saytdadır.", "I believe cybersecurity and AI will stay among the strongest fields for many years, and skilled engineers will always be needed there. Alongside that work, I build projects that can make life noticeably easier for companies, professors and everyday people. All of them are on this site.", "p")}
+          {hire_html()}
           <div class="skills" aria-hidden="true"><div class="mq"><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span></div></div>
         </div>
         <div class="idcard reveal tiltable">
@@ -916,6 +941,7 @@ def build_index():
           <a class="btn magnet" href="{FACEBOOK}" target="_blank" rel="noopener">Facebook <span class="arr">→</span></a>
           <a class="btn magnet" href="{X_URL}" target="_blank" rel="noopener">X <span class="arr">→</span></a>
           <a class="btn magnet" href="https://github.com/ziko-asm" target="_blank" rel="noopener">GitHub <span class="arr">→</span></a>
+          {f'<a class="btn magnet" href="{CV_PDF}" target="_blank" rel="noopener">CV (PDF) <span class="arr">↓</span></a>' if LANG == "en" else ""}
         </div>
       </div>
     </div>
