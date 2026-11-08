@@ -293,3 +293,11 @@ a,button,summary,label,[role=button]{touch-action:manipulation;-webkit-tap-highl
 body.has-cursor dialog,body.has-cursor dialog *{cursor:auto}
 body.has-cursor dialog button,body.has-cursor dialog .btn,body.has-cursor dialog a,body.has-cursor .photo-dlg{cursor:pointer}
 body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
+
+/* fingers: every link and button gets at least a 44 px target (Apple's minimum) without changing how it looks */
+@media (pointer:coarse){
+  footer a{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
+  .brand,.lang a,.menu-btn,.back{position:relative}
+  .brand::after,.lang a::after,.menu-btn::after{content:"";position:absolute;inset:-8px -4px}
+  body .back,body .hs-chips button{display:inline-flex;align-items:center;min-height:44px}
+}
