@@ -483,7 +483,17 @@ main:focus{outline:none}
   .btn:hover::before{transform:translateY(101%)}
   .btn:hover{color:var(--text);border-color:var(--line2)}
   .btn.primary:hover{color:#000;border-color:var(--g)}
+
+  /* a finger gives no hover, so show the press itself at once: the button fills and shrinks a little */
+  .btn{will-change:auto;transition:border-color .12s,color .12s,transform .12s}
+  .btn::before{transition:transform .12s}
+  .btn:active::before{transform:none}
+  .btn:active{color:#000;border-color:var(--g);transform:scale(.97)}
+  .btn.primary:active::before{background:#fff}
+  footer a:active,.mnav a:active{color:var(--g)}
 }
+/* taps fire at once (no double-tap-zoom wait) and iOS shows a soft green flash instead of its grey box */
+a,button,summary,label,[role=button]{touch-action:manipulation;-webkit-tap-highlight-color:rgba(52,245,176,.22)}
 
 /* three language buttons: keep the header on one line on small phones */
 @media (max-width:380px){.lang a{padding:7px 9px}}

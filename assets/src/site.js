@@ -292,7 +292,9 @@
   }
   /* the background is decoration, so it starts once the page is idle: measuring the window while the
      page script ran forced the first layout into a long task */
-  var scrolling = 0, lastDraw = 0;
+  var scrolling = 0, lastDraw = 0, touched = 0, gap = matchMedia('(pointer:coarse)').matches ? 50 : 32;
+    // on a phone the background pauses for a moment while a finger is down, so the tap is answered first
+    addEventListener('pointerdown', function(){ touched = performance.now(); }, {passive:true});
   function start(){
     started = true; bgY = scrollY;
     var s = seen || [innerWidth, innerHeight];
@@ -302,7 +304,7 @@
     addEventListener('scroll', function(){ scrolling = performance.now(); bgY = scrollY; }, {passive:true});
     (function frame(now){
       requestAnimationFrame(frame);
-      if(document.hidden || now - scrolling < 180 || now - lastDraw < 32) return;
+      if(document.hidden || now - scrolling < 180 || now - touched < 400 || now - lastDraw < gap) return;
       lastDraw = now; draw();
     })(0);
   }

@@ -37,7 +37,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'sha256-oIkSnxqjSG6FZ7FP2mHEzopncV3th+AvVewR0CMrQXk='; style-src 'self' 'sha256-CMHbjNmqsujjaszYAe0h809ap/VgaHz17rSw5UYo+Bk=' 'sha256-JQulY/iWyJIwzhv2lCbGbRGcxfdN1miSSidCc1kzalc=' 'sha256-tm5kJVrdRmYyujetCSMNW0jL3QQhXG6M7QuJwuHrXdg='; font-src 'self'; img-src 'self' data:; connect-src 'self' https://saytyoxla.vercel.app https://formspree.io; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://formspree.io; object-src 'none'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' 'sha256-oIkSnxqjSG6FZ7FP2mHEzopncV3th+AvVewR0CMrQXk='; style-src 'self' 'sha256-CMHbjNmqsujjaszYAe0h809ap/VgaHz17rSw5UYo+Bk=' 'sha256-JQulY/iWyJIwzhv2lCbGbRGcxfdN1miSSidCc1kzalc=' 'sha256-h91Oguw573yLd3QmCYl0+YZnQruKXyFwZsDGp2C/kOw='; font-src 'self'; img-src 'self' data:; connect-src 'self' https://saytyoxla.vercel.app https://formspree.io; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://formspree.io; object-src 'none'; upgrade-insecure-requests"
         },
         {
           "key": "Cross-Origin-Opener-Policy",
