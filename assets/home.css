@@ -42,7 +42,7 @@
 .g-start{position:absolute;inset:0;z-index:3;border:0;cursor:pointer;color:var(--text);background:linear-gradient(180deg,rgba(5,7,11,.82),rgba(5,7,11,.55) 55%,rgba(5,7,11,.15));display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:clamp(26px,4vw,40px);gap:8px;font:900 22px var(--display);letter-spacing:.06em;transition:opacity .4s}
 .g-start .g-play{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--g);color:#000;font-size:20px}
 .g-start small{font:500 12px var(--mono);letter-spacing:0;color:var(--soft);max-width:90%;text-align:center;background:rgba(5,7,11,.7);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
-.g-start:hover .g-play{transform:scale(1.08)}
+@media (hover:hover){.g-start:hover .g-play{transform:scale(1.08)}}
 .g-start.hide{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .4s,visibility 0s .4s}
 .g-over{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(10,4,6,.78);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .35s;text-align:center;padding:10px}
 .g-over.show{opacity:1;pointer-events:auto}
@@ -90,14 +90,14 @@ section{padding:90px 0}
 .hs-count b{font:900 44px var(--display);color:var(--text);letter-spacing:-.04em;margin-right:6px}
 .hs-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
 .hs-chips button{border:1px solid var(--line);background:var(--glass);color:var(--muted);padding:8px 15px;border-radius:999px;font:500 13.5px "Space Grotesk",sans-serif;cursor:pointer;transition:all .3s}
-.hs-chips button:hover{color:var(--text);border-color:var(--line2)}
-.hs-chips button.on{background:var(--text);color:#000;border-color:var(--text)}
+@media (hover:hover){.hs-chips button:hover{color:var(--text);border-color:var(--line2)}}
+.hs-chips button.on,.hs-chips button.on:hover{background:var(--text);color:#000;border-color:var(--text)}
 .hs-chips sup{font:600 10px var(--mono);margin-left:4px;opacity:.6}
 .hs-track{display:flex;flex-direction:column;gap:70px;padding:0 16px;max-width:1200px;margin:0 auto}
 .slide{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
 .slide-media{display:block;text-decoration:none;transition:transform .5s cubic-bezier(.2,.9,.2,1);will-change:transform}
 .slide-media .media{transition:box-shadow .4s}
-.slide-media:hover .media{box-shadow:0 40px 100px -20px color-mix(in srgb,var(--c1) 45%,transparent),0 0 0 1px var(--c1)}
+@media (hover:hover){.slide-media:hover .media{box-shadow:0 40px 100px -20px color-mix(in srgb,var(--c1) 45%,transparent),0 0 0 1px var(--c1)}}
 .slide-body{display:flex;flex-direction:column;gap:14px;min-width:0}
 .slide-idx{font:600 12px var(--mono);color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
 .slide-idx b{color:var(--c1)}
@@ -187,7 +187,7 @@ section{padding:90px 0}
 .svc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media (max-width:900px){.svc-grid{grid-template-columns:minmax(0,1fr)}}
 .svc{display:flex;flex-direction:column;gap:12px;padding:26px 24px;border-radius:24px;border:1px solid var(--line2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),rgba(8,11,17,.8);transition:border-color .3s,transform .3s}
-.svc:hover{border-color:rgba(52,245,176,.45);transform:translateY(-4px)}
+@media (hover:hover){.svc:hover{border-color:rgba(52,245,176,.45);transform:translateY(-4px)}}
 .svc-ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:rgba(52,245,176,.1);border:1px solid rgba(52,245,176,.3)}
 .svc h3{font:800 22px var(--display);letter-spacing:-.03em;margin:4px 0 0}
 .svc p{margin:0;color:var(--muted);font-size:15.5px}
@@ -228,7 +228,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 
 /* phones and tablets: projects slide in as you scroll (desktop uses the pinned horizontal gallery) */
 /* phones: the gallery is a long column; slides far from the screen are not laid out or painted */
-.hs:not(.hs-on) .slide{content-visibility:auto;contain-intrinsic-size:auto 760px}
+.hs:not(.hs-on) .slide{content-visibility:auto;contain-intrinsic-size:auto 760px;scroll-margin-top:84px}
 .js .hs:not(.hs-on) .slide-media{transform:translateX(-14%) rotate(-3deg) scale(.92);transition:transform 1s cubic-bezier(.2,.9,.2,1)}
 .js .hs:not(.hs-on) .slide:nth-child(even) .slide-media{transform:translateX(14%) rotate(3deg) scale(.92)}
 .js .hs:not(.hs-on) .slide-body > *{transform:translateY(26px);transition:transform .8s cubic-bezier(.2,.9,.2,1)}

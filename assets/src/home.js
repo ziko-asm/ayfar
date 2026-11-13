@@ -324,7 +324,7 @@
       track.style.transform = '';
       slides.forEach(function(s){ s.style.opacity = ''; s.style.transform = ''; });
       ks = [];
-      if(!on){ hs.style.height = ''; return; }
+      if(!on){ hs.style.height = ''; if(lastIdx < 0) setIdx(0); return; }
       centers = slides.map(function(s){ return s.offsetLeft + s.offsetWidth / 2; });
       dist = Math.max(0, centers[centers.length - 1] - centers[0]);
       hs.style.height = (dist + innerHeight) + 'px';
@@ -353,12 +353,15 @@
         }
         if(d < bestD){ bestD = d; idx = i; }
       }
-      if(idx !== lastIdx){
-        lastIdx = idx; cur.textContent = String(idx + 1).padStart(2, '0');
-        slides.forEach(function(s, j){ s.classList.toggle('active', j === idx); });
-        var cat = slides[idx].dataset.cat;
-        chips.forEach(function(c){ c.classList.toggle('on', c.dataset.jump === cat); });
-      }
+      setIdx(idx);
+    }
+    /* the project in focus: the counter, the slide and its category chip */
+    function setIdx(idx){
+      if(idx === lastIdx || idx < 0) return;
+      lastIdx = idx; cur.textContent = String(idx + 1).padStart(2, '0');
+      slides.forEach(function(s, j){ s.classList.toggle('active', j === idx); });
+      var cat = slides[idx].dataset.cat;
+      chips.forEach(function(c){ var is = c.dataset.jump === cat; c.classList.toggle('on', is); c.setAttribute('aria-pressed', String(is)); });
     }
     function onScroll(){ if(!queued){ queued = true; requestAnimationFrame(update); } }
     chips.forEach(function(c){
@@ -366,7 +369,12 @@
         var i = slides.findIndex(function(s){ return s.dataset.cat === c.dataset.jump; });
         if(i < 0) return;
         if(on) scrollTo({top:targetFor(i), behavior:'smooth'});
-        else slides[i].scrollIntoView({behavior:'smooth', block:'start'});
+        else {
+          /* the column of projects: cards far from the screen have only an estimated height, so a smooth scroll
+             aimed at the wrong place; jump, then hold the card in place while the cards above it are measured */
+          slides[i].scrollIntoView({block:'start'}); setIdx(i);
+          if(A.settle) A.settle(slides[i]);
+        }
       });
     });
     hs.addEventListener('focusin', function(e){
@@ -382,6 +390,14 @@
       }, {threshold:.18, rootMargin:'0px 0px -8% 0px'});
       slides.forEach(function(s){ sio.observe(s); });
     } else slides.forEach(function(s){ s.classList.add('seen'); });
+    /* phones/tablets: the project crossing the middle of the screen is the one in focus */
+    if('IntersectionObserver' in window){
+      var mio = new IntersectionObserver(function(es){
+        if(on) return;
+        es.forEach(function(e){ if(e.isIntersecting) setIdx(slides.indexOf(e.target)); });
+      }, {rootMargin:'-50% 0px -50% 0px'});
+      slides.forEach(function(s){ mio.observe(s); });
+    }
     addEventListener('scroll', onScroll, {passive:true});
     var rz; addEventListener('resize', function(){ clearTimeout(rz); rz = setTimeout(layout, 150); });
     addEventListener('load', layout);

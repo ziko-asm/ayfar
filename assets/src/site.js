@@ -5,7 +5,36 @@
   function store(k, v){ try{ if(v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
   /* thousands with dots, like toLocaleString('az'), without loading Intl (its first call took 45-80 ms on a phone) */
   function money(n){ return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
-  window.AYFAR = {reduce:reduce, fine:fine, store:store, money:money};
+  /* Sections and project cards below the first screen use content-visibility, so their real height is known
+     only once they come near the screen: a jump to "#about" or to a project lands a little off. After such a
+     jump, keep the target at the top for a moment while the page settles; any touch, wheel or key stops it. */
+  function settle(el){
+    var n = 0, stop = false, off = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    var cancel = function(){ stop = true; };
+    ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(function(ev){ addEventListener(ev, cancel, {passive:true, once:true}); });
+    (function tick(){
+      if(stop || ++n > 12) return;
+      var d = el.getBoundingClientRect().top - off;
+      if(Math.abs(d) > 2) scrollBy(0, d);
+      setTimeout(tick, 100);
+    })();
+  }
+  window.AYFAR = {reduce:reduce, fine:fine, store:store, money:money, settle:settle};
+
+  /* ---------- links to a section of this page ---------- */
+  function hashTarget(hash){ try{ return hash && hash.length > 1 ? document.getElementById(decodeURIComponent(hash.slice(1))) : null; }catch(e){ return null; } }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href*="#"]');
+    if(!a || a.pathname !== location.pathname || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    var t = hashTarget(a.hash);
+    if(t) setTimeout(function(){ settle(t); }, 0);
+  });
+  /* a fresh visit to "/#services" (not a reload or Back, where the browser restores the old scroll position) */
+  addEventListener('load', function(){
+    var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    if(nav && nav.type !== 'navigate') return;
+    var t = hashTarget(location.hash); if(t) settle(t);
+  });
 
   /* ---------- language ----------
      Every language has its own URL (/, /en/, /ru/), rendered on the server side by build.py,
@@ -116,6 +145,20 @@
   document.querySelectorAll('.rot').forEach(function(el){
     var words = el.dataset.words.split('|'), wi = 0;
     if(reduce || words.length < 2) return;
+    /* on a phone a long word wraps the line and a short one does not, so the page below jumped up and down with
+       every change: give the line the height of its tallest word */
+    var line = el.closest('p'), lastW = 0;
+    var reserve = function(){
+      if(!line || innerWidth === lastW) return;
+      lastW = innerWidth;
+      var now = el.textContent, h = 0;
+      line.style.minHeight = '';
+      words.forEach(function(w){ el.textContent = w; h = Math.max(h, line.offsetHeight); });
+      el.textContent = now;
+      line.style.minHeight = h + 'px';
+    };
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ lastW = 0; reserve(); }); else reserve();
+    var rw; addEventListener('resize', function(){ clearTimeout(rw); rw = setTimeout(reserve, 200); });
     setInterval(function(){
       if(document.hidden) return;
       el.classList.add('out');

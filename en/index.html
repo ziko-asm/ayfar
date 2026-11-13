@@ -23,7 +23,8 @@
 <meta name="theme-color" content="#05070b">
 <meta name="google-site-verification" content="9FHzK0T2MlxLEmw8k1gnPzawKyXvbkJhKm1MKYsDFh4" />
 <meta name="msvalidate.01" content="071B769B591B43B1773023FFFF98515D" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="/img/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -433,13 +434,13 @@ footer{padding:40px 0 50px;color:var(--dim);font:13px var(--mono);text-align:cen
 
 /* floating WhatsApp */
 .wa-float{position:fixed;right:18px;bottom:18px;z-index:55;display:inline-flex;align-items:center;gap:8px;padding:12px 16px 12px 13px;border-radius:999px;background:#25d366;color:#04140a;font:700 14px "Space Grotesk",system-ui,sans-serif;text-decoration:none;box-shadow:0 12px 30px -8px rgba(37,211,102,.55),0 0 0 1px rgba(255,255,255,.08);transition:transform .25s,box-shadow .25s}
-.wa-float:hover{transform:translateY(-3px);box-shadow:0 18px 36px -8px rgba(37,211,102,.7)}
+@media (hover:hover){.wa-float:hover{transform:translateY(-3px);box-shadow:0 18px 36px -8px rgba(37,211,102,.7)}}
 .wa-float::after{content:"";position:absolute;inset:-4px;border-radius:inherit;border:2px solid rgba(37,211,102,.5);animation:waPing 2.4s infinite;pointer-events:none}
 @keyframes waPing{0%{opacity:.9;transform:scale(.96)}80%,100%{opacity:0;transform:scale(1.18)}}
 @media (max-width:560px){.wa-float{padding:13px;right:14px;bottom:14px}.wa-float span{display:none}}
 @media (prefers-reduced-motion:reduce){.wa-float::after{animation:none}}
 footer a{display:inline-block;padding:6px 2px;color:var(--soft);text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:3px}
-footer a:hover{color:var(--g)}
+@media (hover:hover){footer a:hover{color:var(--g)}}
 
 /* accessibility: skip link, visible keyboard focus, screen-reader text */
 .skip{position:fixed;left:12px;top:-60px;z-index:300;padding:10px 16px;border-radius:12px;background:var(--g);color:#000;font-weight:700;text-decoration:none;transition:top .2s}
@@ -514,7 +515,7 @@ a,button,summary,label,[role=button]{touch-action:manipulation;-webkit-tap-highl
 
 /* message dialog */
 .msg-open{border:0;background:rgba(52,245,176,.12);color:var(--g);font:600 14px "Space Grotesk",sans-serif;padding:8px 14px;border-radius:999px;cursor:pointer;margin-left:4px}
-.msg-open:hover{background:rgba(52,245,176,.2)}
+@media (hover:hover){.msg-open:hover{background:rgba(52,245,176,.2)}}
 .mnav .mnav-msg{display:block;width:100%;text-align:left;border:0;cursor:pointer;padding:14px 16px;border-radius:14px;background:rgba(52,245,176,.1);color:var(--g);font:700 18px var(--display);letter-spacing:-.02em;margin-top:6px}
 .msg-dlg,.photo-dlg{border:0;padding:0;background:transparent;color:var(--text);max-width:min(560px,calc(100vw - 24px));width:100%}
 .msg-dlg::backdrop,.photo-dlg::backdrop{background:rgba(3,5,8,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
@@ -534,6 +535,8 @@ a,button,summary,label,[role=button]{touch-action:manipulation;-webkit-tap-highl
 .photo-dlg img{display:block;width:100%;height:auto;border-radius:22px;border:1px solid var(--line2);box-shadow:0 30px 80px -20px rgba(0,0,0,.8)}
 .photo-dlg .msg-x{z-index:2;background:rgba(5,7,11,.7)}
 @media (max-width:1100px){nav.links .msg-open{padding:8px 10px}}
+.msg-open{white-space:nowrap}
+@media (max-width:900px){nav.links{gap:0}nav.links a{padding:8px 9px}}
 
 /* the custom cursor sits below <dialog> (top layer), so inside dialogs show the normal cursor */
 body.has-cursor dialog,body.has-cursor dialog *{cursor:auto}
@@ -543,8 +546,9 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 /* fingers: every link and button gets at least a 44 px target (Apple's minimum) without changing how it looks */
 @media (pointer:coarse){
   footer a{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
-  .brand,.lang a,.menu-btn,.back{position:relative}
-  .brand::after,.lang a::after,.menu-btn::after{content:"";position:absolute;inset:-8px -4px}
+  .logo,.lang a,.menu-btn,.back{position:relative}
+  .logo::after,.lang a::after,.menu-btn::after{content:"";position:absolute;inset:-8px -4px}
+  .p-url a{padding:13px 0}
   body .back,body .hs-chips button{display:inline-flex;align-items:center;min-height:44px}
 }
 .pc-metro-tycoon{--c1:#ff4fd8;--c2:#ffc94d}
@@ -559,7 +563,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 .pc-mansia{--c1:#c084fc;--c2:#ffc94d}
 .pc-article{--c1:#34f5b0;--c2:#5b8cff}
 </style>
-<script src="/assets/site.js?v=47" defer></script>
+<script src="/assets/site.js?v=48" defer></script>
 <style>
 /* hero */
 .hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:104px;padding-bottom:40px}
@@ -605,7 +609,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 .g-start{position:absolute;inset:0;z-index:3;border:0;cursor:pointer;color:var(--text);background:linear-gradient(180deg,rgba(5,7,11,.82),rgba(5,7,11,.55) 55%,rgba(5,7,11,.15));display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:clamp(26px,4vw,40px);gap:8px;font:900 22px var(--display);letter-spacing:.06em;transition:opacity .4s}
 .g-start .g-play{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--g);color:#000;font-size:20px}
 .g-start small{font:500 12px var(--mono);letter-spacing:0;color:var(--soft);max-width:90%;text-align:center;background:rgba(5,7,11,.7);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
-.g-start:hover .g-play{transform:scale(1.08)}
+@media (hover:hover){.g-start:hover .g-play{transform:scale(1.08)}}
 .g-start.hide{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .4s,visibility 0s .4s}
 .g-over{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(10,4,6,.78);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .35s;text-align:center;padding:10px}
 .g-over.show{opacity:1;pointer-events:auto}
@@ -653,14 +657,14 @@ section{padding:90px 0}
 .hs-count b{font:900 44px var(--display);color:var(--text);letter-spacing:-.04em;margin-right:6px}
 .hs-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
 .hs-chips button{border:1px solid var(--line);background:var(--glass);color:var(--muted);padding:8px 15px;border-radius:999px;font:500 13.5px "Space Grotesk",sans-serif;cursor:pointer;transition:all .3s}
-.hs-chips button:hover{color:var(--text);border-color:var(--line2)}
-.hs-chips button.on{background:var(--text);color:#000;border-color:var(--text)}
+@media (hover:hover){.hs-chips button:hover{color:var(--text);border-color:var(--line2)}}
+.hs-chips button.on,.hs-chips button.on:hover{background:var(--text);color:#000;border-color:var(--text)}
 .hs-chips sup{font:600 10px var(--mono);margin-left:4px;opacity:.6}
 .hs-track{display:flex;flex-direction:column;gap:70px;padding:0 16px;max-width:1200px;margin:0 auto}
 .slide{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
 .slide-media{display:block;text-decoration:none;transition:transform .5s cubic-bezier(.2,.9,.2,1);will-change:transform}
 .slide-media .media{transition:box-shadow .4s}
-.slide-media:hover .media{box-shadow:0 40px 100px -20px color-mix(in srgb,var(--c1) 45%,transparent),0 0 0 1px var(--c1)}
+@media (hover:hover){.slide-media:hover .media{box-shadow:0 40px 100px -20px color-mix(in srgb,var(--c1) 45%,transparent),0 0 0 1px var(--c1)}}
 .slide-body{display:flex;flex-direction:column;gap:14px;min-width:0}
 .slide-idx{font:600 12px var(--mono);color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
 .slide-idx b{color:var(--c1)}
@@ -750,7 +754,7 @@ section{padding:90px 0}
 .svc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media (max-width:900px){.svc-grid{grid-template-columns:minmax(0,1fr)}}
 .svc{display:flex;flex-direction:column;gap:12px;padding:26px 24px;border-radius:24px;border:1px solid var(--line2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),rgba(8,11,17,.8);transition:border-color .3s,transform .3s}
-.svc:hover{border-color:rgba(52,245,176,.45);transform:translateY(-4px)}
+@media (hover:hover){.svc:hover{border-color:rgba(52,245,176,.45);transform:translateY(-4px)}}
 .svc-ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:rgba(52,245,176,.1);border:1px solid rgba(52,245,176,.3)}
 .svc h3{font:800 22px var(--display);letter-spacing:-.03em;margin:4px 0 0}
 .svc p{margin:0;color:var(--muted);font-size:15.5px}
@@ -791,7 +795,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 
 /* phones and tablets: projects slide in as you scroll (desktop uses the pinned horizontal gallery) */
 /* phones: the gallery is a long column; slides far from the screen are not laid out or painted */
-.hs:not(.hs-on) .slide{content-visibility:auto;contain-intrinsic-size:auto 760px}
+.hs:not(.hs-on) .slide{content-visibility:auto;contain-intrinsic-size:auto 760px;scroll-margin-top:84px}
 .js .hs:not(.hs-on) .slide-media{transform:translateX(-14%) rotate(-3deg) scale(.92);transition:transform 1s cubic-bezier(.2,.9,.2,1)}
 .js .hs:not(.hs-on) .slide:nth-child(even) .slide-media{transform:translateX(14%) rotate(3deg) scale(.92)}
 .js .hs:not(.hs-on) .slide-body > *{transform:translateY(26px);transition:transform .8s cubic-bezier(.2,.9,.2,1)}
@@ -886,7 +890,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 .play-note{margin:14px 0 0;color:var(--soft);font-size:15px}
 .play-note a{color:var(--g)}
 </style>
-<script src="/assets/home.js?v=47" defer></script>
+<script src="/assets/home.js?v=48" defer></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "@id": "https://ayfar.dev/#ziya", "name": "Ziya Əzizov", "alternateName": ["ayfar", "Ziya Azizov", "Ziya Ezizov"], "url": "https://ayfar.dev/", "image": {"@type": "ImageObject", "url": "https://ayfar.dev/img/ziya-azizov-ayfar.jpg", "width": 900, "height": 900, "caption": "Ziya Əzizov (ayfar), veb developer və kibertəhlükəsizlik mühəndisi, Bakı", "creditText": "Ziya Əzizov", "creator": {"@id": "https://ayfar.dev/#ziya"}, "copyrightNotice": "© Ziya Əzizov"}, "telephone": "+994772172358", "email": "ziyaazizov9@gmail.com", "jobTitle": "AI Security Engineer and Web Developer", "address": {"@type": "PostalAddress", "addressLocality": "Bakı", "addressCountry": "AZ"}, "alumniOf": {"@type": "CollegeOrUniversity", "name": "Azərbaycan Dövlət Neft və Sənaye Universiteti"}, "affiliation": {"@type": "CollegeOrUniversity", "name": "Bakı Ali Neft Məktəbi"}, "knowsAbout": ["Proqramlaşdırma", "Kibertəhlükəsizlik", "Süni intellekt", "Veb saytlar", "Oyun hazırlama"], "sameAs": ["https://www.linkedin.com/in/ziyaazizov", "https://www.instagram.com/ayfar.web/", "https://www.facebook.com/profile.php?id=100081598819007", "https://www.youtube.com/@ayfarweb", "https://x.com/ayfar_web", "https://github.com/ziko-asm", "https://siloveu.itch.io"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": "https://ayfar.dev/en/", "inLanguage": ["az", "en", "ru"], "publisher": {"@id": "https://ayfar.dev/#ziya"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "@id": "https://ayfar.dev/#ayfar", "name": "ayfar", "alternateName": "ayfar — veb sayt hazırlanması", "description": "Bakıda bizneslər üçün landing page, korporativ sayt və onlayn mağaza hazırlanması. Ziya Əzizov.", "url": "https://ayfar.dev/#services", "logo": "https://ayfar.dev/img/og/home.png", "image": "https://ayfar.dev/img/og/home.png", "telephone": "+994772172358", "email": "ziyaazizov9@gmail.com", "founder": {"@id": "https://ayfar.dev/#ziya"}, "areaServed": {"@type": "City", "name": "Bakı"}, "address": {"@type": "PostalAddress", "addressLocality": "Bakı", "addressCountry": "AZ"}, "knowsLanguage": ["az", "en", "ru"], "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Xidmətlər", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Landing page", "description": "Bir səhifəlik, sürətli sayt: biznesinizi, xidmətlərinizi və əlaqə məlumatlarınızı bir yerdə göstərir."}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Biznes saytı", "description": "Çoxsəhifəli korporativ sayt: xidmətlər, işlərinizdən şəkillər, haqqınızda və əlaqə səhifələri."}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Onlayn mağaza", "description": "Məhsul kataloqu, səbət və sifariş sistemi olan mağaza. Sifarişlər birbaşa WhatsApp-a gəlir."}}]}, "sameAs": ["https://www.instagram.com/ayfar.web/", "https://www.facebook.com/profile.php?id=100081598819007", "https://www.youtube.com/@ayfarweb", "https://x.com/ayfar_web", "https://www.linkedin.com/in/ziyaazizov", "https://github.com/ziko-asm"]}</script>
@@ -922,7 +926,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
     <a href="/en/#about" data-nav><span>About</span></a>
     <a href="/en/#contact" data-nav><span>Contact</span></a>
     <button type="button" class="mnav-msg" data-msg-open>✉ <span>Send a message</span></button>
-    <a class="mnav-wa" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span>WhatsApp · +994 77 217 23 58</span></a>
+    <a class="mnav-wa" href="https://wa.me/994772172358?text=Hi%20Ziya!%20I%20am%20writing%20about%20a%20website." target="_blank" rel="noopener"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span>WhatsApp · +994 77 217 23 58</span></a>
   </nav>
 </header>
 <dialog class="msg-dlg" id="msgDlg" aria-labelledby="msgTitle">
@@ -947,7 +951,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
   <button type="button" class="msg-x" data-photo-close aria-label="Close">×</button>
   <img alt="" width="900" height="900" decoding="async">
 </dialog>
-<aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span><span>Message</span></span></a></aside>
+<aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="https://wa.me/994772172358?text=Hi%20Ziya!%20I%20am%20writing%20about%20a%20website." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span><span>Message</span></span></a></aside>
 
 <main id="main">
   <div class="wrap hero">
@@ -992,7 +996,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
       </div>
       <div class="hs-track">
       <article class="slide pc-provguard" data-cat="research">
-        <a class="slide-media tiltable" data-tilt="5" href="/en/p/provguard.html" data-nav aria-label="ProvGuard"><div class="media pc-provguard"><div class="chrome"><i></i><i></i><i></i><b>provguard.vercel.app</b></div><div class="reel n4"><div class="strip"><img src="/img/provguard-1-s.webp?v=47" srcset="/img/provguard-1-m.webp?v=47 720w, /img/provguard-1-s.webp?v=47 960w, /img/provguard-1.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="ProvGuard — screenshot 1" loading="lazy" decoding="async"><img src="/img/provguard-2-s.webp?v=47" srcset="/img/provguard-2-m.webp?v=47 720w, /img/provguard-2-s.webp?v=47 960w, /img/provguard-2.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="ProvGuard — screenshot 2" loading="lazy" decoding="async"><img src="/img/provguard-3-s.webp?v=47" srcset="/img/provguard-3-m.webp?v=47 720w, /img/provguard-3-s.webp?v=47 960w, /img/provguard-3.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="ProvGuard — screenshot 3" loading="lazy" decoding="async"><img src="/img/provguard-4-s.webp?v=47" srcset="/img/provguard-4-m.webp?v=47 720w, /img/provguard-4-s.webp?v=47 960w, /img/provguard-4.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="ProvGuard — screenshot 4" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag research"><span>Research · Tool</span></span><span class="tag on"><span>live</span></span></div></div></a>
+        <a class="slide-media tiltable" data-tilt="5" href="/en/p/provguard.html" data-nav aria-label="ProvGuard"><div class="media pc-provguard"><div class="chrome"><i></i><i></i><i></i><b>provguard.vercel.app</b></div><div class="reel n4"><div class="strip"><img src="/img/provguard-1-s.webp?v=48" srcset="/img/provguard-1-m.webp?v=48 720w, /img/provguard-1-s.webp?v=48 960w, /img/provguard-1.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="ProvGuard — screenshot 1" loading="lazy" decoding="async"><img src="/img/provguard-2-s.webp?v=48" srcset="/img/provguard-2-m.webp?v=48 720w, /img/provguard-2-s.webp?v=48 960w, /img/provguard-2.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="ProvGuard — screenshot 2" loading="lazy" decoding="async"><img src="/img/provguard-3-s.webp?v=48" srcset="/img/provguard-3-m.webp?v=48 720w, /img/provguard-3-s.webp?v=48 960w, /img/provguard-3.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="ProvGuard — screenshot 3" loading="lazy" decoding="async"><img src="/img/provguard-4-s.webp?v=48" srcset="/img/provguard-4-m.webp?v=48 720w, /img/provguard-4-s.webp?v=48 960w, /img/provguard-4.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="ProvGuard — screenshot 4" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag research"><span>Research · Tool</span></span><span class="tag on"><span>live</span></span></div></div></a>
         <div class="slide-body">
           <div class="slide-idx"><b>01</b> / 10 · <span>Research</span></div>
           <h3><span>ProvGuard</span></h3>
@@ -1007,7 +1011,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
         </div>
       </article>
       <article class="slide pc-prompt-injection-detector" data-cat="research">
-        <a class="slide-media tiltable" data-tilt="5" href="/en/p/prompt-injection-detector.html" data-nav aria-label="Prompt Injection Detector Benchmark"><div class="media pc-prompt-injection-detector"><div class="chrome"><i></i><i></i><i></i><b>prompt-injection-detector-snowy.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/detector-1-s.webp?v=47" srcset="/img/detector-1-m.webp?v=47 720w, /img/detector-1-s.webp?v=47 960w, /img/detector-1.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Prompt Injection Detector Benchmark — screenshot 1" loading="lazy" decoding="async"><img src="/img/detector-2-s.webp?v=47" srcset="/img/detector-2-m.webp?v=47 720w, /img/detector-2-s.webp?v=47 960w, /img/detector-2.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Prompt Injection Detector Benchmark — screenshot 2" loading="lazy" decoding="async"><img src="/img/detector-3-s.webp?v=47" srcset="/img/detector-3-m.webp?v=47 720w, /img/detector-3-s.webp?v=47 960w, /img/detector-3.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Prompt Injection Detector Benchmark — screenshot 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag research"><span>Research · Benchmark</span></span><span class="tag on"><span>live</span></span></div></div></a>
+        <a class="slide-media tiltable" data-tilt="5" href="/en/p/prompt-injection-detector.html" data-nav aria-label="Prompt Injection Detector Benchmark"><div class="media pc-prompt-injection-detector"><div class="chrome"><i></i><i></i><i></i><b>prompt-injection-detector-snowy.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/detector-1-s.webp?v=48" srcset="/img/detector-1-m.webp?v=48 720w, /img/detector-1-s.webp?v=48 960w, /img/detector-1.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Prompt Injection Detector Benchmark — screenshot 1" loading="lazy" decoding="async"><img src="/img/detector-2-s.webp?v=48" srcset="/img/detector-2-m.webp?v=48 720w, /img/detector-2-s.webp?v=48 960w, /img/detector-2.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Prompt Injection Detector Benchmark — screenshot 2" loading="lazy" decoding="async"><img src="/img/detector-3-s.webp?v=48" srcset="/img/detector-3-m.webp?v=48 720w, /img/detector-3-s.webp?v=48 960w, /img/detector-3.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Prompt Injection Detector Benchmark — screenshot 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag research"><span>Research · Benchmark</span></span><span class="tag on"><span>live</span></span></div></div></a>
         <div class="slide-body">
           <div class="slide-idx"><b>02</b> / 10 · <span>Research</span></div>
           <h3 class="long"><span>Prompt Injection Detector Benchmark</span></h3>
@@ -1022,7 +1026,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
         </div>
       </article>
       <article class="slide pc-graphguard-iot" data-cat="research">
-        <a class="slide-media tiltable" data-tilt="5" href="/en/p/graphguard-iot.html" data-nav aria-label="GraphGuard IoT"><div class="media pc-graphguard-iot"><div class="chrome"><i></i><i></i><i></i><b>graphguard-iot.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/graphguard-1-s.webp?v=47" srcset="/img/graphguard-1-m.webp?v=47 720w, /img/graphguard-1-s.webp?v=47 960w, /img/graphguard-1.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="GraphGuard IoT — screenshot 1" loading="lazy" decoding="async"><img src="/img/graphguard-2-s.webp?v=47" srcset="/img/graphguard-2-m.webp?v=47 720w, /img/graphguard-2-s.webp?v=47 960w, /img/graphguard-2.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="GraphGuard IoT — screenshot 2" loading="lazy" decoding="async"><img src="/img/graphguard-3-s.webp?v=47" srcset="/img/graphguard-3-m.webp?v=47 720w, /img/graphguard-3-s.webp?v=47 960w, /img/graphguard-3.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="GraphGuard IoT — screenshot 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag research"><span>Research · IoT</span></span><span class="tag on"><span>live</span></span></div></div></a>
+        <a class="slide-media tiltable" data-tilt="5" href="/en/p/graphguard-iot.html" data-nav aria-label="GraphGuard IoT"><div class="media pc-graphguard-iot"><div class="chrome"><i></i><i></i><i></i><b>graphguard-iot.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/graphguard-1-s.webp?v=48" srcset="/img/graphguard-1-m.webp?v=48 720w, /img/graphguard-1-s.webp?v=48 960w, /img/graphguard-1.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="GraphGuard IoT — screenshot 1" loading="lazy" decoding="async"><img src="/img/graphguard-2-s.webp?v=48" srcset="/img/graphguard-2-m.webp?v=48 720w, /img/graphguard-2-s.webp?v=48 960w, /img/graphguard-2.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="GraphGuard IoT — screenshot 2" loading="lazy" decoding="async"><img src="/img/graphguard-3-s.webp?v=48" srcset="/img/graphguard-3-m.webp?v=48 720w, /img/graphguard-3-s.webp?v=48 960w, /img/graphguard-3.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="GraphGuard IoT — screenshot 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag research"><span>Research · IoT</span></span><span class="tag on"><span>live</span></span></div></div></a>
         <div class="slide-body">
           <div class="slide-idx"><b>03</b> / 10 · <span>Research</span></div>
           <h3 class="long"><span>GraphGuard IoT</span></h3>
@@ -1058,7 +1062,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
         </div>
       </article>
       <article class="slide pc-agent-audit" data-cat="service">
-        <a class="slide-media tiltable" data-tilt="5" href="/en/p/agent-audit.html" data-nav aria-label="Agent Audit"><div class="media pc-agent-audit"><div class="chrome"><i></i><i></i><i></i><b>agent-audit-ten.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/agentaudit-1-s.webp?v=47" srcset="/img/agentaudit-1-m.webp?v=47 720w, /img/agentaudit-1-s.webp?v=47 960w, /img/agentaudit-1.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Agent Audit — screenshot 1" loading="lazy" decoding="async"><img src="/img/agentaudit-2-s.webp?v=47" srcset="/img/agentaudit-2-m.webp?v=47 720w, /img/agentaudit-2-s.webp?v=47 960w, /img/agentaudit-2.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Agent Audit — screenshot 2" loading="lazy" decoding="async"><img src="/img/agentaudit-3-s.webp?v=47" srcset="/img/agentaudit-3-m.webp?v=47 720w, /img/agentaudit-3-s.webp?v=47 960w, /img/agentaudit-3.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Agent Audit — screenshot 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag service"><span>Service</span></span><span class="tag on"><span>live</span></span></div></div></a>
+        <a class="slide-media tiltable" data-tilt="5" href="/en/p/agent-audit.html" data-nav aria-label="Agent Audit"><div class="media pc-agent-audit"><div class="chrome"><i></i><i></i><i></i><b>agent-audit-ten.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/agentaudit-1-s.webp?v=48" srcset="/img/agentaudit-1-m.webp?v=48 720w, /img/agentaudit-1-s.webp?v=48 960w, /img/agentaudit-1.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Agent Audit — screenshot 1" loading="lazy" decoding="async"><img src="/img/agentaudit-2-s.webp?v=48" srcset="/img/agentaudit-2-m.webp?v=48 720w, /img/agentaudit-2-s.webp?v=48 960w, /img/agentaudit-2.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Agent Audit — screenshot 2" loading="lazy" decoding="async"><img src="/img/agentaudit-3-s.webp?v=48" srcset="/img/agentaudit-3-m.webp?v=48 720w, /img/agentaudit-3-s.webp?v=48 960w, /img/agentaudit-3.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Agent Audit — screenshot 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag service"><span>Service</span></span><span class="tag on"><span>live</span></span></div></div></a>
         <div class="slide-body">
           <div class="slide-idx"><b>05</b> / 10 · <span>Services &amp; tools</span></div>
           <h3><span>Agent Audit</span></h3>
@@ -1077,7 +1081,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 <div class="scene yox" aria-hidden="true">
   <div class="gauge"><svg viewBox="0 0 140 140"><defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#34f5b0"/><stop offset="1" stop-color="#5b8cff"/></linearGradient></defs><circle class="trk" cx="70" cy="70" r="60"/><circle class="val" cx="70" cy="70" r="60"/></svg>
     <div class="g"><div><b>A</b><small>87 / 100</small></div></div></div>
-  <div class="checks"><div><i>✓</i>HTTPS</div><div><i>✓</i>SSL · 84 gün</div><div><i>✓</i>HSTS</div><div><i class="w">!</i>DMARC</div><div><i>✓</i>Mobile</div></div>
+  <div class="checks"><div><i>✓</i>HTTPS</div><div><i>✓</i>SSL · 84 days</div><div><i>✓</i>HSTS</div><div><i class="w">!</i>DMARC</div><div><i>✓</i>Mobile</div></div>
 </div><div class="badge"><span class="tag service"><span>Free tool</span></span><span class="tag on"><span>live</span></span></div></div></a>
         <div class="slide-body">
           <div class="slide-idx"><b>06</b> / 10 · <span>Services &amp; tools</span></div>
@@ -1093,7 +1097,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
         </div>
       </article>
       <article class="slide pc-bathshop" data-cat="web">
-        <a class="slide-media tiltable" data-tilt="5" href="/en/p/bathshop.html" data-nav aria-label="bathshop.az"><div class="media pc-bathshop"><div class="chrome"><i></i><i></i><i></i><b>bathshop-az-selling-site.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/bathshop-1-s.webp?v=47" srcset="/img/bathshop-1-m.webp?v=47 720w, /img/bathshop-1-s.webp?v=47 960w, /img/bathshop-1.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="bathshop.az — screenshot 1" loading="lazy" decoding="async"><img src="/img/bathshop-2-s.webp?v=47" srcset="/img/bathshop-2-m.webp?v=47 720w, /img/bathshop-2-s.webp?v=47 960w, /img/bathshop-2.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="bathshop.az — screenshot 2" loading="lazy" decoding="async"><img src="/img/bathshop-3-s.webp?v=47" srcset="/img/bathshop-3-m.webp?v=47 720w, /img/bathshop-3-s.webp?v=47 960w, /img/bathshop-3.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="bathshop.az — screenshot 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag web"><span>Online shop</span></span><span class="tag on"><span>live</span></span></div></div></a>
+        <a class="slide-media tiltable" data-tilt="5" href="/en/p/bathshop.html" data-nav aria-label="bathshop.az"><div class="media pc-bathshop"><div class="chrome"><i></i><i></i><i></i><b>bathshop-az-selling-site.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/bathshop-1-s.webp?v=48" srcset="/img/bathshop-1-m.webp?v=48 720w, /img/bathshop-1-s.webp?v=48 960w, /img/bathshop-1.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="bathshop.az — screenshot 1" loading="lazy" decoding="async"><img src="/img/bathshop-2-s.webp?v=48" srcset="/img/bathshop-2-m.webp?v=48 720w, /img/bathshop-2-s.webp?v=48 960w, /img/bathshop-2.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="bathshop.az — screenshot 2" loading="lazy" decoding="async"><img src="/img/bathshop-3-s.webp?v=48" srcset="/img/bathshop-3-m.webp?v=48 720w, /img/bathshop-3-s.webp?v=48 960w, /img/bathshop-3.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="bathshop.az — screenshot 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag web"><span>Online shop</span></span><span class="tag on"><span>live</span></span></div></div></a>
         <div class="slide-body">
           <div class="slide-idx"><b>07</b> / 10 · <span>Business websites</span></div>
           <h3 class="long"><span>bathshop.az</span></h3>
@@ -1108,7 +1112,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
         </div>
       </article>
       <article class="slide pc-mexaniki-emal" data-cat="web">
-        <a class="slide-media tiltable" data-tilt="5" href="/en/p/mexaniki-emal.html" data-nav aria-label="Vertical lathe machining"><div class="media pc-mexaniki-emal"><div class="chrome"><i></i><i></i><i></i><b>mexaniki-emal.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/mexaniki-1-s.webp?v=47" srcset="/img/mexaniki-1-m.webp?v=47 720w, /img/mexaniki-1-s.webp?v=47 960w, /img/mexaniki-1.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Vertical lathe machining — screenshot 1" loading="lazy" decoding="async"><img src="/img/mexaniki-2-s.webp?v=47" srcset="/img/mexaniki-2-m.webp?v=47 720w, /img/mexaniki-2-s.webp?v=47 960w, /img/mexaniki-2.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Vertical lathe machining — screenshot 2" loading="lazy" decoding="async"><img src="/img/mexaniki-3-s.webp?v=47" srcset="/img/mexaniki-3-m.webp?v=47 720w, /img/mexaniki-3-s.webp?v=47 960w, /img/mexaniki-3.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Vertical lathe machining — screenshot 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag web"><span>Business site</span></span><span class="tag on"><span>live</span></span></div></div></a>
+        <a class="slide-media tiltable" data-tilt="5" href="/en/p/mexaniki-emal.html" data-nav aria-label="Vertical lathe machining"><div class="media pc-mexaniki-emal"><div class="chrome"><i></i><i></i><i></i><b>mexaniki-emal.vercel.app</b></div><div class="reel n3"><div class="strip"><img src="/img/mexaniki-1-s.webp?v=48" srcset="/img/mexaniki-1-m.webp?v=48 720w, /img/mexaniki-1-s.webp?v=48 960w, /img/mexaniki-1.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Vertical lathe machining — screenshot 1" loading="lazy" decoding="async"><img src="/img/mexaniki-2-s.webp?v=48" srcset="/img/mexaniki-2-m.webp?v=48 720w, /img/mexaniki-2-s.webp?v=48 960w, /img/mexaniki-2.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Vertical lathe machining — screenshot 2" loading="lazy" decoding="async"><img src="/img/mexaniki-3-s.webp?v=48" srcset="/img/mexaniki-3-m.webp?v=48 720w, /img/mexaniki-3-s.webp?v=48 960w, /img/mexaniki-3.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="Vertical lathe machining — screenshot 3" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag web"><span>Business site</span></span><span class="tag on"><span>live</span></span></div></div></a>
         <div class="slide-body">
           <div class="slide-idx"><b>08</b> / 10 · <span>Business websites</span></div>
           <h3 class="long"><span>Vertical lathe machining</span></h3>
@@ -1123,7 +1127,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
         </div>
       </article>
       <article class="slide pc-mansia" data-cat="web">
-        <a class="slide-media tiltable" data-tilt="5" href="/en/p/mansia.html" data-nav aria-label="MANSIA"><div class="media pc-mansia"><div class="chrome"><i></i><i></i><i></i><b>mansia.az</b></div><div class="reel n4"><div class="strip"><img src="/img/mansia-1-s.webp?v=47" srcset="/img/mansia-1-m.webp?v=47 720w, /img/mansia-1-s.webp?v=47 960w, /img/mansia-1.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="MANSIA — screenshot 1" loading="lazy" decoding="async"><img src="/img/mansia-2-s.webp?v=47" srcset="/img/mansia-2-m.webp?v=47 720w, /img/mansia-2-s.webp?v=47 960w, /img/mansia-2.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="MANSIA — screenshot 2" loading="lazy" decoding="async"><img src="/img/mansia-3-s.webp?v=47" srcset="/img/mansia-3-m.webp?v=47 720w, /img/mansia-3-s.webp?v=47 960w, /img/mansia-3.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="MANSIA — screenshot 3" loading="lazy" decoding="async"><img src="/img/mansia-4-s.webp?v=47" srcset="/img/mansia-4-m.webp?v=47 720w, /img/mansia-4-s.webp?v=47 960w, /img/mansia-4.webp?v=47 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="MANSIA — screenshot 4" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag web"><span>Online shop · Brand</span></span><span class="tag on"><span>live</span></span></div></div></a>
+        <a class="slide-media tiltable" data-tilt="5" href="/en/p/mansia.html" data-nav aria-label="MANSIA"><div class="media pc-mansia"><div class="chrome"><i></i><i></i><i></i><b>mansia.az</b></div><div class="reel n4"><div class="strip"><img src="/img/mansia-1-s.webp?v=48" srcset="/img/mansia-1-m.webp?v=48 720w, /img/mansia-1-s.webp?v=48 960w, /img/mansia-1.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="MANSIA — screenshot 1" loading="lazy" decoding="async"><img src="/img/mansia-2-s.webp?v=48" srcset="/img/mansia-2-m.webp?v=48 720w, /img/mansia-2-s.webp?v=48 960w, /img/mansia-2.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="MANSIA — screenshot 2" loading="lazy" decoding="async"><img src="/img/mansia-3-s.webp?v=48" srcset="/img/mansia-3-m.webp?v=48 720w, /img/mansia-3-s.webp?v=48 960w, /img/mansia-3.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="MANSIA — screenshot 3" loading="lazy" decoding="async"><img src="/img/mansia-4-s.webp?v=48" srcset="/img/mansia-4-m.webp?v=48 720w, /img/mansia-4-s.webp?v=48 960w, /img/mansia-4.webp?v=48 1920w" sizes="(min-width: 900px) 620px, calc(100vw - 54px)" width="1920" height="1200" alt="MANSIA — screenshot 4" loading="lazy" decoding="async"></div></div><span class="rec">LIVE</span><div class="badge"><span class="tag web"><span>Online shop · Brand</span></span><span class="tag on"><span>live</span></span></div></div></a>
         <div class="slide-body">
           <div class="slide-idx"><b>09</b> / 10 · <span>Business websites</span></div>
           <h3><span>MANSIA</span></h3>
@@ -1195,7 +1199,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
           <p>A fast one-page site that shows your business, services and contacts in one place.</p>
           <ul><li>Fully mobile-friendly</li><li>WhatsApp and call buttons</li><li>SEO so Google can find you</li><li>Domain and hosting set up</li></ul>
           <div class="svc-price"><span>Price on request</span></div>
-          <a class="btn small magnet" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener"><span>Get a quote</span> <span class="arr">→</span></a>
+          <a class="btn small magnet" href="https://wa.me/994772172358?text=Hi%20Ziya!%20I%20am%20writing%20about%20a%20website." target="_blank" rel="noopener"><span>Get a quote</span> <span class="arr">→</span></a>
         </article>
         <article class="svc reveal">
           <div class="svc-ic" aria-hidden="true">🏢</div>
@@ -1203,7 +1207,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
           <p>A multi-page company site: services, photos of your work, about and contact pages.</p>
           <ul><li>AZ · EN · RU languages</li><li>Real photos and a gallery</li><li>Google Maps and contact options</li><li>Speed and security check</li></ul>
           <div class="svc-price"><span>Price on request</span></div>
-          <a class="btn small magnet" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener"><span>Get a quote</span> <span class="arr">→</span></a>
+          <a class="btn small magnet" href="https://wa.me/994772172358?text=Hi%20Ziya!%20I%20am%20writing%20about%20a%20website." target="_blank" rel="noopener"><span>Get a quote</span> <span class="arr">→</span></a>
         </article>
         <article class="svc reveal">
           <div class="svc-ic" aria-hidden="true">🛒</div>
@@ -1211,7 +1215,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
           <p>A shop with a product catalog, cart and ordering. Orders come straight to your WhatsApp.</p>
           <ul><li>Categories and search</li><li>Cart and checkout</li><li>Orders over WhatsApp</li><li>Update products yourself</li></ul>
           <div class="svc-price"><span>Price on request</span></div>
-          <a class="btn small magnet" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener"><span>Get a quote</span> <span class="arr">→</span></a>
+          <a class="btn small magnet" href="https://wa.me/994772172358?text=Hi%20Ziya!%20I%20am%20writing%20about%20a%20website." target="_blank" rel="noopener"><span>Get a quote</span> <span class="arr">→</span></a>
         </article>
       </div>
       <div class="sec-num steps-h reveal"><span>HOW IT WORKS</span></div>
@@ -1222,7 +1226,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
         <li class="step reveal"><b>04</b><h4><span>Go live</span></h4><p>I set up the domain and hosting, and the site goes live on Google.</p></li>
       </ol>
       <div class="svc-cta reveal">
-        <a class="btn primary magnet" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span><span>Message on WhatsApp</span></span></a>
+        <a class="btn primary magnet" href="https://wa.me/994772172358?text=Hi%20Ziya!%20I%20am%20writing%20about%20a%20website." target="_blank" rel="noopener"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span><span>Message on WhatsApp</span></span></a>
         <a class="btn magnet" href="tel:+994772172358">📞 <span>+994 77 217 23 58</span></a>
       </div>
     </div>
@@ -1262,7 +1266,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
           <div class="skills" aria-hidden="true"><div class="mq"><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span></div></div>
         </div>
         <div class="idcard reveal tiltable">
-          <div class="photo"><img data-zoom="/img/ziya-azizov-ayfar.webp?v=47" tabindex="0" role="button" src="/img/ziya-azizov-ayfar-s.webp?v=47" srcset="/img/ziya-azizov-ayfar-s.webp?v=47 360w, /img/ziya-azizov-ayfar.webp?v=47 900w" sizes="(min-width: 900px) 440px, 92vw" width="900" height="900" alt="Ziya Azizov (ayfar), web developer and cybersecurity engineer from Baku" loading="lazy" decoding="async"><span class="photo-badge"><i></i>Bakı · 2005</span></div>
+          <div class="photo"><img data-zoom="/img/ziya-azizov-ayfar.webp?v=48" tabindex="0" role="button" src="/img/ziya-azizov-ayfar-s.webp?v=48" srcset="/img/ziya-azizov-ayfar-s.webp?v=48 360w, /img/ziya-azizov-ayfar.webp?v=48 900w" sizes="(min-width: 900px) 440px, 92vw" width="900" height="900" alt="Ziya Azizov (ayfar), web developer and cybersecurity engineer from Baku" loading="lazy" decoding="async"><span class="photo-badge"><i></i>Bakı · 2005</span></div>
           <h3><span>Ziya Azizov</span></h3>
           <div class="handle">@ayfar</div>
           <dl>
@@ -1350,7 +1354,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
         <h2>Let's talk.</h2>
         <p>Want a website of your own, or have a question about a site, game or project? Message me on WhatsApp or call.</p>
         <div class="row">
-          <a class="btn primary magnet" href="https://wa.me/994772172358?text=Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram." target="_blank" rel="noopener"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span>WhatsApp</span></a>
+          <a class="btn primary magnet" href="https://wa.me/994772172358?text=Hi%20Ziya!%20I%20am%20writing%20about%20a%20website." target="_blank" rel="noopener"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3 29l6.5-2c1.9 1 4.1 1.6 6.5 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.3c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-3.9 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.9-3.9-1.9-6.1C4.9 9.8 9.9 5 16 5s11.1 4.8 11.1 10.8S22.1 26.3 16 26.3zm6.1-8c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z"/></svg><span>WhatsApp</span></a>
           <a class="btn magnet" href="tel:+994772172358">📞 <span>+994 77 217 23 58</span></a>
           <button type="button" class="btn magnet" data-msg-open>✉ <span>Send a message</span></button>
           <a class="btn magnet" href="mailto:ziyaazizov9@gmail.com">✉ E-mail</a>

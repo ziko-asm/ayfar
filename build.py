@@ -20,13 +20,21 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.dev"
 CANON = SITE  # ayfar.dev since 2026-11-06; ayfar.vercel.app redirects here
-V = "47"  # cache-busting for assets and images
+V = "48"  # cache-busting for assets and images
 
 # Contact
 PHONE = "+994772172358"
 PHONE_SHOW = "+994\u00a077\u00a0217\u00a023\u00a058"
 WA = "https://wa.me/994772172358"
-WA_ORDER = WA + "?text=" + "Salam%20Ziya!%20Sayt%20sifari%C5%9Fi%20il%C9%99%20ba%C4%9Fl%C4%B1%20yaz%C4%B1ram."
+WA_TEXT = {"az": "Salam Ziya! Sayt sifarişi ilə bağlı yazıram.",
+           "en": "Hi Ziya! I am writing about a website.",
+           "ru": "Здравствуйте, Зия! Пишу по поводу сайта."}
+
+
+def wa_order():
+    """WhatsApp link with a ready first message in the language of the page being built."""
+    from urllib.parse import quote
+    return WA + "?text=" + quote(WA_TEXT[LANG], safe="!")
 EMAIL = "ziyaazizov9@gmail.com"
 SCAN_SITE = "https://saytyoxla.vercel.app"
 SCAN_API = SCAN_SITE + "/api/scan"
@@ -431,7 +439,8 @@ def head(title, desc, path, og, alternates=True, canonical=None, noindex=False):
 <meta name="theme-color" content="#05070b">
 <meta name="google-site-verification" content="9FHzK0T2MlxLEmw8k1gnPzawKyXvbkJhKm1MKYsDFh4" />
 <meta name="msvalidate.01" content="071B769B591B43B1773023FFFF98515D" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="/img/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -480,11 +489,11 @@ def chrome_bits(path="/"):
     <a href="{home_href}#about" data-nav>{T("Haqqımda", "About")}</a>
     <a href="{home_href}#contact" data-nav>{T("Əlaqə", "Contact")}</a>
     <button type="button" class="mnav-msg" data-msg-open>✉ {T("Saytdan mesaj yaz", "Send a message")}</button>
-    <a class="mnav-wa" href="{WA_ORDER}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp · {PHONE_SHOW}</span></a>
+    <a class="mnav-wa" href="{wa_order()}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp · {PHONE_SHOW}</span></a>
   </nav>
 </header>
 {message_dialog()}
-<aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="{WA_ORDER}" target="_blank" rel="noopener" aria-label="WhatsApp">{WA_SVG}<span>{T("Yazın", "Message")}</span></a></aside>
+<aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="{wa_order()}" target="_blank" rel="noopener" aria-label="WhatsApp">{WA_SVG}<span>{T("Yazın", "Message")}</span></a></aside>
 """
 
 
@@ -548,8 +557,8 @@ def scene(kind):
 <div class="scene yox" aria-hidden="true">
   <div class="gauge"><svg viewBox="0 0 140 140"><defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#34f5b0"/><stop offset="1" stop-color="#5b8cff"/></linearGradient></defs><circle class="trk" cx="70" cy="70" r="60"/><circle class="val" cx="70" cy="70" r="60"/></svg>
     <div class="g"><div><b>A</b><small>87 / 100</small></div></div></div>
-  <div class="checks"><div><i>✓</i>HTTPS</div><div><i>✓</i>SSL · 84 gün</div><div><i>✓</i>HSTS</div><div><i class="w">!</i>DMARC</div><div><i>✓</i>Mobile</div></div>
-</div>"""
+  <div class="checks"><div><i>✓</i>HTTPS</div><div><i>✓</i>SSL_DAYS</div><div><i>✓</i>HSTS</div><div><i class="w">!</i>DMARC</div><div><i>✓</i>Mobile</div></div>
+</div>""".replace("SSL_DAYS", X("SSL · 84 gün", "SSL · 84 days"))
 
 
 def reel_srcset(base, i):
@@ -758,7 +767,7 @@ def services_html():
           {T(s['desc'][0], s['desc'][1], 'p')}
           <ul>{feats}</ul>
           <div class="svc-price">{price}</div>
-          <a class="btn small magnet" href="{WA_ORDER}" target="_blank" rel="noopener">{T("Təklif al", "Get a quote")} <span class="arr">→</span></a>
+          <a class="btn small magnet" href="{wa_order()}" target="_blank" rel="noopener">{T("Təklif al", "Get a quote")} <span class="arr">→</span></a>
         </article>""")
     steps = "".join(f"""
         <li class="step reveal"><b>{n:02d}</b><h4>{T(*t)}</h4>{T(d[0], d[1], 'p')}</li>""" for n, (t, d) in enumerate(STEPS, 1))
@@ -774,7 +783,7 @@ def services_html():
       <ol class="steps">{steps}
       </ol>
       <div class="svc-cta reveal">
-        <a class="btn primary magnet" href="{WA_ORDER}" target="_blank" rel="noopener">{WA_SVG}<span>{T("WhatsApp-a yaz", "Message on WhatsApp")}</span></a>
+        <a class="btn primary magnet" href="{wa_order()}" target="_blank" rel="noopener">{WA_SVG}<span>{T("WhatsApp-a yaz", "Message on WhatsApp")}</span></a>
         <a class="btn magnet" href="tel:{PHONE}">📞 <span>{PHONE_SHOW}</span></a>
       </div>
     </div>
@@ -968,7 +977,7 @@ def build_index():
         {T("Gəl, danışaq.", "Let's talk.", "h2")}
         {T("Özünüzə sayt sifariş etmək istəyirsinizsə, ya da sayt, oyun və ya layihə haqqında sualınız varsa, WhatsApp-a yazın və ya zəng edin.", "Want a website of your own, or have a question about a site, game or project? Message me on WhatsApp or call.", "p")}
         <div class="row">
-          <a class="btn primary magnet" href="{WA_ORDER}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp</span></a>
+          <a class="btn primary magnet" href="{wa_order()}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp</span></a>
           <a class="btn magnet" href="tel:{PHONE}">📞 <span>{PHONE_SHOW}</span></a>
           <button type="button" class="btn magnet" data-msg-open>✉ {T("Saytdan mesaj yaz", "Send a message")}</button>
           <a class="btn magnet" href="mailto:{EMAIL}">✉ E-mail</a>
@@ -1120,7 +1129,7 @@ def build_404():
     <div class="nf-go">
       <a class="btn primary magnet" href="/">{T("Ana səhifə", "Home")} <span class="arr">→</span></a>
       <a class="btn magnet" href="/#projects">{T("Layihələr", "Projects")} <span class="arr">→</span></a>
-      <a class="btn magnet" href="{WA_ORDER}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp</span></a>
+      <a class="btn magnet" href="{wa_order()}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp</span></a>
     </div>
   </section>
 </main>
@@ -1190,7 +1199,10 @@ def build_vercel_json():
     cfg = {
         # the articles used to live under /yazilar/: old links (LinkedIn, CVs, Google) keep working
         "redirects": [{"source": "/:lang(en|ru)/yazilar/:slug", "destination": "/:lang/articles/:slug", "permanent": True},
-                      {"source": "/yazilar/:slug", "destination": "/articles/:slug", "permanent": True}],
+                      {"source": "/yazilar/:slug", "destination": "/articles/:slug", "permanent": True},
+                      # a page address typed or shared without ".html" used to be a 404
+                      {"source": "/:lang(en|ru)/:dir(p|articles)/:slug([^./]+)", "destination": "/:lang/:dir/:slug.html", "permanent": True},
+                      {"source": "/:dir(p|articles)/:slug([^./]+)", "destination": "/:dir/:slug.html", "permanent": True}],
         "headers": [{"source": "/(.*)", "headers": [{"key": k, "value": v} for k, v in headers]}]
         + [{"source": src, "headers": [{"key": "Cache-Control", "value": val}]} for src, val in cache]}
     with open(os.path.join(ROOT, "vercel.json"), "w", encoding="utf-8", newline="\n") as f:

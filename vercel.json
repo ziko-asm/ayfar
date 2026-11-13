@@ -9,6 +9,16 @@
       "source": "/yazilar/:slug",
       "destination": "/articles/:slug",
       "permanent": true
+    },
+    {
+      "source": "/:lang(en|ru)/:dir(p|articles)/:slug([^./]+)",
+      "destination": "/:lang/:dir/:slug.html",
+      "permanent": true
+    },
+    {
+      "source": "/:dir(p|articles)/:slug([^./]+)",
+      "destination": "/:dir/:slug.html",
+      "permanent": true
     }
   ],
   "headers": [
@@ -37,7 +47,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'sha256-oIkSnxqjSG6FZ7FP2mHEzopncV3th+AvVewR0CMrQXk='; style-src 'self' 'sha256-1jm8k4h2scdln4OZdC349mqllh4wKlMjF5pR2voxky4=' 'sha256-CMHbjNmqsujjaszYAe0h809ap/VgaHz17rSw5UYo+Bk=' 'sha256-JQulY/iWyJIwzhv2lCbGbRGcxfdN1miSSidCc1kzalc='; font-src 'self'; img-src 'self' data:; connect-src 'self' https://saytyoxla.vercel.app https://formspree.io; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://formspree.io; object-src 'none'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' 'sha256-oIkSnxqjSG6FZ7FP2mHEzopncV3th+AvVewR0CMrQXk='; style-src 'self' 'sha256-4bQlCbW/b+2KTdAHoryHB/Ko+15BkijKsAqwzdQMsh8=' 'sha256-RcPHlk/dEyvwZn0lnDP/vHHQ19zfKgQkJdD+wMnpOK0=' 'sha256-j4P8WIoM82qKPFw6NpjzMAOL6hvDvG2NPzJEB6a6JZU='; font-src 'self'; img-src 'self' data:; connect-src 'self' https://saytyoxla.vercel.app https://formspree.io; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://formspree.io; object-src 'none'; upgrade-insecure-requests"
         },
         {
           "key": "Cross-Origin-Opener-Policy",

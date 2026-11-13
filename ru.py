@@ -4,6 +4,7 @@ build.py fails and lists the gaps in ru_missing.txt when a new English string ha
 """
 
 RU = {
+    'SSL · 84 days': 'SSL · 84 дня',
     '<b>3D gallery:</b> as you scroll, the workshop photos move along one row and turn.': '<b>3D-галерея:</b> при прокрутке фотографии работ движутся в один ряд и поворачиваются.',
     '<b>A cascade</b> cannot rescue a model that is confidently wrong.': '<b>Каскад</b> не спасает модель, которая уверенно ошибается.',
     '<b>AgentDojo, model-free:</b> banking 144/144 (100%), Slack 97/105 (92%), workspace 200/240 (83%), travel 79/120 (66%).': '<b>AgentDojo, без модели:</b> банкинг 144/144 (100%), Slack 97/105 (92%), workspace 200/240 (83%), travel 79/120 (66%).',
