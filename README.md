@@ -15,6 +15,7 @@ Business websites and online shops, the Metro Tycoon game, and AI security resea
 | [Prompt Injection Detector Benchmark](https://github.com/ziko-asm/prompt-injection-detector) | How detectors fail on data from a different source |
 | [GraphGuard IoT](https://github.com/ziko-asm/gnn-nids-robustt) | Adversarial robustness of GNN intrusion detection |
 | [AI-NIDS Robustness Lab](https://github.com/ziko-asm/ai-nids-adversarial-benchmark) | Adversarial attacks on neural network intrusion detectors |
+| [Agent Audit](https://agent-audit-ten.vercel.app/) | Security audit service for AI chatbots and agents |
 | [SaytYoxla](https://github.com/ziko-asm/saytyoxla) | Free website security check for businesses in Azerbaijan |
 | bathshop.az, MANSIA, lathe workshop | Business websites and online shops in Baku |
 

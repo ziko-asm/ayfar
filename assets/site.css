@@ -48,6 +48,7 @@ main,header,footer,section{position:relative;z-index:2}
 #progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--g),var(--b),var(--p));z-index:60}
 header.top{position:fixed;top:0;left:0;right:0;z-index:50;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 header.top.hide{transform:translateY(-110%)}
+header.top.hide:focus-within{transform:none}
 header.top .bar{margin:12px auto 0;max-width:1200px;width:calc(100% - 24px);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 8px 8px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(8,11,17,.6);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4)}
 .logo{font:900 19px var(--display);text-decoration:none;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;min-height:32px}
 .logo .dot{width:18px;height:18px;border-radius:50%;border:3px solid var(--g);position:relative}
@@ -78,7 +79,7 @@ html[data-lang="ru"] .lang .pill{transform:translateX(200%)}
 .btn:hover .arr{transform:translateX(4px) rotate(-45deg)}
 
 /* shared bits */
-.sec-num{font:600 12px var(--mono);color:var(--g);letter-spacing:.2em;margin-bottom:12px}
+.sec-num{font:600 12px var(--mono);color:var(--g);letter-spacing:.2em;margin-top:0;margin-bottom:12px}
 .tag{display:inline-flex;align-items:center;gap:6px;font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:rgba(5,7,11,.88);border:1px solid var(--line2);white-space:nowrap}
 .tag.game{color:var(--p);border-color:rgba(255,79,216,.4)}
 .tag.research{color:var(--g);border-color:rgba(52,245,176,.35)}

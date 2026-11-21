@@ -40,12 +40,18 @@
      Every language has its own URL (/, /en/, /ru/), rendered on the server side by build.py,
      so search engines index all three. The switch is a plain link; here we only slide the pill
      to the chosen language while the page changes. */
+  /* Back/Forward can restore this page from cache after the pill was moved to another language */
+  var pageLang = root.getAttribute('data-lang');
+  addEventListener('pageshow', function(e){ if(e.persisted) root.setAttribute('data-lang', pageLang); });
   document.querySelectorAll('.lang a[hreflang]').forEach(function(a){
     a.addEventListener('click', function(e){
       if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
       root.setAttribute('data-lang', a.getAttribute('hreflang'));
     });
   });
+
+  /* SMIL animations (the train in the metro scene) ignore the CSS reduced-motion rule */
+  if(reduce) document.querySelectorAll('svg').forEach(function(svg){ if(svg.pauseAnimations) svg.pauseAnimations(); });
 
   /* ---------- intro: start the hero animations ---------- */
   requestAnimationFrame(function(){ body.classList.add('ready'); });
@@ -102,7 +108,8 @@
       e.preventDefault();
       if(!form.checkValidity()){ form.reportValidity(); return; }
       form.classList.add('busy'); sendBtn.disabled = true; status.textContent = '';
-      fetch(form.action, {method:'POST', body:new FormData(form), headers:{'Accept':'application/json'}})
+      var ctl = 'AbortController' in window ? new AbortController() : null, to = setTimeout(function(){ ctl && ctl.abort(); }, 20000);
+      fetch(form.action, {method:'POST', body:new FormData(form), headers:{'Accept':'application/json'}, signal:ctl ? ctl.signal : undefined})
         .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
         .then(function(){
           form.reset(); status.className = 'msg-status ok';
@@ -112,7 +119,7 @@
           status.className = 'msg-status err';
           status.textContent = L3('Göndərmək alınmadı. WhatsApp-a yazın: +994 77 217 23 58', 'Could not send. Message me on WhatsApp: +994 77 217 23 58', 'Не удалось отправить. Напишите в WhatsApp: +994 77 217 23 58');
         })
-        .then(function(){ form.classList.remove('busy'); sendBtn.disabled = false; });
+        .then(function(){ clearTimeout(to); form.classList.remove('busy'); sendBtn.disabled = false; });
     });
   } else {
     /* very old browsers without <dialog>: send people to WhatsApp instead */
@@ -196,13 +203,15 @@
       var t = e.target; t.classList.add('in');
       setTimeout(function(){ t.style.transitionDelay = ''; }, 1400);
       t.querySelectorAll('.stat').forEach(function(s, i){ setTimeout(function(){ s.classList.add('in'); }, i * 120); });
-      t.querySelectorAll('[data-count]').forEach(function(c){
+      if(!reduce) t.querySelectorAll('[data-count]').forEach(function(c){
         var to = +c.dataset.count, s0 = performance.now();
         (function f(now){ var p = Math.min(1, (now - s0) / 1400); c.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))); if(p < 1) requestAnimationFrame(f); })(s0);
       });
       io.unobserve(t);
     });
   }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+  /* the HTML carries the real numbers (for crawlers and no-JS); count up from 0 only where the animation runs */
+  if(!reduce) document.querySelectorAll('[data-count]').forEach(function(c){ c.textContent = '0'; });
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 
   /* ---------- header + progress ---------- */
@@ -210,7 +219,7 @@
   addEventListener('scroll', function(){
     var y = scrollY, h = document.documentElement.scrollHeight - innerHeight;
     if(prog) prog.style.transform = 'scaleX(' + (h > 0 ? y / h : 0) + ')';
-    if(hdr) hdr.classList.toggle('hide', y > lastY && y > 300);
+    if(hdr) hdr.classList.toggle('hide', y > lastY && y > 300 && !hdr.classList.contains('open'));
     lastY = y;
   }, {passive:true});
 
@@ -288,7 +297,7 @@
   function resized(w, h){
     if(!started){ seen = [w, h]; return; }
     if(w === W && Math.abs(h - H) < 120) return;
-    clearTimeout(rt); rt = setTimeout(function(){ build(w, h); }, 200);
+    clearTimeout(rt); rt = setTimeout(function(){ build(w, h); if(reduce) draw(); }, 200);
   }
   if('ResizeObserver' in window) new ResizeObserver(function(es){ var r = es[0].contentRect; resized(Math.round(r.width), Math.round(r.height)); }).observe(cv);
   else addEventListener('resize', function(){ resized(innerWidth, innerHeight); });

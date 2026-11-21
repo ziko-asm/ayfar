@@ -124,7 +124,7 @@ P = [
                   "<b>Secrets:</b> codes hidden as puzzles at stations unlock a secret \"Interface 2\". Turn 100 million manat into a diamond to open the mysterious \"Love Line\".",
                   "<b>Online:</b> 2-player races, accounts you can use on any device, gift codes and a daily bonus.",
                   "<b>Fair play:</b> auto-clickers are detected and accounts that swear get blocked.",
-                  "<b>Controls:</b> press and hold the screen on a phone, or W / S and ↑ / ↓ on a computer. Languages: Azerbaijani, English, Russian."]),
+                  "<b>Controls:</b> press and hold the screen on a phone, or W / S or ↑ / ↓ on a computer. Languages: Azerbaijani, English, Russian."]),
         chips=["HTML5", "Canvas", "AZ · EN · RU", "itch.io"],
         github=None, note=None,
     ),
@@ -138,7 +138,7 @@ P = [
         summary=("AI agentlərini prompt injection hücumlarından qoruyan açıq mənbəli Python kitabxanası. Mətnin zərərli olub-olmadığını təxmin etmir, hər həssas arqumentin hansı mənbədən gəldiyini yoxlayır.",
                  "An open-source Python library that protects AI agents from prompt injection. It doesn't guess whether text is malicious; it checks which source supplied each sensitive argument."),
         body=(["AI agentləri yad adamların yazdığı e-poçtları, veb səhifələri və sənədləri oxuyur, sonra pul köçürmə, məktub göndərmə kimi real əməliyyatlar edir. Hücumçu mətnin içinə gizli əmr yazıb agenti idarə edə bilər.",
-               "ProvGuard bu problemi fərqli yolla həll edir. Agentin gördüyü hər mətni etiketləyir (etibarlı və ya etibarsız), alət çağırılmazdan əvvəl isə hər arqumentin (alıcı, IBAN, məbləğ) haradan gəldiyini yoxlayır. Yalnız e-poçtda görünən IBAN, e-poçt necə yazılmasından asılı olmayaraq, pul köçürə bilməz.",
+               "ProvGuard bu problemi fərqli yolla həll edir. Agentin gördüyü hər mətni etiketləyir (etibarlı və ya etibarsız), alət çağırılmazdan əvvəl isə hər arqumentin (alıcı, IBAN, məbləğ) haradan gəldiyini yoxlayır. Yalnız e-poçtda görünən IBAN, e-poçtun necə yazılmasından asılı olmayaraq, pul köçürə bilməz.",
                "Saytda brauzerdə işləyən playground var: agenti \"hijack\" edib ProvGuard-ın necə qərar verdiyini canlı görmək olar. Nəticələr AgentDojo (ETH Zürich) benchmark-ında ölçülüb."],
               ["AI agents read e-mails, web pages and documents written by strangers, then take real actions like sending money or e-mail. An attacker can hide an instruction in that text and steer the agent.",
                "ProvGuard takes a different approach. It labels everything the agent sees as trusted or untrusted, and before a tool runs it checks where each argument (recipient, IBAN, amount) came from. An IBAN that only appears in an e-mail cannot move money, however the e-mail is worded.",
@@ -163,7 +163,7 @@ P = [
                  "A study of how reliable prompt injection detectors really are. Five kinds of detector were trained on two public datasets and tested on each other's data."),
         body=(["Bir çox şirkət AI chatbotunu qorumaq üçün \"zərərli mətni tanıyan\" detektorlardan istifadə edir. Bu tədqiqat həmin detektorların data dəyişəndə nə qədər etibarlı qaldığını yoxlayır.",
                "Beş növ detektor sınanıb: açar söz qaydası, TF-IDF + logistik reqressiya, fine-tune olunmuş çoxdilli DistilBERT transformer, kaskad sistem və lokal Llama 3.2 3B və Llama 3.1 8B modelləri (LLM hakim). Hamısı iki açıq datasetdə (deepset və jackhhao) öyrədilib və bir-birinin datasetində test olunub.",
-               "Nəticə: eyni datasetdə 0.96–0.98 F1 göstərən detektor digər datasetdə ya hücumların çoxunu buraxır, ya da zərərsiz mətnlərin 97%-ni bloklayır. Sayt bütün nəticələri interaktiv qrafiklər, sürət-dəqiqlik müqayisəsi və tam cədvəllə göstərir."],
+               "Nəticə: eyni datasetdə 0.96–0.98 F1 göstərən detektor digər datasetdə ya hücumların çoxunu buraxır, ya da zərərsiz mətnlərin 97%-nə qədərini bloklayır. Sayt bütün nəticələri interaktiv qrafiklər, sürət-dəqiqlik müqayisəsi və tam cədvəllə göstərir."],
               ["Many companies protect their AI chatbots with detectors that try to recognise malicious text. This study checks how reliable those detectors stay when the data changes.",
                "Five kinds of detector were tested: a keyword rule, TF-IDF + logistic regression, a fine-tuned multilingual DistilBERT transformer, a cascade, and local Llama 3.2 3B and Llama 3.1 8B models as LLM judges. All were trained on two public datasets (deepset and jackhhao) and tested on each other's data.",
                "The result: a detector that scores 0.96–0.98 F1 on its own dataset either misses most attacks on the other one or blocks up to 97% of harmless text. The site shows every result with interactive charts, a speed-vs-accuracy plot and the full table."]),
@@ -203,17 +203,16 @@ P = [
     dict(
         slug="ai-nids-lab", cat="research", status="on", c1="#ff7a45", c2="#34f5b0",
         name=("AI-NIDS Robustness Lab", "AI-NIDS Robustness Lab"),
-        # the Streamlit demo sleeps when idle, so the main link goes to the code and results on GitHub
-        url="https://github.com/ziko-asm/ai-nids-adversarial-benchmark", show="github.com/ziko-asm/ai-nids-adversarial-benchmark",
-        tag=("Tədqiqat · Şəbəkə", "Research · Network"), go=("GitHub-da bax", "Open on GitHub"), media=("scene", "nids"),
+        url="https://ai-nids-adversarial-benchmark-publi.vercel.app", show="ai-nids-adversarial-benchmark-publi.vercel.app",
+        tag=("Tədqiqat · Şəbəkə", "Research · Network"), go=("Sayta keç", "Open site"), media=("scene", "nids"),
         metric=("3.7×", "UNSW-NB15-də hücumlar normal trafikə 3.7 dəfə yaxındır, ona görə detektorlar orada çökür.",
                 "UNSW-NB15 attacks sit 3.7× closer to benign traffic, so detectors break there."),
-        summary=("Şəbəkə hücumlarını aşkarlayan neyron şəbəkələrinin, hücumçu trafikini bir az dəyişəndə nə qədər asan aldandığını ölçən tədqiqat. Streamlit-də interaktiv dashboard.",
-                 "A study of how easily neural network intrusion detectors are fooled when an attacker slightly shapes its own traffic, with an interactive Streamlit dashboard."),
+        summary=("Şəbəkə hücumlarını aşkarlayan neyron şəbəkələrinin, hücumçu trafikini bir az dəyişəndə nə qədər asan aldandığını ölçən tədqiqat, interaktiv dashboard ilə.",
+                 "A study of how easily neural network intrusion detectors are fooled when an attacker slightly reshapes their own traffic, with an interactive dashboard."),
         body=(["Neyron şəbəkə şəbəkə hücumlarını 99.9% dəqiqliklə tanıya bilər. Bəs hücumçu öz trafikini bir az dəyişsə, nə olur? Bu tədqiqat məhz bunu ölçür.",
                "MLP və 1D-CNN modelləri iki datasetdə öyrədilib: köhnə KDD Cup 1999 və daha müasir UNSW-NB15. Sonra FGSM və PGD hücumları ilə iki təhlükə modeli altında yoxlanılıb. Adversarial təlim müdafiə kimi sınanıb, hücumların gradient boosted ağaclara keçib-keçmədiyi ölçülüb, qərarlar Integrated Gradients ilə izah olunub.",
                "Əsas nəticə: KDD-də davamlı görünən detektorlar UNSW-NB15-də çökür, standart müdafiə isə orada iflasa uğrayır."],
-              ["A neural network can detect network intrusions with 99.9% accuracy. But what happens when the attacker slightly reshapes its own traffic? That is what this study measures.",
+              ["A neural network can detect network intrusions with 99.9% accuracy. But what happens when the attacker slightly reshapes their own traffic? That is what this study measures.",
                "MLP and 1D-CNN models were trained on two datasets, the old KDD Cup 1999 and the newer UNSW-NB15, then attacked with FGSM and PGD under two threat models. Adversarial training is tested as a defence, transfer to gradient-boosted trees is measured, and decisions are explained with Integrated Gradients.",
                "The headline: detectors that look robust on KDD break on UNSW-NB15, and the standard defence collapses there."]),
         bullets=(["<b>Standart adversarial təlim</b> UNSW-NB15-də CNN-in təmiz aşkarlama dərəcəsini 0.025-ə endirir.",
@@ -223,9 +222,7 @@ P = [
                   "<b>Mixed training</b> avoids the collapse, but its robustness is overstated.",
                   "<b>Trees</b> hold up better against transferred attacks."]),
         chips=["PyTorch", "1D-CNN", "PGD / FGSM", "Streamlit"],
-        github=None,  # the main link above already goes to GitHub
-        note=("Streamlit tətbiqi boş qalanda yatır, ilk açılış bir neçə saniyə çəkə bilər.",
-              "The Streamlit app sleeps when idle, so the first load can take a few seconds."),
+        github="https://github.com/ziko-asm/ai-nids-adversarial-benchmark", note=None,
     ),
     dict(
         slug="agent-audit", cat="service", status="on", c1="#5b8cff", c2="#ff4fd8",
@@ -352,7 +349,7 @@ E = html.escape
 # Metric values and chips written in Azerbaijani get their own English text; Russian comes from ru.py.
 LOCAL_EN = {"₼ 2 mlrd": "₼ 2 bn", "30 san": "30 sec", "3 dil": "3 languages", "11 növ": "11 kinds",
             "WhatsApp sifariş": "WhatsApp orders", "Mobil uyğun": "Mobile-friendly", ".az domen": ".az domain",
-            "Karusel torna emalı sexi": "Vertical lathe workshop"}
+            "Karusel torna emalı sexi": "Vertical lathe workshop", "Telman Əzizov": "Telman Azizov"}
 
 
 # Each language is its own set of pages: Azerbaijani at the root, English under /en/, Russian under /ru/.
@@ -398,12 +395,24 @@ def colour_classes() -> str:
     return "\n".join(rows)
 
 
+def font_url(name):
+    """/fonts/<name> with a content hash: the fonts are cached as immutable, and subset_fonts.py re-cuts
+    them under the same name, so the URL must change whenever the file does."""
+    import hashlib
+    with open(os.path.join(ROOT, "fonts", name), "rb") as f:
+        return f"/fonts/{name}?v={hashlib.sha1(f.read()).hexdigest()[:10]}"
+
+
 def css(*names):
     """Stylesheets inlined into the page: no render-blocking CSS request. The source files stay in assets/."""
+    import re
     parts = []
     for n in names:
         with open(os.path.join(ROOT, "assets", n), encoding="utf-8") as f:
-            parts.append(f.read().strip())
+            text = f.read().strip()
+        if n == "fonts.css":
+            text = re.sub(r"url\(/fonts/([\w.-]+\.woff2)\)", lambda m: f"url({font_url(m.group(1))})", text)
+        parts.append(text)
         if n == "site.css":
             parts.append(colour_classes())
     return "<style>\n" + "\n".join(parts) + "\n</style>\n"
@@ -413,6 +422,10 @@ def head(title, desc, path, og, alternates=True, canonical=None, noindex=False):
     """<head> of a page. path is the page's path inside a language, e.g. "/" or "/p/provguard.html".
     alternates adds hreflang links to the same page in the other languages."""
     url = CANON + LP() + path if canonical is None else canonical
+    og_url = f'<meta property="og:url" content="{url}">\n' if url else ""
+    # Russian headings are set in Unbounded's Cyrillic cut: fetch it early so they don't swap late
+    cyr_preload = (f'<link rel="preload" href="{font_url("unbounded-cyrillic.woff2")}" as="font" type="font/woff2" crossorigin>\n'
+                   if LANG == "ru" else "")
     links = f'<link rel="canonical" href="{url}">\n' if url else ""
     if noindex:
         links = '<meta name="robots" content="noindex">\n' + links
@@ -430,7 +443,7 @@ def head(title, desc, path, og, alternates=True, canonical=None, noindex=False):
 <meta property="og:locale" content="{LOCALE[LANG]}">
 <meta property="og:title" content="{E(title)}">
 <meta property="og:description" content="{E(desc)}">
-<meta property="og:url" content="{url}">
+{og_url}<meta property="og:site_name" content="ayfar">
 <meta property="og:image" content="{SITE}/{og}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -439,12 +452,12 @@ def head(title, desc, path, og, alternates=True, canonical=None, noindex=False):
 <meta name="theme-color" content="#05070b">
 <meta name="google-site-verification" content="9FHzK0T2MlxLEmw8k1gnPzawKyXvbkJhKm1MKYsDFh4" />
 <meta name="msvalidate.01" content="071B769B591B43B1773023FFFF98515D" />
-<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="/img/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="preload" href="/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{font_url("unbounded-latin.woff2")}" as="font" type="font/woff2" crossorigin>
+{cyr_preload}<link rel="preload" href="{font_url("space-grotesk-latin.woff2")}" as="font" type="font/woff2" crossorigin>
 <script>
 document.documentElement.classList.add('js');
 setTimeout(function(){{var b=document.body;if(!b)return;b.classList.add('ready');document.querySelectorAll('.reveal').forEach(function(e){{e.classList.add('in')}});}},5000);
@@ -471,7 +484,7 @@ def chrome_bits(path="/"):
 <header class="top" id="hdr">
   <div class="bar">
     <a class="logo" href="{home_href}" data-nav><span class="dot"></span>ayfar</a>
-    <nav class="links">
+    <nav class="links" aria-label="{X("Əsas menyu", "Main")}">
       <a href="{home_href}#projects" data-nav>{T("Layihələr", "Projects")}</a>
       <a href="{home_href}#services" data-nav>{T("Xidmətlər", "Services")}</a>
       <a href="{home_href}#about" data-nav>{T("Haqqımda", "About")}</a>
@@ -493,7 +506,7 @@ def chrome_bits(path="/"):
   </nav>
 </header>
 {message_dialog()}
-<aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="{wa_order()}" target="_blank" rel="noopener" aria-label="WhatsApp">{WA_SVG}<span>{T("Yazın", "Message")}</span></a></aside>
+<aside class="wa-wrap" aria-label="WhatsApp"><a class="wa-float" href="{wa_order()}" target="_blank" rel="noopener" aria-label="WhatsApp: {X("Yazın", "Message")}">{WA_SVG}<span>{T("Yazın", "Message")}</span></a></aside>
 """
 
 
@@ -510,7 +523,7 @@ def message_dialog():
     <label for="msgName">{T("Adınız", "Your name")}</label>
     <input id="msgName" name="name" type="text" autocomplete="name" maxlength="80" required>
     <label for="msgContact">{T("Telefon, WhatsApp və ya e-poçt", "Phone, WhatsApp or e-mail")}</label>
-    <input id="msgContact" name="contact" type="text" autocomplete="tel" maxlength="120" required>
+    <input id="msgContact" name="contact" type="text" autocomplete="on" maxlength="120" required>
     <label for="msgText">{T("Mesajınız", "Your message")}</label>
     <textarea id="msgText" name="message" rows="5" maxlength="2000" required></textarea>
     <input type="hidden" name="_subject" value="ayfar.dev — yeni mesaj">
@@ -519,7 +532,7 @@ def message_dialog():
     <div class="msg-status" aria-live="polite"></div>
   </form>
 </dialog>
-<dialog class="photo-dlg" id="photoDlg" aria-label="Ziya Əzizov">
+<dialog class="photo-dlg" id="photoDlg" aria-label="{X("Ziya Əzizov", "Ziya Azizov")}">
   <button type="button" class="msg-x" data-photo-close aria-label="{X("Bağla", "Close")}">×</button>
   <img alt="" width="900" height="900" decoding="async">
 </dialog>"""
@@ -542,11 +555,11 @@ def scene(kind):
     <g><circle r="26" fill="url(#tg)" opacity=".55"/><rect x="-24" y="-9" width="48" height="18" rx="7" fill="#fff"/><rect x="-24" y="-2" width="48" height="5" fill="#e5394a"/><rect x="12" y="-6" width="9" height="5" rx="1.5" fill="#1b2230"/>
       <animateMotion dur="7s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;1" keyTimes="0;.85;1" calcMode="linear"><mpath href="#mpath"/></animateMotion></g>
   </svg>
-  <div class="hud"><div class="cash">₼ <span>0</span></div><div class="spd"><span>0</span> KM/S</div></div>
+  <div class="hud"><div class="cash">₼ <span>0</span></div><div class="spd"><span>0</span> """ + X("KM/S", "KM/H") + """</div></div>
   <div class="title"><small>★ BAKI · METRO ★</small>METRO<br>TYCOON</div>
 </div>"""
     if kind == "nids":
-        return """<div class="chrome"><i></i><i></i><i></i><b>ai-nids-robustness.streamlit.app</b></div>
+        return """<div class="chrome"><i></i><i></i><i></i><b>ai-nids-adversarial-benchmark-publi.vercel.app</b></div>
 <div class="scene nids" aria-hidden="true">
   <div class="cap"><span>DETECTION RATE</span><b>PGD ε = 0.5</b></div>
   <div class="bars"><div class="grp"><div class="bar"></div><div class="bar atk"></div></div><div class="grp"><div class="bar"></div><div class="bar atk"></div></div><div class="grp"><div class="bar"></div><div class="bar atk"></div></div><div class="grp"><div class="bar"></div><div class="bar atk"></div></div></div>
@@ -615,14 +628,14 @@ def schema():
         "name": "Ziya Əzizov", "alternateName": ["ayfar", "Ziya Azizov", "Ziya Ezizov"],
         "url": CANON + "/",
         "image": {"@type": "ImageObject", "url": SITE + "/img/ziya-azizov-ayfar.jpg", "width": 900, "height": 900,
-                  "caption": "Ziya Əzizov (ayfar), veb developer və kibertəhlükəsizlik mühəndisi, Bakı",
+                  "caption": X("Ziya Əzizov (ayfar), veb developer və kibertəhlükəsizlik mühəndisi, Bakı", "Ziya Azizov (ayfar), web developer and cybersecurity engineer, Baku"),
                   "creditText": "Ziya Əzizov", "creator": {"@id": CANON + "/#ziya"}, "copyrightNotice": "© Ziya Əzizov"},
         "telephone": PHONE, "email": EMAIL,
-        "jobTitle": "AI Security Engineer and Web Developer" if LANG == "en" else "Proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisi",
+        "jobTitle": X("Proqramlaşdırma, kibertəhlükəsizlik və süni intellekt mühəndisi", "AI Security Engineer and Web Developer"),
         "address": {"@type": "PostalAddress", "addressLocality": "Bakı", "addressCountry": "AZ"},
         "alumniOf": {"@type": "CollegeOrUniversity", "name": "Azərbaycan Dövlət Neft və Sənaye Universiteti"},
         "affiliation": {"@type": "CollegeOrUniversity", "name": "Bakı Ali Neft Məktəbi"},
-        "knowsAbout": ["Proqramlaşdırma", "Kibertəhlükəsizlik", "Süni intellekt", "Veb saytlar", "Oyun hazırlama"],
+        "knowsAbout": [X("Proqramlaşdırma", "Programming"), X("Kibertəhlükəsizlik", "Cybersecurity"), X("Süni intellekt", "Artificial intelligence"), X("Veb saytlar", "Websites"), X("Oyun hazırlama", "Game development")],
         "sameAs": ["https://www.linkedin.com/in/ziyaazizov", INSTAGRAM, FACEBOOK, YOUTUBE, X_URL, "https://github.com/ziko-asm", "https://siloveu.itch.io"],
     }
     site = {"@context": "https://schema.org", "@type": "WebSite", "name": "ayfar", "url": CANON + LP() + "/",
@@ -630,8 +643,8 @@ def schema():
     service = {
         "@context": "https://schema.org", "@type": "ProfessionalService", "@id": CANON + "/#ayfar",
         "name": "ayfar", "alternateName": "ayfar — veb sayt hazırlanması",
-        "description": "Bakıda bizneslər üçün landing page, korporativ sayt və onlayn mağaza hazırlanması. Ziya Əzizov.",
-        "url": CANON + "/#services", "logo": SITE + "/img/og/home.png", "image": SITE + "/img/og/home.png",
+        "description": X("Bakıda bizneslər üçün landing page, korporativ sayt və onlayn mağaza hazırlanması. Ziya Əzizov.", "Landing pages, company websites and online shops for businesses in Baku. Ziya Azizov."),
+        "url": CANON + LP() + "/", "logo": SITE + "/img/icon-512.png", "image": SITE + "/img/og/home.png",
         "telephone": PHONE, "email": EMAIL, "founder": {"@id": CANON + "/#ziya"},
         "areaServed": {"@type": "City", "name": "Bakı"},
         "address": {"@type": "PostalAddress", "addressLocality": "Bakı", "addressCountry": "AZ"},
@@ -647,7 +660,7 @@ def schema():
     return "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in (person, site, service, faqp))
 
 
-LASTMOD = "2026-11-06"  # bump when content changes
+LASTMOD = "2026-11-21"  # bump when content changes
 
 
 def llms_txt():
@@ -779,7 +792,7 @@ def services_html():
       {scan_html()}
       <div class="svc-grid">{''.join(cards)}
       </div>
-      <div class="sec-num steps-h reveal">{T("NECƏ İŞLƏYİRİK", "HOW IT WORKS")}</div>
+      <h3 class="sec-num steps-h reveal">{T("NECƏ İŞLƏYİRƏM", "HOW I WORK")}</h3>
       <ol class="steps">{steps}
       </ol>
       <div class="svc-cta reveal">
@@ -812,7 +825,7 @@ def reviews_html():
     if not REVIEWS:
         return ""
     cards = "".join(f"""
-        <figure class="rev reveal"><blockquote>{T(qa, qe, 'p')}</blockquote><figcaption><b>{E(n)}</b>{L(b, "span", "rb")}</figcaption></figure>"""
+        <figure class="rev reveal"><blockquote>{T(qa, qe, 'p')}</blockquote><figcaption><b>{L(n)}</b>{L(b, "span", "rb")}</figcaption></figure>"""
                     for qa, qe, n, b in REVIEWS)
     return f"""
   <section id="reviews">
@@ -833,7 +846,7 @@ def build_index():
         gh = f'<a class="btn small" href="{p["github"]}" target="_blank" rel="noopener">GitHub</a>' if p["github"] else ""
         slides.append(f"""
       <article class="slide pc-{p['slug']}" data-cat="{p['cat']}">
-        <a class="slide-media tiltable" data-tilt="5" href="{LP()}/p/{p['slug']}.html" data-nav aria-label="{E(X(*p['name']))}">{media_fixed(p, sizes="(min-width: 900px) 620px, calc(100vw - 54px)")}</a>
+        <a class="slide-media tiltable" data-tilt="5" tabindex="-1" href="{LP()}/p/{p['slug']}.html" data-nav aria-label="{E(X(*p['name']))}">{media_fixed(p, sizes="(min-width: 900px) 620px, calc(100vw - 54px)")}</a>
         <div class="slide-body">
           <div class="slide-idx"><b>{i + 1:02d}</b> / {n:02d} · {T(*CATS[p['cat']])}</div>
           <h3{' class="long"' if max(len(w) for n in p['name'] for w in n.split()) >= 10 or max(len(n) for n in p['name']) > 18 else ''}>{T(*p['name'])}</h3>
@@ -847,13 +860,13 @@ def build_index():
           </div>
         </div>
       </article>""")
-    chips = "".join(f'<button type="button" data-jump="{k}">{T(*v)}<sup>{counts[k]}</sup></button>' for k, v in CATS.items())
+    chips = "".join(f'<button type="button" data-jump="{k}">{T(*v)}<span class="sr"> </span><sup>{counts[k]}</sup></button>' for k, v in CATS.items())
 
     # English is for recruiters and international readers; Azerbaijani and Russian are for clients in Baku
     title = ("Ziya Azizov — AI Security Engineer & Web Developer | ayfar" if LANG == "en" else
              X("Sayt sifarişi Bakıda — ayfar | Ziya Əzizov", "Website development in Baku — ayfar | Ziya Azizov"))
-    desc = ("Ziya Azizov (ayfar): AI security engineer and web developer from Baku. Built ProvGuard, which stopped 144/144 "
-            "AgentDojo banking attacks. Open to remote roles and relocation." if LANG == "en" else
+    desc = ("Ziya Azizov (ayfar): AI security engineer and web developer from Baku. ProvGuard stopped 144/144 "
+            "AgentDojo banking attacks. Open to remote roles." if LANG == "en" else
             X("Bakıda sayt sifarişi: landing page, biznes saytı və onlayn mağaza. Ziya Əzizov (ayfar), veb developer və kibertəhlükəsizlik mühəndisi. Pulsuz qiymət təklifi.",
               "Website development in Baku: landing pages, business websites and online shops. Ziya Azizov (ayfar), web developer and cybersecurity engineer. Free quote."))
     page = head(title, desc,
@@ -871,7 +884,7 @@ def build_index():
       <canvas id="game" tabindex="-1" role="img" aria-label="{X("Mini metro oyunu: qaz üçün Boşluq və ya ↑ düyməsini basılı saxlayın, tormoz üçün buraxın", "Mini metro game: hold Space or ↑ to go, release to brake")}"></canvas>
       <div class="g-hud">
         <div class="cash">₼ <b id="gCash">0</b></div>
-        <div><b id="gSpd">0</b> KM/S</div>
+        <div><b id="gSpd">0</b> {X("KM/S", "KM/H")}</div>
         <div class="next">{T("Növbəti", "Next")}: <b id="gNext">—</b></div>
         <div class="best">{T("Rekord", "Best")}: <b id="gBest">0</b> ₼</div>
       </div>
@@ -888,7 +901,7 @@ def build_index():
           <a class="btn small" href="https://siloveu.itch.io/metro-tycoon" target="_blank" rel="noopener">{T("Tam oyunu oyna", "Play the full game")} ↗</a>
         </div>
       </div>
-      <div class="g-toast" id="gToast"></div>
+      <div class="g-toast" id="gToast" role="status" aria-live="polite"></div>
     </div>
 
     <div class="cta reveal-hero d4">
@@ -901,15 +914,15 @@ def build_index():
 
   <div class="wrap">
     <div class="stats reveal">
-      <div class="stat"><div class="n" data-count="{n}">0</div><div class="l">{T("canlı layihə", "live projects")}</div></div>
-      <div class="stat"><div class="n" data-count="{counts['game']}">0</div><div class="l">{T("oyun", "game")}</div></div>
-      <div class="stat"><div class="n" data-count="{counts['research']}">0</div><div class="l">{T("tədqiqat layihəsi", "research projects")}</div></div>
-      <div class="stat"><div class="n" data-count="{counts['service'] + counts['web']}">0</div><div class="l">{T("sayt, xidmət və alət", "sites, services &amp; tools")}</div></div>
+      <div class="stat"><div class="n" data-count="{n}">{n}</div><div class="l">{T("canlı layihə", "live projects")}</div></div>
+      <div class="stat"><div class="n" data-count="{counts['game']}">{counts['game']}</div><div class="l">{T("oyun", "game")}</div></div>
+      <div class="stat"><div class="n" data-count="{counts['research']}">{counts['research']}</div><div class="l">{T("tədqiqat layihəsi", "research projects")}</div></div>
+      <div class="stat"><div class="n" data-count="{counts['service'] + counts['web']}">{counts['service'] + counts['web']}</div><div class="l">{T("sayt, xidmət və alət", "sites, services &amp; tools")}</div></div>
     </div>
   </div>
 
   <div class="marquee" aria-hidden="true"><div class="tilt">
-    <div class="mq"><span class="f">METRO TYCOON</span><span class="x">✦</span><span>PROVGUARD</span><span class="x">✦</span><span class="s">BATHSHOP.AZ</span><span class="x">✦</span><span>GRAPHGUARD</span><span class="x">✦</span><span class="f">MANSIA</span><span class="x">✦</span><span>AGENT AUDIT</span><span class="x">✦</span><span class="f">METRO TYCOON</span><span class="x">✦</span><span>PROVGUARD</span><span class="x">✦</span><span class="s">BATHSHOP.AZ</span><span class="x">✦</span><span>GRAPHGUARD</span><span class="x">✦</span><span class="f">SAYTYOXLA</span><span class="x">✦</span><span>AGENT AUDIT</span><span class="x">✦</span></div>
+    <div class="mq"><span class="f">METRO TYCOON</span><span class="x">✦</span><span>PROVGUARD</span><span class="x">✦</span><span class="s">BATHSHOP.AZ</span><span class="x">✦</span><span>GRAPHGUARD</span><span class="x">✦</span><span class="f">MANSIA</span><span class="x">✦</span><span>AGENT AUDIT</span><span class="x">✦</span><span class="s">SAYTYOXLA</span><span class="x">✦</span><span class="f">METRO TYCOON</span><span class="x">✦</span><span>PROVGUARD</span><span class="x">✦</span><span class="s">BATHSHOP.AZ</span><span class="x">✦</span><span>GRAPHGUARD</span><span class="x">✦</span><span class="f">MANSIA</span><span class="x">✦</span><span>AGENT AUDIT</span><span class="x">✦</span><span class="s">SAYTYOXLA</span><span class="x">✦</span></div>
     <div class="mq rev"><span>KARUSEL TORNA</span><span class="x">●</span><span class="s">AI-NIDS LAB</span><span class="x">●</span><span>PROMPT INJECTION</span><span class="x">●</span><span class="f">AYFAR</span><span class="x">●</span><span>KARUSEL TORNA</span><span class="x">●</span><span class="s">AI-NIDS LAB</span><span class="x">●</span><span>PROMPT INJECTION</span><span class="x">●</span><span class="f">AYFAR</span><span class="x">●</span></div>
   </div></div>
 
@@ -947,7 +960,7 @@ def build_index():
           <div class="skills" aria-hidden="true"><div class="mq"><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span></div></div>
         </div>
         <div class="idcard reveal tiltable">
-          <div class="photo"><img data-zoom="/img/ziya-azizov-ayfar.webp?v={V}" tabindex="0" role="button" src="/img/ziya-azizov-ayfar-s.webp?v={V}" srcset="/img/ziya-azizov-ayfar-s.webp?v={V} 360w, /img/ziya-azizov-ayfar.webp?v={V} 900w" sizes="(min-width: 900px) 440px, 92vw" width="900" height="900" alt="{X("Ziya Əzizov (ayfar), Bakıdan veb developer və kibertəhlükəsizlik mühəndisi", "Ziya Azizov (ayfar), web developer and cybersecurity engineer from Baku")}" loading="lazy" decoding="async"><span class="photo-badge"><i></i>Bakı · 2005</span></div>
+          <div class="photo"><img data-zoom="/img/ziya-azizov-ayfar.webp?v={V}" tabindex="0" role="button" src="/img/ziya-azizov-ayfar-s.webp?v={V}" srcset="/img/ziya-azizov-ayfar-s.webp?v={V} 360w, /img/ziya-azizov-ayfar.webp?v={V} 900w" sizes="(min-width: 900px) 440px, 92vw" width="900" height="900" alt="{X("Ziya Əzizov (ayfar), Bakıdan veb developer və kibertəhlükəsizlik mühəndisi", "Ziya Azizov (ayfar), web developer and cybersecurity engineer from Baku")}" loading="lazy" decoding="async"><span class="photo-badge"><i></i>{"Baku" if LANG == "en" else X("Bakı · 2005", "Baku · 2005")}</span></div>
           <h3>{T("Ziya Əzizov", "Ziya Azizov")}</h3>
           <div class="handle">@ayfar</div>
           <dl>
@@ -974,7 +987,7 @@ def build_index():
     <div class="wrap">
       <div class="contact reveal">
         <div class="sec-num">{sec_no(5)} — {T("ƏLAQƏ", "CONTACT")}</div>
-        {T("Gəl, danışaq.", "Let's talk.", "h2")}
+        {T("Gəlin, danışaq.", "Let's talk.", "h2")}
         {T("Özünüzə sayt sifariş etmək istəyirsinizsə, ya da sayt, oyun və ya layihə haqqında sualınız varsa, WhatsApp-a yazın və ya zəng edin.", "Want a website of your own, or have a question about a site, game or project? Message me on WhatsApp or call.", "p")}
         <div class="row">
           <a class="btn primary magnet" href="{wa_order()}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp</span></a>
@@ -1041,18 +1054,18 @@ def build_project(i, p):
 
   <section class="wrap p-grid">
     <div class="p-text reveal">
-      <div class="sec-num">{T("NƏ EDİR", "WHAT IT DOES")}</div>
+      <h2 class="sec-num">{T("NƏ EDİR", "WHAT IT DOES")}</h2>
       <div>{body}</div>
       {note}
     </div>
     <div class="p-side reveal">
       <div class="metric big"><div class="v">{L(p['metric'][0])}</div>{T(p['metric'][1], p['metric'][2], 'div', 'd')}</div>
       <div class="p-box">
-        <div class="sec-num">{T("ƏSAS XÜSUSİYYƏTLƏR", "HIGHLIGHTS")}</div>
+        <h2 class="sec-num">{T("ƏSAS XÜSUSİYYƏTLƏR", "HIGHLIGHTS")}</h2>
         <ul>{bullets}</ul>
       </div>
       <div class="p-box">
-        <div class="sec-num">{T("TEXNOLOGİYALAR", "BUILT WITH")}</div>
+        <h2 class="sec-num">{T("TEXNOLOGİYALAR", "BUILT WITH")}</h2>
         <div class="chips">{chips}</div>
         <div class="p-url"><span>URL</span><a href="{p['url']}" target="_blank" rel="noopener">{E(p['show'])} ↗</a></div>
       </div>
@@ -1091,6 +1104,8 @@ def build_articles():
         proj = next(p for p in P if p["slug"] == a["project"])
         page = head(a["title"] + " — ayfar", a["desc"], path, a["og"], alternates=False, canonical=url)
         page = page.replace('<meta property="og:type" content="website">', '<meta property="og:type" content="article">')
+        # the article itself is written in English on every language's copy
+        page = page.replace(f'<meta property="og:locale" content="{LOCALE[LANG]}">', '<meta property="og:locale" content="en_US">')
         ld = {"@context": "https://schema.org", "@type": "Article", "headline": a["title"], "description": a["desc"],
               "datePublished": a["date"], "inLanguage": "en", "url": url, "image": SITE + "/" + a["og"],
               "author": {"@type": "Person", "@id": CANON + "/#ziya", "name": "Ziya Azizov", "url": CANON + "/"},
@@ -1104,7 +1119,7 @@ def build_articles():
   <article class="wrap art">
     <a class="back" href="{LP()}/p/{a['project']}.html" data-nav>← {X(*proj['name'])}</a>
     <div class="p-tags"><span class="tag research">{T("Məqalə", "Article")}</span><span class="p-num">{a['date']} · Ziya Azizov</span></div>
-    <h1>{E(a['title'])}</h1>
+    <h1 lang="en">{E(a['title'])}</h1>
     {note}
     <div class="art-body" lang="en">{body}</div>
   </article>
@@ -1191,14 +1206,16 @@ def build_vercel_json():
         ("Access-Control-Allow-Origin", CANON),
     ]
     cache = [
-        # fonts never change under the same name; CSS/JS are versioned with ?v=, so they can be cached for a year
+        # fonts carry a content hash and CSS/JS/images are versioned with ?v=, so they can be cached for a year
         ("/fonts/(.*)", "public, max-age=31536000, immutable"),
         ("/assets/(.*)", "public, max-age=31536000, immutable"),
         ("/img/(.*)", "public, max-age=31536000, immutable"),  # page images carry ?v=; bump V when replacing one
     ]
     cfg = {
         # the articles used to live under /yazilar/: old links (LinkedIn, CVs, Google) keep working
-        "redirects": [{"source": "/:lang(en|ru)/yazilar/:slug", "destination": "/:lang/articles/:slug", "permanent": True},
+        "redirects": [{"source": "/:lang(en|ru)/yazilar/:slug([^./]+)", "destination": "/:lang/articles/:slug.html", "permanent": True},
+                      {"source": "/yazilar/:slug([^./]+)", "destination": "/articles/:slug.html", "permanent": True},
+                      {"source": "/:lang(en|ru)/yazilar/:slug", "destination": "/:lang/articles/:slug", "permanent": True},
                       {"source": "/yazilar/:slug", "destination": "/articles/:slug", "permanent": True},
                       # a page address typed or shared without ".html" used to be a 404
                       {"source": "/:lang(en|ru)/:dir(p|articles)/:slug([^./]+)", "destination": "/:lang/:dir/:slug.html", "permanent": True},

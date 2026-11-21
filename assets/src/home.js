@@ -19,12 +19,11 @@
       TX = Math.max(30, W * .16); RAIL = H - 34;
     }
     function reset(){
-      S = {x:0, v:0, cash:0, stIdx:0, objs:[], genX:400, t:0, shake:0, dist:0};
+      S = {x:0, v:0, cash:0, stIdx:0, stN:0, objs:[], genX:400, t:0, shake:0, dist:0};
       gen(W + 2400);
     }
     function gen(until){
       while(S.genX < until){
-        var k = S.objs.filter(function(o){ return o.type === 'st'; }).length;
         var gap = 1500 + Math.random() * 700;
         var sx = S.genX + gap;
         var coinsFrom = S.genX + 160, coinsTo = sx - 220;
@@ -38,7 +37,7 @@
           var px = S.genX + gap * (nSig === 2 ? (.33 + s * .34) : (.45 + Math.random() * .2));
           S.objs.push({type:'sig', x:px, period:2.6 + Math.random() * 2.2, phase:Math.random() * 5, red:.42 + difficulty * .12});
         }
-        S.objs.push({type:'st', x:sx, len:300, name:STATIONS[k % STATIONS.length], done:false});
+        S.objs.push({type:'st', x:sx, len:300, name:STATIONS[S.stN++ % STATIONS.length], done:false});
         S.genX = sx + 300;
       }
     }
@@ -63,8 +62,12 @@
       over.querySelector('[data-score]').textContent = money(S.cash) + ' ₼';
       over.querySelector('[data-best]').textContent = money(best) + ' ₼';
       over.classList.add('show');
+      /* keyboard and screen reader users land on "Again" instead of a canvas that no longer plays */
+      if(wrap.contains(document.activeElement)) over.querySelector('[data-again]').focus({preventScroll:true});
     }
     function play(){
+      /* with reduced motion the loop only starts once the visitor asks to play */
+      if(!looping){ looping = true; last = performance.now(); requestAnimationFrame(frame); }
       reset(); mode = 'play'; over.classList.remove('show'); start.classList.add('hide'); wrap.classList.add('playing');
       /* the start/again buttons fade out; keep keyboard focus in the game instead of on a hidden button */
       if(wrap.contains(document.activeElement) && document.activeElement !== cv) cv.focus({preventScroll:true});
@@ -99,9 +102,10 @@
           }
         });
       }
+      S.objs.forEach(function(o){ if(o.got && o.fx > 0) o.fx -= .06 * dt; });
       S.objs = S.objs.filter(function(o){ return o.x > S.x - 900; });
       gen(S.x + W + 2400);
-      if(S.shake > 0) S.shake *= .9;
+      if(S.shake > 0) S.shake *= Math.pow(.9, dt);
 
       hud.cash.textContent = money(S.cash);
       hud.spd.textContent = Math.round(S.v * 9);
@@ -144,7 +148,7 @@
       S.objs.forEach(function(o){
         if(o.type !== 'coin') return;
         var cx = o.x - S.x + TX; if(cx < -20 || cx > W + 20) return;
-        if(o.got){ o.fx = (o.fx || 1) - .06; if(o.fx <= 0) return; ctx.globalAlpha = o.fx; }
+        if(o.got){ if(!(o.fx > 0)) return; ctx.globalAlpha = o.fx; }
         var bob = Math.sin(S.t * 4 + o.x) * 3, y = o.y + bob - (o.got ? (1 - o.fx) * 30 : 0);
         ctx.fillStyle = '#ffc94d'; ctx.shadowColor = '#ffc94d'; ctx.shadowBlur = 10;
         ctx.beginPath(); ctx.ellipse(cx, y, 6 * Math.abs(Math.cos(S.t * 3 + o.x)) + 1.5, 7, 0, 0, 6.283); ctx.fill();
@@ -191,10 +195,10 @@
     }
     /* the canvas size comes from a ResizeObserver: it reports after the browser's layout, so measuring
        never forces one (doing it while the script ran, or in a frame callback, did) */
-    var booted = false;
+    var booted = false, looping = false;
     function resized(w, h){
       var w0 = W; size(w, h);
-      if(!booted){ booted = true; reset(); if(!reduce) requestAnimationFrame(frame); }
+      if(!booted){ booted = true; reset(); if(!reduce){ looping = true; requestAnimationFrame(frame); } }
       else if(w0 !== W && mode !== 'play') reset();
       if(reduce) draw();
     }
@@ -217,11 +221,18 @@
       play(); holding = e.key === ' ';  /* Space keeps the throttle open until it is released */
     });
     addEventListener('pointerup', up); addEventListener('pointercancel', up);
+    /* a key or finger released outside the window never sends keyup: let go of the throttle when focus leaves */
+    addEventListener('blur', up);
+    document.addEventListener('visibilitychange', function(){ if(document.hidden) up(); });
+    /* screen readers, switch and voice control send only a click */
+    start.addEventListener('click', function(){ if(mode !== 'play') play(); });
     wrap.addEventListener('contextmenu', function(e){ e.preventDefault(); });
     over.querySelector('[data-again]').addEventListener('click', function(){ play(); });
     function inView(){ var r = wrap.getBoundingClientRect(); return r.top < innerHeight * .8 && r.bottom > innerHeight * .2; }
     addEventListener('keydown', function(e){
       if(!/^(Space|ArrowUp|KeyW)$/.test(e.code) || !inView()) return;
+      /* Space and ↑ scroll the page as usual until the visitor focuses the game or starts a run */
+      if(e.target !== cv && mode !== 'play') return;
       if(e.target !== cv && e.target.closest && e.target.closest('input,textarea,button,a,select,dialog')) return;
       e.preventDefault(); down(e);
     });
@@ -245,10 +256,11 @@
     };
     var busy = function(on){ sf.classList.toggle('busy', on); btn.disabled = on; inp.readOnly = on; };
     var showError = function(msg){
-      out.textContent = ''; var e = el('div', 'scan-err', msg); e.setAttribute('role', 'alert'); out.appendChild(e);
+      out.textContent = ''; var e = el('div', 'scan-err', msg); e.id = 'scanErr'; out.appendChild(e);
+      inp.setAttribute('aria-invalid', 'true'); inp.setAttribute('aria-describedby', 'scanErr');
     };
     var render = function(r){
-      out.textContent = '';
+      out.textContent = ''; inp.removeAttribute('aria-invalid'); inp.removeAttribute('aria-describedby');
       var card = el('div', 'scan-card'), col = gradeColor(r.grade), h = host(r.final_url || r.url);
       card.style.setProperty('--gc', col);
       // score ring
@@ -301,10 +313,12 @@
       fetch(API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({url:u, lang:lang()}), signal:ctl ? ctl.signal : undefined})
         .then(function(res){ return res.json().catch(function(){ return {}; }).then(function(d){ return {ok:res.ok, d:d}; }); })
         .then(function(x){
-          if(x.ok && typeof x.d.score === 'number') render(x.d);
+          if(x.ok && x.d && typeof x.d.score === 'number') render(x.d);
           else showError(detailText(x.d && x.d.detail) || T('Yoxlamaq alınmadı. Bir az sonra yenidən cəhd edin.', 'The check failed. Please try again shortly.', 'Проверка не удалась. Попробуйте чуть позже.'));
         })
-        .catch(function(){ showError(T('Bağlantı alınmadı. İnterneti yoxlayıb yenidən cəhd edin.', 'Could not connect. Check your connection and try again.', 'Не удалось подключиться. Проверьте интернет и попробуйте снова.')); })
+        .catch(function(err){ showError(err && err.name === 'AbortError'
+          ? T('Yoxlama çox uzun çəkdi. Bir az sonra yenidən cəhd edin.', 'The check took too long. Please try again shortly.', 'Проверка заняла слишком много времени. Попробуйте чуть позже.')
+          : T('Bağlantı alınmadı. İnterneti yoxlayıb yenidən cəhd edin.', 'Could not connect. Check your connection and try again.', 'Не удалось подключиться. Проверьте интернет и попробуйте снова.')); })
         .then(function(){ clearTimeout(to); busy(false); });
     });
   }
@@ -361,7 +375,7 @@
       lastIdx = idx; cur.textContent = String(idx + 1).padStart(2, '0');
       slides.forEach(function(s, j){ s.classList.toggle('active', j === idx); });
       var cat = slides[idx].dataset.cat;
-      chips.forEach(function(c){ var is = c.dataset.jump === cat; c.classList.toggle('on', is); c.setAttribute('aria-pressed', String(is)); });
+      chips.forEach(function(c){ var is = c.dataset.jump === cat; c.classList.toggle('on', is); if(is) c.setAttribute('aria-current', 'true'); else c.removeAttribute('aria-current'); });
     }
     function onScroll(){ if(!queued){ queued = true; requestAnimationFrame(update); } }
     chips.forEach(function(c){

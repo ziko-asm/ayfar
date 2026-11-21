@@ -10,3 +10,5 @@ content/
 scripts/
 tests/
 fonts/src/
+assets/src/
+fonts/subset.json

@@ -4,7 +4,7 @@
   "unsupported": ""
  },
  "jetbrains-mono-cyrillic.woff2": {
-  "chars": "АБВГДЕЖЗИКЛМНОПРСТУХЦЧЩЫЬЭЯабвгдежзийклмнопрстуфхцчшщъыьэюяё",
+  "chars": "АБВГДЕЖЗИКЛМНОПРСТУХЦЧЩЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяё",
   "unsupported": ""
  },
  "jetbrains-mono-latin-ext.woff2": {
@@ -28,7 +28,7 @@
   "unsupported": ""
  },
  "unbounded-cyrillic.woff2": {
-  "chars": "АБВГДЕЖЗИКЛМНОПРСТУХЦЧЩЫЬЭЯабвгдежзийклмнопрстуфхцчшщъыьэюяё",
+  "chars": "АБВГДЕЖЗИКЛМНОПРСТУХЦЧЩЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяё",
   "unsupported": ""
  },
  "unbounded-latin-ext.woff2": {
