@@ -19,7 +19,9 @@
       setTimeout(tick, 100);
     })();
   }
-  window.AYFAR = {reduce:reduce, fine:fine, store:store, money:money, settle:settle};
+  /* "Pause animations" in the footer: CSS animations stop through html.still, the canvases and timers check still() */
+  function still(){ return root.classList.contains('still'); }
+  window.AYFAR = {reduce:reduce, fine:fine, store:store, money:money, settle:settle, still:still};
 
   /* ---------- links to a section of this page ---------- */
   function hashTarget(hash){ try{ return hash && hash.length > 1 ? document.getElementById(decodeURIComponent(hash.slice(1))) : null; }catch(e){ return null; } }
@@ -51,7 +53,15 @@
   });
 
   /* SMIL animations (the train in the metro scene) ignore the CSS reduced-motion rule */
-  if(reduce) document.querySelectorAll('svg').forEach(function(svg){ if(svg.pauseAnimations) svg.pauseAnimations(); });
+  function syncStill(){
+    var on = still();
+    document.querySelectorAll('svg').forEach(function(svg){ if(svg.pauseAnimations){ if(on || reduce) svg.pauseAnimations(); else svg.unpauseAnimations(); } });
+    document.querySelectorAll('[data-still]').forEach(function(b){ b.setAttribute('aria-pressed', String(on)); });
+  }
+  syncStill();
+  document.querySelectorAll('[data-still]').forEach(function(b){
+    b.addEventListener('click', function(){ root.classList.toggle('still'); store('still', still() ? '1' : '0'); syncStill(); });
+  });
 
   /* ---------- intro: start the hero animations ---------- */
   requestAnimationFrame(function(){ body.classList.add('ready'); });
@@ -126,13 +136,12 @@
     document.querySelectorAll('[data-msg-open]').forEach(function(b){ b.addEventListener('click', function(){ location.href = 'https://wa.me/994772172358'; }); });
   }
   var pdlg = document.getElementById('photoDlg');
-  document.querySelectorAll('img[data-zoom]').forEach(function(im){
-    var open = function(){
+  document.querySelectorAll('[data-zoom]').forEach(function(b){
+    b.addEventListener('click', function(){
       if(!pdlg || !pdlg.showModal) return;
-      var big = pdlg.querySelector('img'); big.src = im.dataset.zoom; big.alt = im.alt; pdlg.showModal();
-    };
-    im.addEventListener('click', open);
-    im.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); } });
+      var im = b.querySelector('img') || b, big = pdlg.querySelector('img');
+      big.src = b.dataset.zoom; big.alt = im.alt; pdlg.showModal();
+    });
   });
   if(pdlg){
     pdlg.addEventListener('click', function(){ pdlg.close(); });
@@ -167,7 +176,7 @@
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ lastW = 0; reserve(); }); else reserve();
     var rw; addEventListener('resize', function(){ clearTimeout(rw); rw = setTimeout(reserve, 200); });
     setInterval(function(){
-      if(document.hidden) return;
+      if(document.hidden || still()) return;
       el.classList.add('out');
       setTimeout(function(){
         wi = (wi + 1) % words.length;
@@ -256,7 +265,7 @@
     var cash = scene.querySelector('.cash span'), spd = scene.querySelector('.spd span'), total = 0, on = false;
     new IntersectionObserver(function(es){ on = es[0].isIntersecting; }).observe(scene);
     setInterval(function(){
-      if(!on || document.hidden) return;
+      if(!on || document.hidden || still()) return;
       var gain = 50 + Math.floor(Math.random() * 450);
       total += gain; cash.textContent = money(total);
       spd.textContent = 40 + Math.floor(Math.random() * 45);
@@ -356,7 +365,7 @@
     addEventListener('scroll', function(){ scrolling = performance.now(); bgY = scrollY; }, {passive:true});
     (function frame(now){
       requestAnimationFrame(frame);
-      if(document.hidden || now - scrolling < 180 || now - touched < 400 || now - lastDraw < gap) return;
+      if(document.hidden || still() || now - scrolling < 180 || now - touched < 400 || now - lastDraw < gap) return;
       lastDraw = now; draw();
     })(0);
   }

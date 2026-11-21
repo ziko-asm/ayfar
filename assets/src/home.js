@@ -190,7 +190,8 @@
     var last = performance.now();
     function frame(now){
       var dt = Math.min(3, (now - last) / 16.67); last = now;
-      if(visible && !document.hidden){ step(dt); draw(); }
+      /* "Pause animations" stops the self-driving demo; a run the visitor started keeps going */
+      if(visible && !document.hidden && !(mode !== 'play' && A.still && A.still())){ step(dt); draw(); }
       requestAnimationFrame(frame);
     }
     /* the canvas size comes from a ResizeObserver: it reports after the browser's layout, so measuring
@@ -362,7 +363,7 @@
         k = Math.round(k * 50) / 50;
         if(ks[i] !== k){
           ks[i] = k;
-          slides[i].style.opacity = (.25 + k * .75).toFixed(2);
+          slides[i].style.opacity = (.4 + k * .6).toFixed(2);
           slides[i].style.transform = 'scale(' + (.9 + k * .1).toFixed(3) + ')';
         }
         if(d < bestD){ bestD = d; idx = i; }

@@ -162,7 +162,7 @@ def home():
     d.text((62, 400), "Saytlar · Oyunlar · Layihələr", font=font("SpaceGrotesk.ttf", 40, 700), fill=(238, 243, 248))
     d.text((62, 456), "Ziya Əzizovun bütün işləri bir yerdə", font=font("SpaceGrotesk.ttf", 28, 500), fill=(141, 153, 168))
     d.text((62, 548), f"{len(P)} CANLI LAYİHƏ · BAKI", font=font("JetBrainsMono.ttf", 20, 700), fill=(52, 245, 176))
-    im.convert("RGB").save(os.path.join(OUT, "home.png"), optimize=True)
+    im.convert("RGB").save(os.path.join(OUT, "home.jpg"), quality=86, optimize=True, progressive=True)
 
 
 def project(p):
@@ -196,7 +196,7 @@ def project(p):
         d.text((62, y + 14), ln, font=sf, fill=(196, 204, 214))
         y += 34
     d.text((62, 560), p["metric"][0], font=font("Unbounded.ttf", 30, 900), fill=hexrgb(p["c2"]))
-    im.convert("RGB").save(os.path.join(OUT, f"{p['slug']}.png"), optimize=True)
+    im.convert("RGB").save(os.path.join(OUT, f"{p['slug']}.jpg"), quality=86, optimize=True, progressive=True)
 
 
 if __name__ == "__main__":

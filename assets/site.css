@@ -193,6 +193,12 @@ footer{padding:40px 0 50px;color:var(--dim);font:13px var(--mono);text-align:cen
 @keyframes waPing{0%{opacity:.9;transform:scale(.96)}80%,100%{opacity:0;transform:scale(1.18)}}
 @media (max-width:560px){.wa-float{padding:13px;right:14px;bottom:14px}.wa-float span{display:none}}
 @media (prefers-reduced-motion:reduce){.wa-float::after{animation:none}}
+/* pause every CSS animation on the site (WCAG 2.2.2); the canvases check the class themselves */
+html.still *,html.still *::before,html.still *::after{animation-play-state:paused!important}
+.still-btn{display:inline-block;padding:6px 2px;border:0;background:none;font:inherit;color:var(--soft);text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:3px;cursor:pointer}
+@media (hover:hover){.still-btn:hover{color:var(--g)}}
+.nf-langs{margin-top:34px;display:grid;gap:8px;color:var(--muted);font-size:15px}
+.nf-langs a{color:var(--g)}
 footer a{display:inline-block;padding:6px 2px;color:var(--soft);text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:3px}
 @media (hover:hover){footer a:hover{color:var(--g)}}
 
@@ -299,7 +305,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 
 /* fingers: every link and button gets at least a 44 px target (Apple's minimum) without changing how it looks */
 @media (pointer:coarse){
-  footer a{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
+  footer a,.still-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
   .logo,.lang a,.menu-btn,.back{position:relative}
   .logo::after,.lang a::after,.menu-btn::after{content:"";position:absolute;inset:-8px -4px}
   .p-url a{padding:13px 0}

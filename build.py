@@ -20,7 +20,7 @@ def R(en):
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ayfar.dev"
 CANON = SITE  # ayfar.dev since 2026-11-06; ayfar.vercel.app redirects here
-V = "48"  # cache-busting for assets and images
+V = "49"  # cache-busting for images (scripts and fonts carry their own content hash)
 
 # Contact
 PHONE = "+994772172358"
@@ -403,6 +403,14 @@ def font_url(name):
         return f"/fonts/{name}?v={hashlib.sha1(f.read()).hexdigest()[:10]}"
 
 
+def asset_url(name):
+    """/assets/<name> with a content hash, so a changed script reaches returning visitors at once
+    (assets are cached as immutable; build_js runs before any page is written)."""
+    import hashlib
+    with open(os.path.join(ROOT, "assets", name), "rb") as f:
+        return f"/assets/{name}?v={hashlib.sha1(f.read()).hexdigest()[:10]}"
+
+
 def css(*names):
     """Stylesheets inlined into the page: no render-blocking CSS request. The source files stay in assets/."""
     import re
@@ -418,9 +426,22 @@ def css(*names):
     return "<style>\n" + "\n".join(parts) + "\n</style>\n"
 
 
+def short(text, limit=160):
+    """A meta description that search results show whole: the longest run of full sentences that fits,
+    otherwise cut at a word and end with an ellipsis."""
+    if len(text) <= limit:
+        return text
+    cut = text[:limit]
+    end = max(cut.rfind(". "), cut.rfind(": "))
+    if end >= 90:
+        return cut[:end + 1].rstrip(":") if cut[end] == "." else cut[:end]
+    return cut[:limit - 1].rsplit(" ", 1)[0].rstrip(",;:—– ") + "…"
+
+
 def head(title, desc, path, og, alternates=True, canonical=None, noindex=False):
     """<head> of a page. path is the page's path inside a language, e.g. "/" or "/p/provguard.html".
     alternates adds hreflang links to the same page in the other languages."""
+    desc = short(desc)
     url = CANON + LP() + path if canonical is None else canonical
     og_url = f'<meta property="og:url" content="{url}">\n' if url else ""
     # Russian headings are set in Unbounded's Cyrillic cut: fetch it early so they don't swap late
@@ -441,7 +462,7 @@ def head(title, desc, path, og, alternates=True, canonical=None, noindex=False):
 <meta name="description" content="{E(desc)}">
 {links}<meta property="og:type" content="website">
 <meta property="og:locale" content="{LOCALE[LANG]}">
-<meta property="og:title" content="{E(title)}">
+{"".join(f'<meta property="og:locale:alternate" content="{LOCALE[l]}">' + chr(10) for l in LANGS if l != LANG) if alternates else ""}<meta property="og:title" content="{E(title)}">
 <meta property="og:description" content="{E(desc)}">
 {og_url}<meta property="og:site_name" content="ayfar">
 <meta property="og:image" content="{SITE}/{og}">
@@ -460,9 +481,10 @@ def head(title, desc, path, og, alternates=True, canonical=None, noindex=False):
 {cyr_preload}<link rel="preload" href="{font_url("space-grotesk-latin.woff2")}" as="font" type="font/woff2" crossorigin>
 <script>
 document.documentElement.classList.add('js');
+try{{if(localStorage.getItem('still')==='1')document.documentElement.classList.add('still')}}catch(e){{}}
 setTimeout(function(){{var b=document.body;if(!b)return;b.classList.add('ready');document.querySelectorAll('.reveal').forEach(function(e){{e.classList.add('in')}});}},5000);
 </script>
-{css("fonts.css", "site.css")}<script src="/assets/site.js?v={V}" defer></script>
+{css("fonts.css", "site.css")}<script src="{asset_url("site.js")}" defer></script>
 """
 
 
@@ -538,8 +560,11 @@ def message_dialog():
 </dialog>"""
 
 
+SKILLS = ["Python", "JavaScript", "HTML5 · CSS", "Canvas", "PyTorch", "FastAPI", "Game dev", "C++", "Assembly", "Linux", "Docker", "Vercel"]
+
+
 def footer():
-    return f"""<footer><div class="wrap">© 2026 ayfar · {T("Ziya Əzizov", "Ziya Azizov")} · <a href="tel:{PHONE}">{PHONE_SHOW}</a> · {T("Bakıda hazırlanıb", "Made in Baku")}</div></footer>"""
+    return f"""<footer><div class="wrap">© 2026 ayfar · {T("Ziya Əzizov", "Ziya Azizov")} · <a href="tel:{PHONE}">{PHONE_SHOW}</a> · {T("Bakıda hazırlanıb", "Made in Baku")} · <button type="button" class="still-btn" data-still aria-pressed="false">{T("Animasiyaları dayandır", "Pause animations")}</button></div></footer>"""
 
 
 def scene(kind):
@@ -644,7 +669,7 @@ def schema():
         "@context": "https://schema.org", "@type": "ProfessionalService", "@id": CANON + "/#ayfar",
         "name": "ayfar", "alternateName": "ayfar — veb sayt hazırlanması",
         "description": X("Bakıda bizneslər üçün landing page, korporativ sayt və onlayn mağaza hazırlanması. Ziya Əzizov.", "Landing pages, company websites and online shops for businesses in Baku. Ziya Azizov."),
-        "url": CANON + LP() + "/", "logo": SITE + "/img/icon-512.png", "image": SITE + "/img/og/home.png",
+        "url": CANON + LP() + "/", "logo": SITE + "/img/icon-512.png", "image": SITE + "/img/og/home.jpg",
         "telephone": PHONE, "email": EMAIL, "founder": {"@id": CANON + "/#ziya"},
         "areaServed": {"@type": "City", "name": "Bakı"},
         "address": {"@type": "PostalAddress", "addressLocality": "Bakı", "addressCountry": "AZ"},
@@ -870,8 +895,8 @@ def build_index():
             X("Bakıda sayt sifarişi: landing page, biznes saytı və onlayn mağaza. Ziya Əzizov (ayfar), veb developer və kibertəhlükəsizlik mühəndisi. Pulsuz qiymət təklifi.",
               "Website development in Baku: landing pages, business websites and online shops. Ziya Azizov (ayfar), web developer and cybersecurity engineer. Free quote."))
     page = head(title, desc,
-                "/", "img/og/home.png")
-    page += css("home.css") + f'<script src="/assets/home.js?v={V}" defer></script>\n' + schema() + '</head>\n<body>\n'
+                "/", "img/og/home.jpg")
+    page += css("home.css") + f'<script src="{asset_url("home.js")}" defer></script>\n' + schema() + '</head>\n<body>\n'
     page += chrome_bits("/")
     page += f"""
 <main id="main">
@@ -957,10 +982,11 @@ def build_index():
           {T("Bu dünyanı mənə bakalavrın 1-ci kursunda keçdiyimiz <b>Fundamentals of Programming</b> fənni tanıtdı. 2023-cü ildə, hələ 2-ci kursda ikən proqramlaşdırma və kibertəhlükəsizliyə ciddi maraq saldım və işə öz kompüterimə <b>Kali Linux</b> əməliyyat sistemini quraşdırmaqla, özüm başladım.", "This world was opened to me by the <b>Fundamentals of Programming</b> course in my first year. In 2023, in my second year, I got seriously into programming and cybersecurity and started on my own by installing <b>Kali Linux</b> on my computer.", "p")}
           {T("Düşünürəm ki, kibertəhlükəsizlik və süni intellekt uzun illər boyu ən güclü sahələr olaraq qalacaq və bu sahələrdə bacarıqlı mühəndislərə həmişə ehtiyac olacaq. Bu sahələrdəki işimdən əlavə, şirkətlərin, professorların və insanların işini əhəmiyyətli dərəcədə yüngülləşdirə biləcək maraqlı layihələr də yaradıram. Onların hamısı bu saytdadır.", "I believe cybersecurity and AI will stay among the strongest fields for many years, and skilled engineers will always be needed there. Alongside that work, I build projects that can make life noticeably easier for companies, professors and everyday people. All of them are on this site.", "p")}
           {hire_html()}
+          <ul class="sr">{"".join(f"<li>{s}</li>" for s in SKILLS)}</ul>
           <div class="skills" aria-hidden="true"><div class="mq"><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span><span>Python</span><span>JavaScript</span><span>HTML5 · CSS</span><span>Canvas</span><span>PyTorch</span><span>FastAPI</span><span>Game dev</span><span>C++</span><span>Assembly</span><span>Linux</span><span>Docker</span><span>Vercel</span></div></div>
         </div>
         <div class="idcard reveal tiltable">
-          <div class="photo"><img data-zoom="/img/ziya-azizov-ayfar.webp?v={V}" tabindex="0" role="button" src="/img/ziya-azizov-ayfar-s.webp?v={V}" srcset="/img/ziya-azizov-ayfar-s.webp?v={V} 360w, /img/ziya-azizov-ayfar.webp?v={V} 900w" sizes="(min-width: 900px) 440px, 92vw" width="900" height="900" alt="{X("Ziya Əzizov (ayfar), Bakıdan veb developer və kibertəhlükəsizlik mühəndisi", "Ziya Azizov (ayfar), web developer and cybersecurity engineer from Baku")}" loading="lazy" decoding="async"><span class="photo-badge"><i></i>{"Baku" if LANG == "en" else X("Bakı · 2005", "Baku · 2005")}</span></div>
+          <div class="photo"><button type="button" class="photo-zoom" data-zoom="/img/ziya-azizov-ayfar.webp?v={V}"><img src="/img/ziya-azizov-ayfar-s.webp?v={V}" srcset="/img/ziya-azizov-ayfar-s.webp?v={V} 360w, /img/ziya-azizov-ayfar.webp?v={V} 900w" sizes="(min-width: 900px) 440px, 92vw" width="900" height="900" alt="{X("Ziya Əzizov (ayfar), Bakıdan veb developer və kibertəhlükəsizlik mühəndisi", "Ziya Azizov (ayfar), web developer and cybersecurity engineer from Baku")}" loading="lazy" decoding="async"></button><span class="photo-badge"><i></i>{"Baku" if LANG == "en" else X("Bakı · 2005", "Baku · 2005")}</span></div>
           <h3>{T("Ziya Əzizov", "Ziya Azizov")}</h3>
           <div class="handle">@ayfar</div>
           <dl>
@@ -1022,13 +1048,38 @@ def out_path(*parts):
     return os.path.join(d, parts[-1])
 
 
+def project_ld(p, desc, path):
+    """Structured data for a project page: what the project is, who made it, and where it sits on the site."""
+    import json
+    url = CANON + LP() + path
+    kind = {"game": "VideoGame", "web": "WebSite", "research": "SoftwareSourceCode"}.get(p["cat"], "WebApplication")
+    if p["slug"] == "agent-audit":
+        kind = "Service"
+    work = {"@context": "https://schema.org", "@type": kind, "name": X(*p["name"]), "description": desc,
+            "url": url, "image": SITE + f"/img/og/{p['slug']}.jpg", "inLanguage": LANG,
+            ("provider" if kind == "Service" else "author"): {"@id": CANON + "/#ziya"}, "sameAs": p["url"]}
+    if p.get("github"):
+        work["codeRepository"] = p["github"]
+    if kind == "VideoGame":
+        work["gamePlatform"] = "Web browser"
+    if kind == "WebApplication":
+        work["applicationCategory"] = "SecurityApplication"
+        work["operatingSystem"] = "Any"
+    crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "ayfar", "item": CANON + LP() + "/"},
+        {"@type": "ListItem", "position": 2, "name": X("Layihələr", "Projects"), "item": CANON + LP() + "/#projects"},
+        {"@type": "ListItem", "position": 3, "name": X(*p["name"]), "item": url}]}
+    return "".join(f'<script type="application/ld+json">{json.dumps(d, ensure_ascii=False)}</script>\n' for d in (work, crumbs))
+
+
 def build_project(i, p):
     nxt = P[(i + 1) % len(P)]
     prv = P[(i - 1) % len(P)]
     name_az, name_en = p["name"]
     desc = X(*p["summary"])
     path = f"/p/{p['slug']}.html"
-    page = head(X(name_az, name_en) + " — ayfar", desc, path, f"img/og/{p['slug']}.png")
+    page = head(f"{X(name_az, name_en)} — {X(*p['tag'])} | ayfar", desc, path, f"img/og/{p['slug']}.jpg")
+    page += project_ld(p, desc, path)
     page += css("project.css") + f'</head>\n<body class="proj pc-{p["slug"]}">\n'
     page += chrome_bits(path)
     body = "".join(f"<p>{X(a, e)}</p>" for a, e in zip(*p["body"]))
@@ -1088,7 +1139,8 @@ ARTICLES = [dict(
     slug="provguard",
     title="Stop asking \"is this text malicious?\" — how I stopped 144/144 prompt-injection attacks on an AI banking agent",
     desc="Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.",
-    date="2026-11-01", project="provguard", body="content/provguard-article.html", og="img/og/provguard.png",
+    seo_title="ProvGuard: how I stopped 144/144 prompt-injection attacks",
+    date="2026-11-01", project="provguard", body="content/provguard-article.html", og="img/og/provguard.jpg",
 )]
 
 
@@ -1102,7 +1154,7 @@ def build_articles():
         path = f"/articles/{a['slug']}.html"
         url = CANON + path  # the text is English everywhere, so every language version points here
         proj = next(p for p in P if p["slug"] == a["project"])
-        page = head(a["title"] + " — ayfar", a["desc"], path, a["og"], alternates=False, canonical=url)
+        page = head(a["seo_title"] + " — ayfar", a["desc"], path, a["og"], alternates=False, canonical=url)
         page = page.replace('<meta property="og:type" content="website">', '<meta property="og:type" content="article">')
         # the article itself is written in English on every language's copy
         page = page.replace(f'<meta property="og:locale" content="{LOCALE[LANG]}">', '<meta property="og:locale" content="en_US">')
@@ -1132,7 +1184,8 @@ def build_articles():
 
 
 def build_404():
-    page = head("Səhifə tapılmadı — ayfar", "Bu səhifə mövcud deyil.", "/", "img/og/home.png",
+    page = head("Səhifə tapılmadı · Page not found · Страница не найдена — ayfar",
+                "Bu səhifə mövcud deyil. This page does not exist. Такой страницы нет.", "/", "img/og/home.jpg",
                 alternates=False, canonical="", noindex=True)
     page += '</head>\n<body>\n' + chrome_bits("/")
     page += f"""
@@ -1145,6 +1198,10 @@ def build_404():
       <a class="btn primary magnet" href="/">{T("Ana səhifə", "Home")} <span class="arr">→</span></a>
       <a class="btn magnet" href="/#projects">{T("Layihələr", "Projects")} <span class="arr">→</span></a>
       <a class="btn magnet" href="{wa_order()}" target="_blank" rel="noopener">{WA_SVG}<span>WhatsApp</span></a>
+    </div>
+    <div class="nf-langs">
+      <p lang="en">This page doesn't exist or has moved. <a href="/en/">Go to the English home page →</a></p>
+      <p lang="ru">Такой страницы нет или она переехала. <a href="/ru/">Перейти на главную на русском →</a></p>
     </div>
   </section>
 </main>
@@ -1219,7 +1276,11 @@ def build_vercel_json():
                       {"source": "/yazilar/:slug", "destination": "/articles/:slug", "permanent": True},
                       # a page address typed or shared without ".html" used to be a 404
                       {"source": "/:lang(en|ru)/:dir(p|articles)/:slug([^./]+)", "destination": "/:lang/:dir/:slug.html", "permanent": True},
-                      {"source": "/:dir(p|articles)/:slug([^./]+)", "destination": "/:dir/:slug.html", "permanent": True}],
+                      {"source": "/:dir(p|articles)/:slug([^./]+)", "destination": "/:dir/:slug.html", "permanent": True},
+                      # one address per page
+                      {"source": "/index.html", "destination": "/", "permanent": True},
+                      {"source": "/:lang(en|ru)/index.html", "destination": "/:lang/", "permanent": True},
+                      {"source": "/:lang(en|ru)", "destination": "/:lang/", "permanent": True}],
         "headers": [{"source": "/(.*)", "headers": [{"key": k, "value": v} for k, v in headers]}]
         + [{"source": src, "headers": [{"key": "Cache-Control", "value": val}]} for src, val in cache]}
     with open(os.path.join(ROOT, "vercel.json"), "w", encoding="utf-8", newline="\n") as f:

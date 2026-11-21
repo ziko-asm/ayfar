@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stop asking &quot;is this text malicious?&quot; — how I stopped 144/144 prompt-injection attacks on an AI banking agent — ayfar</title>
-<meta name="description" content="Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.">
+<title>ProvGuard: how I stopped 144/144 prompt-injection attacks — ayfar</title>
+<meta name="description" content="Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from">
 <link rel="canonical" href="https://ayfar.dev/articles/provguard.html">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="Stop asking &quot;is this text malicious?&quot; — how I stopped 144/144 prompt-injection attacks on an AI banking agent — ayfar">
-<meta property="og:description" content="Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.">
+<meta property="og:title" content="ProvGuard: how I stopped 144/144 prompt-injection attacks — ayfar">
+<meta property="og:description" content="Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from">
 <meta property="og:url" content="https://ayfar.dev/articles/provguard.html">
 <meta property="og:site_name" content="ayfar">
-<meta property="og:image" content="https://ayfar.dev/img/og/provguard.png">
+<meta property="og:image" content="https://ayfar.dev/img/og/provguard.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://ayfar.dev/img/og/provguard.png">
+<meta name="twitter:image" content="https://ayfar.dev/img/og/provguard.jpg">
 <meta name="theme-color" content="#05070b">
 <meta name="google-site-verification" content="9FHzK0T2MlxLEmw8k1gnPzawKyXvbkJhKm1MKYsDFh4" />
 <meta name="msvalidate.01" content="071B769B591B43B1773023FFFF98515D" />
@@ -24,10 +24,11 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305070b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2334f5b0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ff4fd8'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="/img/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="preload" href="/fonts/unbounded-latin.woff2?v=876bb412ee" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/space-grotesk-latin.woff2?v=1c2a79f40c" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/unbounded-latin.woff2?v=4c313b2939" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/space-grotesk-latin.woff2?v=913c721617" as="font" type="font/woff2" crossorigin>
 <script>
 document.documentElement.classList.add('js');
+try{if(localStorage.getItem('still')==='1')document.documentElement.classList.add('still')}catch(e){}
 setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});},5000);
 </script>
 <style>
@@ -41,7 +42,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/jetbrains-mono-cyrillic.woff2?v=9f0c59a13c) format('woff2');
+  src: url(/fonts/jetbrains-mono-cyrillic.woff2?v=c217cfd496) format('woff2');
   unicode-range: U+0410, U+0411, U+0412, U+0413, U+0414, U+0415, U+0416, U+0417, U+0418, U+041A, U+041B, U+041C, U+041D, U+041E, U+041F, U+0420, U+0421, U+0422, U+0423, U+0425, U+0426, U+0427, U+0429, U+042B, U+042C, U+042D, U+042E, U+042F, U+0430, U+0431, U+0432, U+0433, U+0434, U+0435, U+0436, U+0437, U+0438, U+0439, U+043A, U+043B, U+043C, U+043D, U+043E, U+043F, U+0440, U+0441, U+0442, U+0443, U+0444, U+0445, U+0446, U+0447, U+0448, U+0449, U+044A, U+044B, U+044C, U+044D, U+044E, U+044F, U+0451;
 }
 /* latin-ext */
@@ -50,7 +51,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/jetbrains-mono-latin-ext.woff2?v=29d925a79d) format('woff2');
+  src: url(/fonts/jetbrains-mono-latin-ext.woff2?v=debfa1f4fa) format('woff2');
   unicode-range: U+011F, U+0130, U+015E, U+015F, U+018F, U+0259;
 }
 /* latin */
@@ -59,7 +60,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/jetbrains-mono-latin.woff2?v=09b6ebd4c4) format('woff2');
+  src: url(/fonts/jetbrains-mono-latin.woff2?v=25b1ec98cf) format('woff2');
   unicode-range: U+0020, U+0021, U+0022, U+0023, U+0024, U+0025, U+0026, U+0027, U+0028, U+0029, U+002A, U+002B, U+002C, U+002D, U+002E, U+002F, U+0030, U+0031, U+0032, U+0033, U+0034, U+0035, U+0036, U+0037, U+0038, U+0039, U+003A, U+003B, U+003C, U+003D, U+003E, U+003F, U+0040, U+0041, U+0042, U+0043, U+0044, U+0045, U+0046, U+0047, U+0048, U+0049, U+004A, U+004B, U+004C, U+004D, U+004E, U+004F, U+0050, U+0051, U+0052, U+0053, U+0054, U+0055, U+0056, U+0057, U+0058, U+0059, U+005A, U+005B, U+005C, U+005D, U+005E, U+005F, U+0060, U+0061, U+0062, U+0063, U+0064, U+0065, U+0066, U+0067, U+0068, U+0069, U+006A, U+006B, U+006C, U+006D, U+006E, U+006F, U+0070, U+0071, U+0072, U+0073, U+0074, U+0075, U+0076, U+0077, U+0078, U+0079, U+007A, U+007B, U+007C, U+007D, U+007E, U+00A0, U+00A1, U+00A2, U+00A3, U+00A4, U+00A5, U+00A6, U+00A7, U+00A8, U+00A9, U+00AA, U+00AB, U+00AC, U+00AD, U+00AE, U+00AF, U+00B0, U+00B1, U+00B2, U+00B3, U+00B4, U+00B5, U+00B6, U+00B7, U+00B8, U+00B9, U+00BA, U+00BB, U+00BC, U+00BD, U+00BE, U+00BF, U+00C0, U+00C1, U+00C2, U+00C3, U+00C4, U+00C5, U+00C6, U+00C7, U+00C8, U+00C9, U+00CA, U+00CB, U+00CC, U+00CD, U+00CE, U+00CF, U+00D0, U+00D1, U+00D2, U+00D3, U+00D4, U+00D5, U+00D6, U+00D7, U+00D8, U+00D9, U+00DA, U+00DB, U+00DC, U+00DD, U+00DE, U+00DF, U+00E0, U+00E1, U+00E2, U+00E3, U+00E4, U+00E5, U+00E6, U+00E7, U+00E8, U+00E9, U+00EA, U+00EB, U+00EC, U+00ED, U+00EE, U+00EF, U+00F0, U+00F1, U+00F2, U+00F3, U+00F4, U+00F5, U+00F6, U+00F7, U+00F8, U+00F9, U+00FA, U+00FB, U+00FC, U+00FD, U+00FE, U+00FF, U+0131, U+2013, U+2014, U+201C, U+201D, U+2026, U+2191, U+2193;
 }
 /* cyrillic */
@@ -68,7 +69,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(/fonts/jetbrains-mono-cyrillic.woff2?v=9f0c59a13c) format('woff2');
+  src: url(/fonts/jetbrains-mono-cyrillic.woff2?v=c217cfd496) format('woff2');
   unicode-range: U+0410, U+0411, U+0412, U+0413, U+0414, U+0415, U+0416, U+0417, U+0418, U+041A, U+041B, U+041C, U+041D, U+041E, U+041F, U+0420, U+0421, U+0422, U+0423, U+0425, U+0426, U+0427, U+0429, U+042B, U+042C, U+042D, U+042E, U+042F, U+0430, U+0431, U+0432, U+0433, U+0434, U+0435, U+0436, U+0437, U+0438, U+0439, U+043A, U+043B, U+043C, U+043D, U+043E, U+043F, U+0440, U+0441, U+0442, U+0443, U+0444, U+0445, U+0446, U+0447, U+0448, U+0449, U+044A, U+044B, U+044C, U+044D, U+044E, U+044F, U+0451;
 }
 /* latin-ext */
@@ -77,7 +78,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(/fonts/jetbrains-mono-latin-ext.woff2?v=29d925a79d) format('woff2');
+  src: url(/fonts/jetbrains-mono-latin-ext.woff2?v=debfa1f4fa) format('woff2');
   unicode-range: U+011F, U+0130, U+015E, U+015F, U+018F, U+0259;
 }
 /* latin */
@@ -86,7 +87,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(/fonts/jetbrains-mono-latin.woff2?v=09b6ebd4c4) format('woff2');
+  src: url(/fonts/jetbrains-mono-latin.woff2?v=25b1ec98cf) format('woff2');
   unicode-range: U+0020, U+0021, U+0022, U+0023, U+0024, U+0025, U+0026, U+0027, U+0028, U+0029, U+002A, U+002B, U+002C, U+002D, U+002E, U+002F, U+0030, U+0031, U+0032, U+0033, U+0034, U+0035, U+0036, U+0037, U+0038, U+0039, U+003A, U+003B, U+003C, U+003D, U+003E, U+003F, U+0040, U+0041, U+0042, U+0043, U+0044, U+0045, U+0046, U+0047, U+0048, U+0049, U+004A, U+004B, U+004C, U+004D, U+004E, U+004F, U+0050, U+0051, U+0052, U+0053, U+0054, U+0055, U+0056, U+0057, U+0058, U+0059, U+005A, U+005B, U+005C, U+005D, U+005E, U+005F, U+0060, U+0061, U+0062, U+0063, U+0064, U+0065, U+0066, U+0067, U+0068, U+0069, U+006A, U+006B, U+006C, U+006D, U+006E, U+006F, U+0070, U+0071, U+0072, U+0073, U+0074, U+0075, U+0076, U+0077, U+0078, U+0079, U+007A, U+007B, U+007C, U+007D, U+007E, U+00A0, U+00A1, U+00A2, U+00A3, U+00A4, U+00A5, U+00A6, U+00A7, U+00A8, U+00A9, U+00AA, U+00AB, U+00AC, U+00AD, U+00AE, U+00AF, U+00B0, U+00B1, U+00B2, U+00B3, U+00B4, U+00B5, U+00B6, U+00B7, U+00B8, U+00B9, U+00BA, U+00BB, U+00BC, U+00BD, U+00BE, U+00BF, U+00C0, U+00C1, U+00C2, U+00C3, U+00C4, U+00C5, U+00C6, U+00C7, U+00C8, U+00C9, U+00CA, U+00CB, U+00CC, U+00CD, U+00CE, U+00CF, U+00D0, U+00D1, U+00D2, U+00D3, U+00D4, U+00D5, U+00D6, U+00D7, U+00D8, U+00D9, U+00DA, U+00DB, U+00DC, U+00DD, U+00DE, U+00DF, U+00E0, U+00E1, U+00E2, U+00E3, U+00E4, U+00E5, U+00E6, U+00E7, U+00E8, U+00E9, U+00EA, U+00EB, U+00EC, U+00ED, U+00EE, U+00EF, U+00F0, U+00F1, U+00F2, U+00F3, U+00F4, U+00F5, U+00F6, U+00F7, U+00F8, U+00F9, U+00FA, U+00FB, U+00FC, U+00FD, U+00FE, U+00FF, U+0131, U+2013, U+2014, U+201C, U+201D, U+2026, U+2191, U+2193;
 }
 /* latin-ext */
@@ -95,7 +96,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/space-grotesk-latin-ext.woff2?v=1380f1a19d) format('woff2');
+  src: url(/fonts/space-grotesk-latin-ext.woff2?v=7fc3d7a6ee) format('woff2');
   unicode-range: U+011F, U+0130, U+015E, U+015F, U+018F, U+0259, U+20BC;
 }
 /* latin */
@@ -104,7 +105,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/space-grotesk-latin.woff2?v=1c2a79f40c) format('woff2');
+  src: url(/fonts/space-grotesk-latin.woff2?v=913c721617) format('woff2');
   unicode-range: U+0020, U+0021, U+0022, U+0023, U+0024, U+0025, U+0026, U+0027, U+0028, U+0029, U+002A, U+002B, U+002C, U+002D, U+002E, U+002F, U+0030, U+0031, U+0032, U+0033, U+0034, U+0035, U+0036, U+0037, U+0038, U+0039, U+003A, U+003B, U+003C, U+003D, U+003E, U+003F, U+0040, U+0041, U+0042, U+0043, U+0044, U+0045, U+0046, U+0047, U+0048, U+0049, U+004A, U+004B, U+004C, U+004D, U+004E, U+004F, U+0050, U+0051, U+0052, U+0053, U+0054, U+0055, U+0056, U+0057, U+0058, U+0059, U+005A, U+005B, U+005C, U+005D, U+005E, U+005F, U+0060, U+0061, U+0062, U+0063, U+0064, U+0065, U+0066, U+0067, U+0068, U+0069, U+006A, U+006B, U+006C, U+006D, U+006E, U+006F, U+0070, U+0071, U+0072, U+0073, U+0074, U+0075, U+0076, U+0077, U+0078, U+0079, U+007A, U+007B, U+007C, U+007D, U+007E, U+00A0, U+00A1, U+00A2, U+00A3, U+00A4, U+00A5, U+00A6, U+00A7, U+00A8, U+00A9, U+00AA, U+00AB, U+00AC, U+00AD, U+00AE, U+00AF, U+00B0, U+00B1, U+00B2, U+00B3, U+00B4, U+00B5, U+00B6, U+00B7, U+00B8, U+00B9, U+00BA, U+00BB, U+00BC, U+00BD, U+00BE, U+00BF, U+00C0, U+00C1, U+00C2, U+00C3, U+00C4, U+00C5, U+00C6, U+00C7, U+00C8, U+00C9, U+00CA, U+00CB, U+00CC, U+00CD, U+00CE, U+00CF, U+00D0, U+00D1, U+00D2, U+00D3, U+00D4, U+00D5, U+00D6, U+00D7, U+00D8, U+00D9, U+00DA, U+00DB, U+00DC, U+00DD, U+00DE, U+00DF, U+00E0, U+00E1, U+00E2, U+00E3, U+00E4, U+00E5, U+00E6, U+00E7, U+00E8, U+00E9, U+00EA, U+00EB, U+00EC, U+00ED, U+00EE, U+00EF, U+00F0, U+00F1, U+00F2, U+00F3, U+00F4, U+00F5, U+00F6, U+00F7, U+00F8, U+00F9, U+00FA, U+00FB, U+00FC, U+00FD, U+00FE, U+00FF, U+0131, U+2013, U+2014, U+201C, U+201D, U+2026, U+2191, U+2193;
 }
 /* latin-ext */
@@ -113,7 +114,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(/fonts/space-grotesk-latin-ext.woff2?v=1380f1a19d) format('woff2');
+  src: url(/fonts/space-grotesk-latin-ext.woff2?v=7fc3d7a6ee) format('woff2');
   unicode-range: U+011F, U+0130, U+015E, U+015F, U+018F, U+0259, U+20BC;
 }
 /* latin */
@@ -122,7 +123,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(/fonts/space-grotesk-latin.woff2?v=1c2a79f40c) format('woff2');
+  src: url(/fonts/space-grotesk-latin.woff2?v=913c721617) format('woff2');
   unicode-range: U+0020, U+0021, U+0022, U+0023, U+0024, U+0025, U+0026, U+0027, U+0028, U+0029, U+002A, U+002B, U+002C, U+002D, U+002E, U+002F, U+0030, U+0031, U+0032, U+0033, U+0034, U+0035, U+0036, U+0037, U+0038, U+0039, U+003A, U+003B, U+003C, U+003D, U+003E, U+003F, U+0040, U+0041, U+0042, U+0043, U+0044, U+0045, U+0046, U+0047, U+0048, U+0049, U+004A, U+004B, U+004C, U+004D, U+004E, U+004F, U+0050, U+0051, U+0052, U+0053, U+0054, U+0055, U+0056, U+0057, U+0058, U+0059, U+005A, U+005B, U+005C, U+005D, U+005E, U+005F, U+0060, U+0061, U+0062, U+0063, U+0064, U+0065, U+0066, U+0067, U+0068, U+0069, U+006A, U+006B, U+006C, U+006D, U+006E, U+006F, U+0070, U+0071, U+0072, U+0073, U+0074, U+0075, U+0076, U+0077, U+0078, U+0079, U+007A, U+007B, U+007C, U+007D, U+007E, U+00A0, U+00A1, U+00A2, U+00A3, U+00A4, U+00A5, U+00A6, U+00A7, U+00A8, U+00A9, U+00AA, U+00AB, U+00AC, U+00AD, U+00AE, U+00AF, U+00B0, U+00B1, U+00B2, U+00B3, U+00B4, U+00B5, U+00B6, U+00B7, U+00B8, U+00B9, U+00BA, U+00BB, U+00BC, U+00BD, U+00BE, U+00BF, U+00C0, U+00C1, U+00C2, U+00C3, U+00C4, U+00C5, U+00C6, U+00C7, U+00C8, U+00C9, U+00CA, U+00CB, U+00CC, U+00CD, U+00CE, U+00CF, U+00D0, U+00D1, U+00D2, U+00D3, U+00D4, U+00D5, U+00D6, U+00D7, U+00D8, U+00D9, U+00DA, U+00DB, U+00DC, U+00DD, U+00DE, U+00DF, U+00E0, U+00E1, U+00E2, U+00E3, U+00E4, U+00E5, U+00E6, U+00E7, U+00E8, U+00E9, U+00EA, U+00EB, U+00EC, U+00ED, U+00EE, U+00EF, U+00F0, U+00F1, U+00F2, U+00F3, U+00F4, U+00F5, U+00F6, U+00F7, U+00F8, U+00F9, U+00FA, U+00FB, U+00FC, U+00FD, U+00FE, U+00FF, U+0131, U+2013, U+2014, U+201C, U+201D, U+2026, U+2191, U+2193;
 }
 /* latin-ext */
@@ -131,7 +132,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(/fonts/space-grotesk-latin-ext.woff2?v=1380f1a19d) format('woff2');
+  src: url(/fonts/space-grotesk-latin-ext.woff2?v=7fc3d7a6ee) format('woff2');
   unicode-range: U+011F, U+0130, U+015E, U+015F, U+018F, U+0259, U+20BC;
 }
 /* latin */
@@ -140,7 +141,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(/fonts/space-grotesk-latin.woff2?v=1c2a79f40c) format('woff2');
+  src: url(/fonts/space-grotesk-latin.woff2?v=913c721617) format('woff2');
   unicode-range: U+0020, U+0021, U+0022, U+0023, U+0024, U+0025, U+0026, U+0027, U+0028, U+0029, U+002A, U+002B, U+002C, U+002D, U+002E, U+002F, U+0030, U+0031, U+0032, U+0033, U+0034, U+0035, U+0036, U+0037, U+0038, U+0039, U+003A, U+003B, U+003C, U+003D, U+003E, U+003F, U+0040, U+0041, U+0042, U+0043, U+0044, U+0045, U+0046, U+0047, U+0048, U+0049, U+004A, U+004B, U+004C, U+004D, U+004E, U+004F, U+0050, U+0051, U+0052, U+0053, U+0054, U+0055, U+0056, U+0057, U+0058, U+0059, U+005A, U+005B, U+005C, U+005D, U+005E, U+005F, U+0060, U+0061, U+0062, U+0063, U+0064, U+0065, U+0066, U+0067, U+0068, U+0069, U+006A, U+006B, U+006C, U+006D, U+006E, U+006F, U+0070, U+0071, U+0072, U+0073, U+0074, U+0075, U+0076, U+0077, U+0078, U+0079, U+007A, U+007B, U+007C, U+007D, U+007E, U+00A0, U+00A1, U+00A2, U+00A3, U+00A4, U+00A5, U+00A6, U+00A7, U+00A8, U+00A9, U+00AA, U+00AB, U+00AC, U+00AD, U+00AE, U+00AF, U+00B0, U+00B1, U+00B2, U+00B3, U+00B4, U+00B5, U+00B6, U+00B7, U+00B8, U+00B9, U+00BA, U+00BB, U+00BC, U+00BD, U+00BE, U+00BF, U+00C0, U+00C1, U+00C2, U+00C3, U+00C4, U+00C5, U+00C6, U+00C7, U+00C8, U+00C9, U+00CA, U+00CB, U+00CC, U+00CD, U+00CE, U+00CF, U+00D0, U+00D1, U+00D2, U+00D3, U+00D4, U+00D5, U+00D6, U+00D7, U+00D8, U+00D9, U+00DA, U+00DB, U+00DC, U+00DD, U+00DE, U+00DF, U+00E0, U+00E1, U+00E2, U+00E3, U+00E4, U+00E5, U+00E6, U+00E7, U+00E8, U+00E9, U+00EA, U+00EB, U+00EC, U+00ED, U+00EE, U+00EF, U+00F0, U+00F1, U+00F2, U+00F3, U+00F4, U+00F5, U+00F6, U+00F7, U+00F8, U+00F9, U+00FA, U+00FB, U+00FC, U+00FD, U+00FE, U+00FF, U+0131, U+2013, U+2014, U+201C, U+201D, U+2026, U+2191, U+2193;
 }
 /* latin-ext */
@@ -149,7 +150,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(/fonts/space-grotesk-latin-ext.woff2?v=1380f1a19d) format('woff2');
+  src: url(/fonts/space-grotesk-latin-ext.woff2?v=7fc3d7a6ee) format('woff2');
   unicode-range: U+011F, U+0130, U+015E, U+015F, U+018F, U+0259, U+20BC;
 }
 /* latin */
@@ -158,7 +159,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(/fonts/space-grotesk-latin.woff2?v=1c2a79f40c) format('woff2');
+  src: url(/fonts/space-grotesk-latin.woff2?v=913c721617) format('woff2');
   unicode-range: U+0020, U+0021, U+0022, U+0023, U+0024, U+0025, U+0026, U+0027, U+0028, U+0029, U+002A, U+002B, U+002C, U+002D, U+002E, U+002F, U+0030, U+0031, U+0032, U+0033, U+0034, U+0035, U+0036, U+0037, U+0038, U+0039, U+003A, U+003B, U+003C, U+003D, U+003E, U+003F, U+0040, U+0041, U+0042, U+0043, U+0044, U+0045, U+0046, U+0047, U+0048, U+0049, U+004A, U+004B, U+004C, U+004D, U+004E, U+004F, U+0050, U+0051, U+0052, U+0053, U+0054, U+0055, U+0056, U+0057, U+0058, U+0059, U+005A, U+005B, U+005C, U+005D, U+005E, U+005F, U+0060, U+0061, U+0062, U+0063, U+0064, U+0065, U+0066, U+0067, U+0068, U+0069, U+006A, U+006B, U+006C, U+006D, U+006E, U+006F, U+0070, U+0071, U+0072, U+0073, U+0074, U+0075, U+0076, U+0077, U+0078, U+0079, U+007A, U+007B, U+007C, U+007D, U+007E, U+00A0, U+00A1, U+00A2, U+00A3, U+00A4, U+00A5, U+00A6, U+00A7, U+00A8, U+00A9, U+00AA, U+00AB, U+00AC, U+00AD, U+00AE, U+00AF, U+00B0, U+00B1, U+00B2, U+00B3, U+00B4, U+00B5, U+00B6, U+00B7, U+00B8, U+00B9, U+00BA, U+00BB, U+00BC, U+00BD, U+00BE, U+00BF, U+00C0, U+00C1, U+00C2, U+00C3, U+00C4, U+00C5, U+00C6, U+00C7, U+00C8, U+00C9, U+00CA, U+00CB, U+00CC, U+00CD, U+00CE, U+00CF, U+00D0, U+00D1, U+00D2, U+00D3, U+00D4, U+00D5, U+00D6, U+00D7, U+00D8, U+00D9, U+00DA, U+00DB, U+00DC, U+00DD, U+00DE, U+00DF, U+00E0, U+00E1, U+00E2, U+00E3, U+00E4, U+00E5, U+00E6, U+00E7, U+00E8, U+00E9, U+00EA, U+00EB, U+00EC, U+00ED, U+00EE, U+00EF, U+00F0, U+00F1, U+00F2, U+00F3, U+00F4, U+00F5, U+00F6, U+00F7, U+00F8, U+00F9, U+00FA, U+00FB, U+00FC, U+00FD, U+00FE, U+00FF, U+0131, U+2013, U+2014, U+201C, U+201D, U+2026, U+2191, U+2193;
 }
 /* cyrillic */
@@ -167,7 +168,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(/fonts/unbounded-cyrillic.woff2?v=1b5366e420) format('woff2');
+  src: url(/fonts/unbounded-cyrillic.woff2?v=ee4c098a82) format('woff2');
   unicode-range: U+0410, U+0411, U+0412, U+0413, U+0414, U+0415, U+0416, U+0417, U+0418, U+041A, U+041B, U+041C, U+041D, U+041E, U+041F, U+0420, U+0421, U+0422, U+0423, U+0425, U+0426, U+0427, U+0429, U+042B, U+042C, U+042D, U+042E, U+042F, U+0430, U+0431, U+0432, U+0433, U+0434, U+0435, U+0436, U+0437, U+0438, U+0439, U+043A, U+043B, U+043C, U+043D, U+043E, U+043F, U+0440, U+0441, U+0442, U+0443, U+0444, U+0445, U+0446, U+0447, U+0448, U+0449, U+044A, U+044B, U+044C, U+044D, U+044E, U+044F, U+0451;
 }
 /* latin-ext */
@@ -176,7 +177,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(/fonts/unbounded-latin-ext.woff2?v=be705c2e06) format('woff2');
+  src: url(/fonts/unbounded-latin-ext.woff2?v=68a95bb71e) format('woff2');
   unicode-range: U+011F, U+0130, U+015E, U+015F, U+018F, U+0259, U+20BC;
 }
 /* latin */
@@ -185,7 +186,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(/fonts/unbounded-latin.woff2?v=876bb412ee) format('woff2');
+  src: url(/fonts/unbounded-latin.woff2?v=4c313b2939) format('woff2');
   unicode-range: U+0020, U+0021, U+0022, U+0023, U+0024, U+0025, U+0026, U+0027, U+0028, U+0029, U+002A, U+002B, U+002C, U+002D, U+002E, U+002F, U+0030, U+0031, U+0032, U+0033, U+0034, U+0035, U+0036, U+0037, U+0038, U+0039, U+003A, U+003B, U+003C, U+003D, U+003E, U+003F, U+0040, U+0041, U+0042, U+0043, U+0044, U+0045, U+0046, U+0047, U+0048, U+0049, U+004A, U+004B, U+004C, U+004D, U+004E, U+004F, U+0050, U+0051, U+0052, U+0053, U+0054, U+0055, U+0056, U+0057, U+0058, U+0059, U+005A, U+005B, U+005C, U+005D, U+005E, U+005F, U+0060, U+0061, U+0062, U+0063, U+0064, U+0065, U+0066, U+0067, U+0068, U+0069, U+006A, U+006B, U+006C, U+006D, U+006E, U+006F, U+0070, U+0071, U+0072, U+0073, U+0074, U+0075, U+0076, U+0077, U+0078, U+0079, U+007A, U+007B, U+007C, U+007D, U+007E, U+00A0, U+00A1, U+00A2, U+00A3, U+00A4, U+00A5, U+00A6, U+00A7, U+00A8, U+00A9, U+00AA, U+00AB, U+00AC, U+00AD, U+00AE, U+00AF, U+00B0, U+00B1, U+00B2, U+00B3, U+00B4, U+00B6, U+00B7, U+00B8, U+00B9, U+00BA, U+00BB, U+00BC, U+00BD, U+00BE, U+00BF, U+00C0, U+00C1, U+00C2, U+00C3, U+00C4, U+00C5, U+00C6, U+00C7, U+00C8, U+00C9, U+00CA, U+00CB, U+00CC, U+00CD, U+00CE, U+00CF, U+00D0, U+00D1, U+00D2, U+00D3, U+00D4, U+00D5, U+00D6, U+00D7, U+00D8, U+00D9, U+00DA, U+00DB, U+00DC, U+00DD, U+00DE, U+00DF, U+00E0, U+00E1, U+00E2, U+00E3, U+00E4, U+00E5, U+00E6, U+00E7, U+00E8, U+00E9, U+00EA, U+00EB, U+00EC, U+00ED, U+00EE, U+00EF, U+00F0, U+00F1, U+00F2, U+00F3, U+00F4, U+00F5, U+00F6, U+00F7, U+00F8, U+00F9, U+00FA, U+00FB, U+00FC, U+00FD, U+00FE, U+00FF, U+0131, U+2013, U+2014, U+201C, U+201D, U+2026, U+2191, U+2193;
 }
 /* cyrillic */
@@ -194,7 +195,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(/fonts/unbounded-cyrillic.woff2?v=1b5366e420) format('woff2');
+  src: url(/fonts/unbounded-cyrillic.woff2?v=ee4c098a82) format('woff2');
   unicode-range: U+0410, U+0411, U+0412, U+0413, U+0414, U+0415, U+0416, U+0417, U+0418, U+041A, U+041B, U+041C, U+041D, U+041E, U+041F, U+0420, U+0421, U+0422, U+0423, U+0425, U+0426, U+0427, U+0429, U+042B, U+042C, U+042D, U+042E, U+042F, U+0430, U+0431, U+0432, U+0433, U+0434, U+0435, U+0436, U+0437, U+0438, U+0439, U+043A, U+043B, U+043C, U+043D, U+043E, U+043F, U+0440, U+0441, U+0442, U+0443, U+0444, U+0445, U+0446, U+0447, U+0448, U+0449, U+044A, U+044B, U+044C, U+044D, U+044E, U+044F, U+0451;
 }
 /* latin-ext */
@@ -203,7 +204,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(/fonts/unbounded-latin-ext.woff2?v=be705c2e06) format('woff2');
+  src: url(/fonts/unbounded-latin-ext.woff2?v=68a95bb71e) format('woff2');
   unicode-range: U+011F, U+0130, U+015E, U+015F, U+018F, U+0259, U+20BC;
 }
 /* latin */
@@ -212,7 +213,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(/fonts/unbounded-latin.woff2?v=876bb412ee) format('woff2');
+  src: url(/fonts/unbounded-latin.woff2?v=4c313b2939) format('woff2');
   unicode-range: U+0020, U+0021, U+0022, U+0023, U+0024, U+0025, U+0026, U+0027, U+0028, U+0029, U+002A, U+002B, U+002C, U+002D, U+002E, U+002F, U+0030, U+0031, U+0032, U+0033, U+0034, U+0035, U+0036, U+0037, U+0038, U+0039, U+003A, U+003B, U+003C, U+003D, U+003E, U+003F, U+0040, U+0041, U+0042, U+0043, U+0044, U+0045, U+0046, U+0047, U+0048, U+0049, U+004A, U+004B, U+004C, U+004D, U+004E, U+004F, U+0050, U+0051, U+0052, U+0053, U+0054, U+0055, U+0056, U+0057, U+0058, U+0059, U+005A, U+005B, U+005C, U+005D, U+005E, U+005F, U+0060, U+0061, U+0062, U+0063, U+0064, U+0065, U+0066, U+0067, U+0068, U+0069, U+006A, U+006B, U+006C, U+006D, U+006E, U+006F, U+0070, U+0071, U+0072, U+0073, U+0074, U+0075, U+0076, U+0077, U+0078, U+0079, U+007A, U+007B, U+007C, U+007D, U+007E, U+00A0, U+00A1, U+00A2, U+00A3, U+00A4, U+00A5, U+00A6, U+00A7, U+00A8, U+00A9, U+00AA, U+00AB, U+00AC, U+00AD, U+00AE, U+00AF, U+00B0, U+00B1, U+00B2, U+00B3, U+00B4, U+00B6, U+00B7, U+00B8, U+00B9, U+00BA, U+00BB, U+00BC, U+00BD, U+00BE, U+00BF, U+00C0, U+00C1, U+00C2, U+00C3, U+00C4, U+00C5, U+00C6, U+00C7, U+00C8, U+00C9, U+00CA, U+00CB, U+00CC, U+00CD, U+00CE, U+00CF, U+00D0, U+00D1, U+00D2, U+00D3, U+00D4, U+00D5, U+00D6, U+00D7, U+00D8, U+00D9, U+00DA, U+00DB, U+00DC, U+00DD, U+00DE, U+00DF, U+00E0, U+00E1, U+00E2, U+00E3, U+00E4, U+00E5, U+00E6, U+00E7, U+00E8, U+00E9, U+00EA, U+00EB, U+00EC, U+00ED, U+00EE, U+00EF, U+00F0, U+00F1, U+00F2, U+00F3, U+00F4, U+00F5, U+00F6, U+00F7, U+00F8, U+00F9, U+00FA, U+00FB, U+00FC, U+00FD, U+00FE, U+00FF, U+0131, U+2013, U+2014, U+201C, U+201D, U+2026, U+2191, U+2193;
 }
 /* cyrillic */
@@ -221,7 +222,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 900;
   font-display: swap;
-  src: url(/fonts/unbounded-cyrillic.woff2?v=1b5366e420) format('woff2');
+  src: url(/fonts/unbounded-cyrillic.woff2?v=ee4c098a82) format('woff2');
   unicode-range: U+0410, U+0411, U+0412, U+0413, U+0414, U+0415, U+0416, U+0417, U+0418, U+041A, U+041B, U+041C, U+041D, U+041E, U+041F, U+0420, U+0421, U+0422, U+0423, U+0425, U+0426, U+0427, U+0429, U+042B, U+042C, U+042D, U+042E, U+042F, U+0430, U+0431, U+0432, U+0433, U+0434, U+0435, U+0436, U+0437, U+0438, U+0439, U+043A, U+043B, U+043C, U+043D, U+043E, U+043F, U+0440, U+0441, U+0442, U+0443, U+0444, U+0445, U+0446, U+0447, U+0448, U+0449, U+044A, U+044B, U+044C, U+044D, U+044E, U+044F, U+0451;
 }
 /* latin-ext */
@@ -230,7 +231,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 900;
   font-display: swap;
-  src: url(/fonts/unbounded-latin-ext.woff2?v=be705c2e06) format('woff2');
+  src: url(/fonts/unbounded-latin-ext.woff2?v=68a95bb71e) format('woff2');
   unicode-range: U+011F, U+0130, U+015E, U+015F, U+018F, U+0259, U+20BC;
 }
 /* latin */
@@ -239,7 +240,7 @@ setTimeout(function(){var b=document.body;if(!b)return;b.classList.add('ready');
   font-style: normal;
   font-weight: 900;
   font-display: swap;
-  src: url(/fonts/unbounded-latin.woff2?v=876bb412ee) format('woff2');
+  src: url(/fonts/unbounded-latin.woff2?v=4c313b2939) format('woff2');
   unicode-range: U+0020, U+0021, U+0022, U+0023, U+0024, U+0025, U+0026, U+0027, U+0028, U+0029, U+002A, U+002B, U+002C, U+002D, U+002E, U+002F, U+0030, U+0031, U+0032, U+0033, U+0034, U+0035, U+0036, U+0037, U+0038, U+0039, U+003A, U+003B, U+003C, U+003D, U+003E, U+003F, U+0040, U+0041, U+0042, U+0043, U+0044, U+0045, U+0046, U+0047, U+0048, U+0049, U+004A, U+004B, U+004C, U+004D, U+004E, U+004F, U+0050, U+0051, U+0052, U+0053, U+0054, U+0055, U+0056, U+0057, U+0058, U+0059, U+005A, U+005B, U+005C, U+005D, U+005E, U+005F, U+0060, U+0061, U+0062, U+0063, U+0064, U+0065, U+0066, U+0067, U+0068, U+0069, U+006A, U+006B, U+006C, U+006D, U+006E, U+006F, U+0070, U+0071, U+0072, U+0073, U+0074, U+0075, U+0076, U+0077, U+0078, U+0079, U+007A, U+007B, U+007C, U+007D, U+007E, U+00A0, U+00A1, U+00A2, U+00A3, U+00A4, U+00A5, U+00A6, U+00A7, U+00A8, U+00A9, U+00AA, U+00AB, U+00AC, U+00AD, U+00AE, U+00AF, U+00B0, U+00B1, U+00B2, U+00B3, U+00B4, U+00B6, U+00B7, U+00B8, U+00B9, U+00BA, U+00BB, U+00BC, U+00BD, U+00BE, U+00BF, U+00C0, U+00C1, U+00C2, U+00C3, U+00C4, U+00C5, U+00C6, U+00C7, U+00C8, U+00C9, U+00CA, U+00CB, U+00CC, U+00CD, U+00CE, U+00CF, U+00D0, U+00D1, U+00D2, U+00D3, U+00D4, U+00D5, U+00D6, U+00D7, U+00D8, U+00D9, U+00DA, U+00DB, U+00DC, U+00DD, U+00DE, U+00DF, U+00E0, U+00E1, U+00E2, U+00E3, U+00E4, U+00E5, U+00E6, U+00E7, U+00E8, U+00E9, U+00EA, U+00EB, U+00EC, U+00ED, U+00EE, U+00EF, U+00F0, U+00F1, U+00F2, U+00F3, U+00F4, U+00F5, U+00F6, U+00F7, U+00F8, U+00F9, U+00FA, U+00FB, U+00FC, U+00FD, U+00FE, U+00FF, U+0131, U+2013, U+2014, U+201C, U+201D, U+2026, U+2191, U+2193;
 }
 @property --ang{syntax:"<angle>";initial-value:0deg;inherits:false}
@@ -437,6 +438,12 @@ footer{padding:40px 0 50px;color:var(--dim);font:13px var(--mono);text-align:cen
 @keyframes waPing{0%{opacity:.9;transform:scale(.96)}80%,100%{opacity:0;transform:scale(1.18)}}
 @media (max-width:560px){.wa-float{padding:13px;right:14px;bottom:14px}.wa-float span{display:none}}
 @media (prefers-reduced-motion:reduce){.wa-float::after{animation:none}}
+/* pause every CSS animation on the site (WCAG 2.2.2); the canvases check the class themselves */
+html.still *,html.still *::before,html.still *::after{animation-play-state:paused!important}
+.still-btn{display:inline-block;padding:6px 2px;border:0;background:none;font:inherit;color:var(--soft);text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:3px;cursor:pointer}
+@media (hover:hover){.still-btn:hover{color:var(--g)}}
+.nf-langs{margin-top:34px;display:grid;gap:8px;color:var(--muted);font-size:15px}
+.nf-langs a{color:var(--g)}
 footer a{display:inline-block;padding:6px 2px;color:var(--soft);text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:3px}
 @media (hover:hover){footer a:hover{color:var(--g)}}
 
@@ -543,7 +550,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 
 /* fingers: every link and button gets at least a 44 px target (Apple's minimum) without changing how it looks */
 @media (pointer:coarse){
-  footer a{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
+  footer a,.still-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
   .logo,.lang a,.menu-btn,.back{position:relative}
   .logo::after,.lang a::after,.menu-btn::after{content:"";position:absolute;inset:-8px -4px}
   .p-url a{padding:13px 0}
@@ -561,7 +568,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 .pc-mansia{--c1:#c084fc;--c2:#ffc94d}
 .pc-article{--c1:#34f5b0;--c2:#5b8cff}
 </style>
-<script src="/assets/site.js?v=48" defer></script>
+<script src="/assets/site.js?v=17493a3b25" defer></script>
 <style>
 .p-hero{padding-top:120px;padding-bottom:40px}
 .back{display:inline-flex;align-items:center;min-height:32px;gap:8px;font:600 13px var(--mono);color:var(--muted);text-decoration:none;margin-bottom:28px;transition:color .2s,transform .3s}
@@ -637,7 +644,7 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 .art-body th,.art-body td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line2);white-space:nowrap}
 .art-body th{color:var(--text);font-weight:700}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Stop asking \"is this text malicious?\" — how I stopped 144/144 prompt-injection attacks on an AI banking agent", "description": "Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.", "datePublished": "2026-11-01", "inLanguage": "en", "url": "https://ayfar.dev/articles/provguard.html", "image": "https://ayfar.dev/img/og/provguard.png", "author": {"@type": "Person", "@id": "https://ayfar.dev/#ziya", "name": "Ziya Azizov", "url": "https://ayfar.dev/"}, "publisher": {"@id": "https://ayfar.dev/#ayfar"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Stop asking \"is this text malicious?\" — how I stopped 144/144 prompt-injection attacks on an AI banking agent", "description": "Why prompt-injection detectors break on new data, and how ProvGuard blocks hijacked tool calls by checking where each argument came from: 144/144 AgentDojo banking attacks stopped, 33% → 0% on a live agent.", "datePublished": "2026-11-01", "inLanguage": "en", "url": "https://ayfar.dev/articles/provguard.html", "image": "https://ayfar.dev/img/og/provguard.jpg", "author": {"@type": "Person", "@id": "https://ayfar.dev/#ziya", "name": "Ziya Azizov", "url": "https://ayfar.dev/"}, "publisher": {"@id": "https://ayfar.dev/#ayfar"}}</script>
 </head>
 <body class="proj article pc-article">
 <a class="skip" href="#main"><span>Skip to content</span></a>
@@ -825,6 +832,6 @@ body.has-cursor dialog input,body.has-cursor dialog textarea{cursor:text}
 <p>If you are shipping an agent that reads untrusted content and calls tools, I would like to hear how you are handling this. I also run authorised security audits of AI chatbots and agents: <strong>https://ayfar.dev</strong></p></div>
   </article>
 </main>
-<footer><div class="wrap">© 2026 ayfar · <span>Ziya Azizov</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span>Made in Baku</span></div></footer>
+<footer><div class="wrap">© 2026 ayfar · <span>Ziya Azizov</span> · <a href="tel:+994772172358">+994 77 217 23 58</a> · <span>Made in Baku</span> · <button type="button" class="still-btn" data-still aria-pressed="false"><span>Pause animations</span></button></div></footer>
 </body>
 </html>

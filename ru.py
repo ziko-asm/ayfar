@@ -265,6 +265,7 @@ RU = {
     # language pages, labels and alt texts
     'Ayfar is Ziya Azizov, a programming, cybersecurity and AI engineer from Baku. His websites, games (Metro Tycoon) and research projects in one place.': 'Ayfar — это Зия Азизов, инженер из Баку в области программирования, кибербезопасности и искусственного интеллекта. Его сайты, игры (Metro Tycoon) и исследовательские проекты в одном месте.',
     'Close': 'Закрыть',
+    'Pause animations': 'Остановить анимацию',
     'Main': 'Главное меню',
     'Programming': 'Программирование',
     'Cybersecurity': 'Кибербезопасность',
