@@ -794,6 +794,26 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 .rev figcaption{display:flex;flex-direction:column;font-size:14px}
 .rev figcaption span{color:var(--muted)}
 
+/* security: the site's own scan results, linked to the live reports */
+.sec-tag{display:inline-flex;align-items:center;gap:9px;margin:-14px 0 22px;padding:7px 14px;border-radius:999px;border:1px solid rgba(52,245,176,.3);background:rgba(52,245,176,.06);font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--g)}
+.sec-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--g)}
+.sc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media (max-width:1000px){.sc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.sc-grid{grid-template-columns:minmax(0,1fr)}}
+.sc{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:8px;padding:26px 24px;border-radius:24px;border:1px solid var(--line2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),rgba(8,11,17,.8);text-decoration:none;transition:border-color .3s,transform .3s,box-shadow .3s}
+.sc::after{content:"";position:absolute;left:0;right:0;top:-45%;height:45%;background:linear-gradient(180deg,transparent,rgba(52,245,176,.12),transparent);pointer-events:none;transition:transform .8s cubic-bezier(.2,.9,.2,1)}
+a.sc:hover,a.sc:focus-visible{border-color:rgba(52,245,176,.55);transform:translateY(-5px);box-shadow:0 22px 50px -24px rgba(52,245,176,.5)}
+a.sc:hover::after,a.sc:focus-visible::after{transform:translateY(330%)}
+.sg{font:900 46px/1 var(--display);letter-spacing:-.04em;background:linear-gradient(120deg,var(--g),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sc h3{font:800 19px var(--display);letter-spacing:-.03em;margin:10px 0 0}
+.sc p{margin:0;font:500 12.5px/1.55 var(--mono);color:var(--muted)}
+.sc-go{position:absolute;top:20px;right:22px;font:600 15px var(--mono);color:var(--dim);transition:color .3s}
+a.sc:hover .sc-go,a.sc:focus-visible .sc-go{color:var(--g)}
+.sc-foot{margin:24px 0 0;font:500 13px var(--mono);color:var(--muted)}
+.sc-foot span{color:var(--g);margin-right:4px}
+.sc-foot a{color:var(--g)}
+@media (prefers-reduced-motion:reduce){.sc,.sc::after{transition:none}}
+
 /* long Azerbaijani words ("soruşulanlar") must fit 320px phones */
 .sec-head h2,.hs-head h2{font-size:clamp(32px,7vw,96px);overflow-wrap:anywhere}
 
@@ -1255,9 +1275,43 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
       <div class="rev-cta reveal"><a class="btn small magnet" href="https://g.page/r/Cfrr1Out_JVWEBM/review" target="_blank" rel="noopener">⭐ <span>Leave a review on Google</span> <span class="arr">↗</span></a></div>
     </div>
   </section>
+
+  <section id="security">
+    <div class="wrap">
+      <div class="sec-head reveal"><div><div class="sec-num">04 — <span>SECURITY</span></div><h2><span>Checked, with proof</span></h2></div></div>
+      <p class="sec-tag reveal"><span class="dot"></span><span>Last checked November 2026 · click to re-run</span></p>
+      <p class="svc-lead reveal">As a cybersecurity engineer, I run sites through security scanners. This one is no exception: the first three results link to public reports.</p>
+      <div class="sc-grid">
+        <a class="sc reveal" href="https://www.ssllabs.com/ssltest/analyze.html?d=ayfar.dev" target="_blank" rel="noopener">
+          <span class="sc-go" aria-hidden="true">↗</span>
+          <b class="sg">A+</b>
+          <h3>SSL / TLS encryption</h3>
+          <p>Qualys SSL Labs · TLS 1.3 · post-quantum key exchange</p>
+        </a>
+        <a class="sc reveal" href="https://securityheaders.com/?q=ayfar.dev&amp;followRedirects=on" target="_blank" rel="noopener">
+          <span class="sc-go" aria-hidden="true">↗</span>
+          <b class="sg">A+</b>
+          <h3>Security headers</h3>
+          <p>CSP · HSTS · X-Frame-Options · COOP/COEP</p>
+        </a>
+        <a class="sc reveal" href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fayfar.dev%2F" target="_blank" rel="noopener">
+          <span class="sc-go" aria-hidden="true">↗</span>
+          <b class="sg">100</b>
+          <h3>Performance</h3>
+          <p>Google PageSpeed · phone and desktop</p>
+        </a>
+        <div class="sc reveal">
+          <b class="sg">0</b>
+          <h3>High-risk findings</h3>
+          <p>OWASP ZAP scan · November 2026</p>
+        </div>
+      </div>
+      <p class="sc-foot reveal"><span>✓</span> <span>Found a vulnerability? Report it via <a href="/.well-known/security.txt">security.txt</a>.</span></p>
+    </div>
+  </section>
   <section id="about">
     <div class="wrap">
-      <div class="sec-head reveal"><div><div class="sec-num">04 — <span>ME</span></div><h2><span>About me</span></h2></div></div>
+      <div class="sec-head reveal"><div><div class="sec-num">05 — <span>ME</span></div><h2><span>About me</span></h2></div></div>
       <div class="about">
         <div class="reveal">
           <p class="big">Hi, I'm <em>Ziya Azizov</em>, known online as <em>ayfar</em>.</p>
@@ -1296,7 +1350,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
 
   <section id="faq">
     <div class="wrap">
-      <div class="sec-head reveal"><div><div class="sec-num">05 — <span>FAQ</span></div><h2><span>Questions</span></h2></div></div>
+      <div class="sec-head reveal"><div><div class="sec-num">06 — <span>FAQ</span></div><h2><span>Questions</span></h2></div></div>
       <div class="faq">
         <details class="qa reveal">
           <summary><span>Who is ayfar?</span><i></i></summary>
@@ -1363,7 +1417,7 @@ figure.rev{margin:0;padding:26px 24px;border-radius:24px;border:1px solid var(--
   <section id="contact">
     <div class="wrap">
       <div class="contact reveal">
-        <div class="sec-num">06 — <span>CONTACT</span></div>
+        <div class="sec-num">07 — <span>CONTACT</span></div>
         <h2>Let's talk.</h2>
         <p>Want a website of your own, or have a question about a site, game or project? Message me on WhatsApp or call.</p>
         <div class="row">

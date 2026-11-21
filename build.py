@@ -862,6 +862,53 @@ def reviews_html():
     </div>
   </section>"""
 
+SEC_CHECKS = [
+    # (grade, title az/en, detail az/en, report URL or None)
+    ("A+", ("SSL / TLS şifrələməsi", "SSL / TLS encryption"),
+     ("Qualys SSL Labs · TLS 1.3 · post-kvant açar mübadiləsi", "Qualys SSL Labs · TLS 1.3 · post-quantum key exchange"),
+     "https://www.ssllabs.com/ssltest/analyze.html?d=ayfar.dev"),
+    ("A+", ("Təhlükəsizlik başlıqları", "Security headers"),
+     ("CSP · HSTS · X-Frame-Options · COOP/COEP", "CSP · HSTS · X-Frame-Options · COOP/COEP"),
+     "https://securityheaders.com/?q=ayfar.dev&followRedirects=on"),
+    ("100", ("Performans", "Performance"),
+     ("Google PageSpeed · mobil və desktop", "Google PageSpeed · phone and desktop"),
+     "https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fayfar.dev%2F"),
+    ("0", ("Yüksək riskli boşluq", "High-risk findings"),
+     ("OWASP ZAP skaneri · noyabr 2026", "OWASP ZAP scan · November 2026"),
+     None),
+]
+
+
+def security_html():
+    """The site's own security results, with links to the live reports so a visitor can check them."""
+    cards = []
+    for grade, title, detail, url in SEC_CHECKS:
+        body = f"""<b class="sg">{grade}</b>
+          {T(*title, "h3")}
+          {T(*detail, "p")}"""
+        if url:
+            cards.append(f"""
+        <a class="sc reveal" href="{E(url)}" target="_blank" rel="noopener">
+          <span class="sc-go" aria-hidden="true">↗</span>
+          {body}
+        </a>""")
+        else:
+            cards.append(f"""
+        <div class="sc reveal">
+          {body}
+        </div>""")
+    return f"""
+  <section id="security">
+    <div class="wrap">
+      <div class="sec-head reveal"><div><div class="sec-num">{sec_no(3)} — {T("TƏHLÜKƏSİZLİK", "SECURITY")}</div><h2>{T("Yoxlanılıb, sübutu var", "Checked, with proof")}</h2></div></div>
+      <p class="sec-tag reveal"><span class="dot"></span>{T("Son yoxlama: noyabr 2026 · klikləyin, yenidən yoxlayın", "Last checked November 2026 · click to re-run")}</p>
+      {T("Kibertəhlükəsizlik mühəndisi kimi saytları təhlükəsizlik skanerlərindən keçirirəm. Bu sayt da istisna deyil: ilk üç nəticə açıq hesabatlara keçiddir.", "As a cybersecurity engineer, I run sites through security scanners. This one is no exception: the first three results link to public reports.", "p", "svc-lead reveal")}
+      <div class="sc-grid">{''.join(cards)}
+      </div>
+      <p class="sc-foot reveal"><span>✓</span> {T('Boşluq tapmısınız? <a href="/.well-known/security.txt">security.txt</a> vasitəsilə xəbər verin.', 'Found a vulnerability? Report it via <a href="/.well-known/security.txt">security.txt</a>.')}</p>
+    </div>
+  </section>"""
+
 
 def build_index():
     n = len(P)
@@ -971,9 +1018,10 @@ def build_index():
 
 {services_html()}
 {reviews_html()}
+{security_html()}
   <section id="about">
     <div class="wrap">
-      <div class="sec-head reveal"><div><div class="sec-num">{sec_no(3)} — {T("MƏN", "ME")}</div><h2>{T("Haqqımda", "About me")}</h2></div></div>
+      <div class="sec-head reveal"><div><div class="sec-num">{sec_no(4)} — {T("MƏN", "ME")}</div><h2>{T("Haqqımda", "About me")}</h2></div></div>
       <div class="about">
         <div class="reveal">
           {T("Salam, mən <em>Ziya Əzizovam</em>. İnternetdə <em>ayfar</em> kimi tanınıram.", "Hi, I'm <em>Ziya Azizov</em>, known online as <em>ayfar</em>.", "p", "big")}
@@ -1003,7 +1051,7 @@ def build_index():
 
   <section id="faq">
     <div class="wrap">
-      <div class="sec-head reveal"><div><div class="sec-num">{sec_no(4)} — {T("SUAL-CAVAB", "FAQ")}</div><h2>{T("Tez-tez soruşulanlar", "Questions")}</h2></div></div>
+      <div class="sec-head reveal"><div><div class="sec-num">{sec_no(5)} — {T("SUAL-CAVAB", "FAQ")}</div><h2>{T("Tez-tez soruşulanlar", "Questions")}</h2></div></div>
       <div class="faq">{faq_html()}
       </div>
     </div>
@@ -1012,7 +1060,7 @@ def build_index():
   <section id="contact">
     <div class="wrap">
       <div class="contact reveal">
-        <div class="sec-num">{sec_no(5)} — {T("ƏLAQƏ", "CONTACT")}</div>
+        <div class="sec-num">{sec_no(6)} — {T("ƏLAQƏ", "CONTACT")}</div>
         {T("Gəlin, danışaq.", "Let's talk.", "h2")}
         {T("Özünüzə sayt sifariş etmək istəyirsinizsə, ya da sayt, oyun və ya layihə haqqında sualınız varsa, WhatsApp-a yazın və ya zəng edin.", "Want a website of your own, or have a question about a site, game or project? Message me on WhatsApp or call.", "p")}
         <div class="row">
